@@ -74,8 +74,13 @@ public class GameRenderer {
         }
 
         //Enemy
-        batcher.draw(AssetLoader.enemy_runs_left.getKeyFrame(gu.getEnemy().getTime(), true), gu.getEnemy().getPosition().x, gu.getEnemy().getPosition().y);
-
+        for (int i = 0; i < gu.getEnemy().length; i++) {
+            if (gu.getEnemy()[i].isLeft()) {
+            batcher.draw(AssetLoader.enemy_runs_left.getKeyFrame(gu.getEnemy()[i].getTime(), true), gu.getEnemy()[i].getPosition().x, gu.getEnemy()[i].getPosition().y);
+            } else {
+                batcher.draw(AssetLoader.enemy_runs_right.getKeyFrame(gu.getEnemy()[i].getTime(), true), gu.getEnemy()[i].getPosition().x, gu.getEnemy()[i].getPosition().y);
+            }
+        }
         batcher.end();
     }
 }

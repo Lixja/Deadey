@@ -18,6 +18,7 @@ package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
  *
@@ -27,6 +28,7 @@ public class Enemy {
 
     private Vector2 position;
     private Vector2 speed;
+    private boolean left;
 
     private int width;
     private int height;
@@ -34,16 +36,30 @@ public class Enemy {
     private Rectangle rect;
     private float time;
 
-    public Enemy(float x, float y, int width, int height) {
+    private GameUpdater gu;
+
+    public Enemy(float x, float y, int width, int height, GameUpdater gu) {
         this.width = width;
         this.height = height;
         position = new Vector2(x, y);
-        speed = new Vector2(50, 0);
+        speed = new Vector2(25, 0);
         rect = new Rectangle(x, y, width, height);
+        this.gu = gu;
     }
 
     public void update(float delta) {
-        position.x -= speed.x * delta;
+        if (gu.getPlayer().getPosition().x < position.x) {
+            position.x -= speed.x * delta;
+            left = true;
+        } else {
+            position.x += speed.x * delta;
+            left = false;
+        }
+        if (time > 10) {
+            position.x = Float.parseFloat("" + (Math.random() * 300) + 300);
+            time = 0;
+        }
+
         time += delta;
     }
 
@@ -53,6 +69,10 @@ public class Enemy {
 
     public float getTime() {
         return time;
+    }
+
+    public boolean isLeft() {
+        return left;
     }
 
 }

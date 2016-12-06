@@ -30,7 +30,7 @@ public class GameUpdater {
     private Deadey game;
 
     private Player player;
-    private Enemy enemy;
+    private Enemy enemy[];
 
     private float time;
 
@@ -39,13 +39,16 @@ public class GameUpdater {
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
         player = new Player(50, 100, 17, 29);
-        enemy = new Enemy(300, 100, 17, 29);
+        enemy = new Enemy[2];
+        enemy[0] = new Enemy(300, 100, 17, 29, this);
+        enemy[1] = new Enemy(-100, 100, 17, 29, this);
 
     }
 
     public void update_g(float delta) {
         player.update(delta);
-        enemy.update(delta);
+        enemy[0].update(delta);
+        enemy[1].update(delta);
         time += delta;
     }
 
@@ -53,7 +56,7 @@ public class GameUpdater {
         return player;
     }
 
-    public Enemy getEnemy() {
+    public Enemy[] getEnemy() {
         return enemy;
     }
 

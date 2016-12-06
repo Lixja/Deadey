@@ -34,12 +34,14 @@ public class Player {
     private boolean fire = false;
     private boolean fly = false;
     private boolean fall = false;
+    private boolean portal = false;
 
     private int width;
     private int height;
 
     private Rectangle rect;
     private float time;
+    private float portalreloader;
 
     public Player(float x, float y, int width, int height) {
         this.width = width;
@@ -53,6 +55,11 @@ public class Player {
         moving = false;
         fire = false;
         fly = false;
+
+        if (portalreloader >= 5) {
+            portal = true;
+            portalreloader = 0;
+        }
 
         if (Gdx.input.isKeyPressed(Keys.D)) {
             position.x += speed.x * delta;
@@ -83,8 +90,14 @@ public class Player {
                 fall = false;
             }
         }
-        time += delta;
+        if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
+            position.x = Float.parseFloat("" + Math.random() * 300);
+            position.y = Float.parseFloat("" + Math.random() * 100);
+            portal = false;
+        }
 
+        portalreloader += delta;
+        time += delta;
     }
 
     public Vector2 getPosition() {
