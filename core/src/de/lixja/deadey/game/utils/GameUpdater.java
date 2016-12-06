@@ -39,10 +39,13 @@ public class GameUpdater {
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
         player = new Player(50, 100, 17, 29);
+        enemy = new Enemy(300, 100, 17, 29);
+
     }
 
     public void update_g(float delta) {
         player.update(delta);
+        enemy.update(delta);
         time += delta;
     }
 

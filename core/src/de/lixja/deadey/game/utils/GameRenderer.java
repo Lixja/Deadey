@@ -47,7 +47,7 @@ public class GameRenderer {
     }
 
     public void render_g(float delta) {
-        Gdx.gl.glClearColor(255, 255, 255, 1);
+        Gdx.gl.glClearColor(0, 255, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batcher.begin();
@@ -65,6 +65,8 @@ public class GameRenderer {
         } else if (!gu.getPlayer().isLeft()) {
             batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
         }
+
+        batcher.draw(AssetLoader.enemy_runs_left.getKeyFrame(gu.getEnemy().getTime(), true), gu.getEnemy().getPosition().x, gu.getEnemy().getPosition().y);
 
         batcher.end();
     }

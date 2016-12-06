@@ -33,6 +33,10 @@ public class AssetLoader {
     static Animation player_runs_left, player_runs_right;
     static Animation player_fire_left, player_fire_right;
 
+    static TextureRegion enemy_stands, enemy_left, enemy_right;
+    static TextureRegion enemy_runs_left_regions[], enemy_runs_right_regions[];
+    static Animation enemy_runs_left, enemy_runs_right;
+
     public static void load() {
         texture = new Texture("Texture.png");
         player_stands = new TextureRegion(texture, 0, 0, 17, 29);
@@ -85,6 +89,25 @@ public class AssetLoader {
         player_fire_right_regions[6] = new TextureRegion(texture, 147, 0, 13, 29);
         player_fire_right_regions[6].flip(false, true);
         player_fire_right = new Animation(0.2f, player_fire_right_regions);
+
+        enemy_stands = new TextureRegion(texture, 0, 29, 17, 29);
+        enemy_stands.flip(false, true);
+        enemy_left = new TextureRegion(texture, 17, 29, 12, 29);
+        enemy_left.flip(true, true);
+        enemy_right = new TextureRegion(texture, 17, 29, 12, 29);
+        enemy_right.flip(false, true);
+        enemy_runs_left_regions = new TextureRegion[2];
+        enemy_runs_left_regions[0] = new TextureRegion(texture, 29, 29, 12, 29);
+        enemy_runs_left_regions[0].flip(true, true);
+        enemy_runs_left_regions[1] = new TextureRegion(texture, 41, 29, 12, 29);
+        enemy_runs_left_regions[1].flip(true, true);
+        enemy_runs_left = new Animation(0.05f, enemy_runs_left_regions);
+        enemy_runs_right_regions = new TextureRegion[2];
+        enemy_runs_right_regions[0] = new TextureRegion(texture, 29, 29, 12, 29);
+        enemy_runs_right_regions[0].flip(false, true);
+        enemy_runs_right_regions[1] = new TextureRegion(texture, 41, 29, 12, 29);
+        enemy_runs_right_regions[1].flip(false, true);
+        enemy_runs_right = new Animation(0.05f, enemy_runs_right_regions);
     }
 
     public static void dispose() {

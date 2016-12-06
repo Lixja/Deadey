@@ -16,10 +16,43 @@
  */
 package de.lixja.deadey.game.objects;
 
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
 public class Enemy {
+
+    private Vector2 position;
+    private Vector2 speed;
+
+    private int width;
+    private int height;
+
+    private Rectangle rect;
+    private float time;
+
+    public Enemy(float x, float y, int width, int height) {
+        this.width = width;
+        this.height = height;
+        position = new Vector2(x, y);
+        speed = new Vector2(50, 0);
+        rect = new Rectangle(x, y, width, height);
+    }
+
+    public void update(float delta) {
+        position.x -= speed.x * delta;
+        time += delta;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public float getTime() {
+        return time;
+    }
 
 }
