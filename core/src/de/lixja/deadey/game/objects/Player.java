@@ -29,8 +29,9 @@ public class Player {
 
     private Vector2 position;
     private Vector2 speed;
-    private boolean isMoving = false;
-    private boolean isMovingLeft = false;
+    private boolean moving = false;
+    private boolean left = false;
+    private boolean fire = false;
 
     private int width;
     private int height;
@@ -49,14 +50,18 @@ public class Player {
     public void update(float delta) {
         if (Gdx.input.isKeyPressed(Keys.D)) {
             position.x += speed.x * delta;
-            isMoving = true;
-            isMovingLeft = false;
+            moving = true;
+            left = false;
         } else if (Gdx.input.isKeyPressed(Keys.A)) {
             position.x -= speed.x * delta;
-            isMoving = true;
-            isMovingLeft = true;
+            moving = true;
+            left = true;
+        } else if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+            moving = false;
+            fire = true;
         } else {
-            isMoving = false;
+            moving = false;
+            fire = false;
         }
         time += delta;
 
@@ -66,12 +71,16 @@ public class Player {
         return position;
     }
 
-    public boolean isIsMoving() {
-        return isMoving;
+    public boolean isMoving() {
+        return moving;
     }
 
-    public boolean isIsMovingLeft() {
-        return isMovingLeft;
+    public boolean isLeft() {
+        return left;
+    }
+
+    public boolean isFire() {
+        return fire;
     }
 
     public float getTime() {

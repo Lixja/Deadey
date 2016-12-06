@@ -29,7 +29,9 @@ public class AssetLoader {
     private static Texture texture;
     static TextureRegion player_stands, player_left, player_right;
     static TextureRegion player_runs_left_regions[], player_runs_right_regions[];
+    static TextureRegion player_fire_left_regions[], player_fire_right_regions[];
     static Animation player_runs_left, player_runs_right;
+    static Animation player_fire_left, player_fire_right;
 
     public static void load() {
         texture = new Texture("Texture.png");
@@ -51,6 +53,38 @@ public class AssetLoader {
         player_runs_right_regions[1] = new TextureRegion(texture, 43, 0, 13, 29);
         player_runs_right_regions[1].flip(false, true);
         player_runs_right = new Animation(0.05f, player_runs_right_regions);
+        player_fire_left_regions = new TextureRegion[7];
+        player_fire_left_regions[0] = new TextureRegion(texture, 69, 0, 13, 29);
+        player_fire_left_regions[0].flip(true, true);
+        player_fire_left_regions[1] = new TextureRegion(texture, 82, 0, 13, 29);
+        player_fire_left_regions[1].flip(true, true);
+        player_fire_left_regions[2] = new TextureRegion(texture, 95, 0, 13, 29);
+        player_fire_left_regions[2].flip(true, true);
+        player_fire_left_regions[3] = new TextureRegion(texture, 108, 0, 13, 29);
+        player_fire_left_regions[3].flip(true, true);
+        player_fire_left_regions[4] = new TextureRegion(texture, 121, 0, 13, 29);
+        player_fire_left_regions[4].flip(true, true);
+        player_fire_left_regions[5] = new TextureRegion(texture, 134, 0, 13, 29);
+        player_fire_left_regions[5].flip(true, true);
+        player_fire_left_regions[6] = new TextureRegion(texture, 147, 0, 13, 29);
+        player_fire_left_regions[6].flip(true, true);
+        player_fire_left = new Animation(0.2f, player_fire_left_regions);
+        player_fire_right_regions = new TextureRegion[7];
+        player_fire_right_regions[0] = new TextureRegion(texture, 69, 0, 13, 29);
+        player_fire_right_regions[0].flip(false, true);
+        player_fire_right_regions[1] = new TextureRegion(texture, 82, 0, 13, 29);
+        player_fire_right_regions[1].flip(false, true);
+        player_fire_right_regions[2] = new TextureRegion(texture, 95, 0, 13, 29);
+        player_fire_right_regions[2].flip(false, true);
+        player_fire_right_regions[3] = new TextureRegion(texture, 108, 0, 13, 29);
+        player_fire_right_regions[3].flip(false, true);
+        player_fire_right_regions[4] = new TextureRegion(texture, 121, 0, 13, 29);
+        player_fire_right_regions[4].flip(false, true);
+        player_fire_right_regions[5] = new TextureRegion(texture, 134, 0, 13, 29);
+        player_fire_right_regions[5].flip(false, true);
+        player_fire_right_regions[6] = new TextureRegion(texture, 147, 0, 13, 29);
+        player_fire_right_regions[6].flip(false, true);
+        player_fire_right = new Animation(0.2f, player_fire_right_regions);
     }
 
     public static void dispose() {

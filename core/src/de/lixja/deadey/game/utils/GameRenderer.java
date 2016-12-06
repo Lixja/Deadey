@@ -52,11 +52,17 @@ public class GameRenderer {
         
         batcher.begin();
 
-        if (gu.getPlayer().isIsMoving() == false) {
-            batcher.draw(AssetLoader.player_stands, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-        } else if (gu.getPlayer().isIsMovingLeft()) {
+        if (!gu.getPlayer().isMoving()) {
+            if (!gu.getPlayer().isFire()) {
+                batcher.draw(AssetLoader.player_stands, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+            } else if (!gu.getPlayer().isLeft()) {
+                batcher.draw(AssetLoader.player_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+            } else if (gu.getPlayer().isLeft()) {
+                batcher.draw(AssetLoader.player_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+            }
+        } else if (gu.getPlayer().isLeft()) {
             batcher.draw(AssetLoader.player_runs_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-        } else if (gu.getPlayer().isIsMovingLeft() == false) {
+        } else if (!gu.getPlayer().isLeft()) {
             batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
         }
 
