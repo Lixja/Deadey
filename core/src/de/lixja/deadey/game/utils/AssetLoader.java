@@ -27,7 +27,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     private static Texture texture;
-    static TextureRegion player_stands, player_left, player_right;
+    static TextureRegion player_stands, player_left, player_right, player_fly_left, player_fly_right;
     static TextureRegion player_runs_left_regions[], player_runs_right_regions[];
     static TextureRegion player_fire_left_regions[], player_fire_right_regions[];
     static Animation player_runs_left, player_runs_right;
@@ -57,6 +57,10 @@ public class AssetLoader {
         player_runs_right_regions[1] = new TextureRegion(texture, 43, 0, 13, 29);
         player_runs_right_regions[1].flip(false, true);
         player_runs_right = new Animation(0.05f, player_runs_right_regions);
+        player_fly_left = new TextureRegion(texture, 56, 0, 13, 29);
+        player_fly_left.flip(true, true);
+        player_fly_right = new TextureRegion(texture, 56, 0, 13, 29);
+        player_fly_right.flip(false, true);
         player_fire_left_regions = new TextureRegion[7];
         player_fire_left_regions[0] = new TextureRegion(texture, 69, 0, 13, 29);
         player_fire_left_regions[0].flip(true, true);

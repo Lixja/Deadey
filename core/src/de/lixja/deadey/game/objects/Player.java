@@ -32,6 +32,8 @@ public class Player {
     private boolean moving = false;
     private boolean left = false;
     private boolean fire = false;
+    private boolean fly = false;
+    private boolean fall = false;
 
     private int width;
     private int height;
@@ -43,11 +45,15 @@ public class Player {
         this.width = width;
         this.height = height;
         position = new Vector2(x, y);
-        speed = new Vector2(50, 0);
+        speed = new Vector2(50, 100);
         rect = new Rectangle(x, y, width, height);
     }
 
     public void update(float delta) {
+        moving = false;
+        fire = false;
+        fly = false;
+
         if (Gdx.input.isKeyPressed(Keys.D)) {
             position.x += speed.x * delta;
             moving = true;
@@ -57,11 +63,25 @@ public class Player {
             moving = true;
             left = true;
         } else if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-            moving = false;
             fire = true;
-        } else {
-            moving = false;
-            fire = false;
+        }
+        if (!fall) {
+            if (Gdx.input.isKeyPressed(Keys.W)) {
+                if (position.y > 10) {
+                    position.y -= speed.y * delta;
+                    fly = true;
+                } else {
+                    fly = false;
+                    fall = true;
+                }
+            } else if (position.y < 100) {
+                fall = true;
+            }
+        } else if (fall) {
+            position.y += speed.y * delta;
+            if (position.y >= 100) {
+                fall = false;
+            }
         }
         time += delta;
 
@@ -83,10 +103,12 @@ public class Player {
         return fire;
     }
 
+    public boolean isFly() {
+        return fly;
+    }
+
     public float getTime() {
         return time;
     }
-
-
 
 }

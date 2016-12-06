@@ -49,26 +49,33 @@ public class GameRenderer {
     public void render_g(float delta) {
         Gdx.gl.glClearColor(0, 255, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         batcher.begin();
 
-        if (!gu.getPlayer().isMoving()) {
-            if (!gu.getPlayer().isFire()) {
-                batcher.draw(AssetLoader.player_stands, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-            } else if (!gu.getPlayer().isLeft()) {
-                batcher.draw(AssetLoader.player_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        //Player
+        if (!gu.getPlayer().isFly()) {
+            if (!gu.getPlayer().isMoving()) {
+                if (!gu.getPlayer().isFire()) {
+                    batcher.draw(AssetLoader.player_stands, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                } else if (!gu.getPlayer().isLeft()) {
+                    batcher.draw(AssetLoader.player_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                } else if (gu.getPlayer().isLeft()) {
+                    batcher.draw(AssetLoader.player_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                }
             } else if (gu.getPlayer().isLeft()) {
-                batcher.draw(AssetLoader.player_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                batcher.draw(AssetLoader.player_runs_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+            } else if (!gu.getPlayer().isLeft()) {
+                batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             }
         } else if (gu.getPlayer().isLeft()) {
-            batcher.draw(AssetLoader.player_runs_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-        } else if (!gu.getPlayer().isLeft()) {
-            batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+            batcher.draw(AssetLoader.player_fly_left, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        } else {
+            batcher.draw(AssetLoader.player_fly_right, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
         }
 
+        //Enemy
         batcher.draw(AssetLoader.enemy_runs_left.getKeyFrame(gu.getEnemy().getTime(), true), gu.getEnemy().getPosition().x, gu.getEnemy().getPosition().y);
 
         batcher.end();
     }
-
 }
