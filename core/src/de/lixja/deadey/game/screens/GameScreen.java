@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
 
     private int gameWidth, gameHeight;
 
-    Player player;
+    private Player player;
 
     public GameScreen(Deadey game) {
         this.gameHeight = game.getGameWidth();
@@ -75,7 +75,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -32,7 +32,7 @@ public class GameUpdater {
     private Player player;
     private Enemy enemy;
 
-    float time;
+    private float time;
 
     public GameUpdater(Deadey game) {
         this.game = game;
