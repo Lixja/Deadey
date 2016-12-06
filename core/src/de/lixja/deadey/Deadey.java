@@ -6,8 +6,8 @@ import de.lixja.deadey.game.utils.AssetLoader;
 
 public class Deadey extends Game {
 
-    private int GameWidth = 100;
-    private int GameHeight = 100;
+    private int GameWidth = 240;
+    private int GameHeight = 135;
 
     @Override
     public void create() {

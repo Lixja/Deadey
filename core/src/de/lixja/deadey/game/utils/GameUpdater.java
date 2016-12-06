@@ -32,14 +32,32 @@ public class GameUpdater {
     private Player player;
     private Enemy enemy;
 
+    float time;
+
     public GameUpdater(Deadey game) {
         this.game = game;
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
+        player = new Player(50, 100, 17, 29);
     }
 
     public void update_g(float delta) {
-
+        player.update(delta);
+        time += delta;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Enemy getEnemy() {
+        return enemy;
+    }
+
+    public float getTime() {
+        return time;
+    }
+
+
 
 }

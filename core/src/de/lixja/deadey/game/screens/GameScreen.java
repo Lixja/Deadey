@@ -18,6 +18,7 @@ package de.lixja.deadey.game.screens;
 
 import com.badlogic.gdx.Screen;
 import de.lixja.deadey.Deadey;
+import de.lixja.deadey.game.objects.Player;
 import de.lixja.deadey.game.utils.GameRenderer;
 import de.lixja.deadey.game.utils.GameUpdater;
 
@@ -34,6 +35,8 @@ public class GameScreen implements Screen {
     private float runTime;
 
     private int gameWidth, gameHeight;
+
+    Player player;
 
     public GameScreen(Deadey game) {
         this.gameHeight = game.getGameWidth();

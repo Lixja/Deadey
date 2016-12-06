@@ -28,12 +28,29 @@ public class AssetLoader {
 
     private static Texture texture;
     static TextureRegion player_stands, player_left, player_right;
-    private static Animation player_runs;
+    static TextureRegion player_runs_left_regions[], player_runs_right_regions[];
+    static Animation player_runs_left, player_runs_right;
 
     public static void load() {
-        texture = new Texture("texture.png");
-        player_stands = new TextureRegion(texture, 0, 0, 11, 24);
+        texture = new Texture("Texture.png");
+        player_stands = new TextureRegion(texture, 0, 0, 17, 29);
         player_stands.flip(false, true);
+        player_left = new TextureRegion(texture, 17, 0, 13, 29);
+        player_left.flip(true, true);
+        player_right = new TextureRegion(texture, 17, 0, 13, 29);
+        player_right.flip(false, true);
+        player_runs_left_regions = new TextureRegion[2];
+        player_runs_left_regions[0] = new TextureRegion(texture, 30, 0, 13, 29);
+        player_runs_left_regions[0].flip(true, true);
+        player_runs_left_regions[1] = new TextureRegion(texture, 43, 0, 13, 29);
+        player_runs_left_regions[1].flip(true, true);
+        player_runs_left = new Animation(0.05f, player_runs_left_regions);
+        player_runs_right_regions = new TextureRegion[2];
+        player_runs_right_regions[0] = new TextureRegion(texture, 30, 0, 13, 29);
+        player_runs_right_regions[0].flip(false, true);
+        player_runs_right_regions[1] = new TextureRegion(texture, 43, 0, 13, 29);
+        player_runs_right_regions[1].flip(false, true);
+        player_runs_right = new Animation(0.05f, player_runs_right_regions);
     }
 
     public static void dispose() {

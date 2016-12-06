@@ -47,12 +47,18 @@ public class GameRenderer {
     }
 
     public void render_g(float delta) {
-        Gdx.gl.glClearColor(244, 244, 254, 1);
+        Gdx.gl.glClearColor(255, 255, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batcher.begin();
-        
-        batcher.draw(AssetLoader.player_stands, 30, 30);
+
+        if (gu.getPlayer().isIsMoving() == false) {
+            batcher.draw(AssetLoader.player_stands, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        } else if (gu.getPlayer().isIsMovingLeft()) {
+            batcher.draw(AssetLoader.player_runs_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        } else if (gu.getPlayer().isIsMovingLeft() == false) {
+            batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        }
 
         batcher.end();
     }
