@@ -16,12 +16,15 @@
  */
 package de.lixja.deadey.game.utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Enemy;
 import de.lixja.deadey.game.objects.Player;
 import de.lixja.deadey.game.objects.Shot;
 import de.lixja.deadey.game.screens.GameOverScreen;
+import java.util.LinkedList;
 
 /**
  *
@@ -34,7 +37,7 @@ public class GameUpdater {
 
     private Player player;
     private Enemy enemy[];
-    private Shot shot;
+    private LinkedList<Shot> shots;
     private CollisionHandler chandler;
 
     private float time;
@@ -44,30 +47,39 @@ public class GameUpdater {
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
         player = new Player(50, 100, 17, 29, this);
-        enemy = new Enemy[2];
+        enemy = new Enemy[3];
         enemy[0] = new Enemy(300, 100, 17, 29, this);
-        enemy[1] = new Enemy(-100, 100, 17, 29, this);
-        shot = new Shot(1000, 1000, 10, 10);
+        enemy[1] = new Enemy(330, 100, 17, 29, this);
+        enemy[2] = new Enemy(360, 100, 17, 29, this);
+        shots = new LinkedList<Shot>();
         chandler = new CollisionHandler();
 
     }
 
     public void update_g(float delta) {
         player.update(delta);
-        enemy[0].update(delta);
-        enemy[1].update(delta);
         for (int i = 0; i < enemy.length; i++) {
+            enemy[i].update(delta);
             if (chandler.update(player, enemy[i])) {
                 game.setScreen(new GameOverScreen(game));
             } else
-                if (chandler.update(enemy[i], shot)) {
-                    enemy[i].die();
+                for (int i1 = 0; i1 < shots.size(); i1++) {
+                    if (chandler.update(enemy[i], shots.get(i1)) && shots.get(i1).isAvailable()) {
+                        enemy[i].die();
+                        shots.remove(i1);
+                    }
                 }
         }
-        if (shot.isAvailable()) {
-            shot.update(delta);
+        for (int i1 = 0; i1 < shots.size(); i1++) {
+            if (shots.get(i1).isAvailable()) {
+                shots.get(i1).update(delta);
+            }
         }
         time += delta;
+
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
     }
 
     public Player getPlayer() {
@@ -78,8 +90,8 @@ public class GameUpdater {
         return enemy;
     }
 
-    public Shot getShot() {
-        return shot;
+    public LinkedList<Shot> getShots() {
+        return shots;
     }
 
     public float getTime() {
@@ -87,9 +99,11 @@ public class GameUpdater {
     }
 
     public void createShot(boolean left) {
+        Shot shot = new Shot(1, 1, 10, 10);
         shot.setPosition(player.getPosition().x + (player.getWidth() / 2), player.getPosition().y + (player.getHeight() / 2));
         shot.setToLeft(left);
         shot.setAvailable(true);
+        shots.add(shot);
     }
 
 

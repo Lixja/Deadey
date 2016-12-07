@@ -76,7 +76,7 @@ public class AssetLoader {
         player_fire_left_regions[5].flip(true, true);
         player_fire_left_regions[6] = new TextureRegion(texture, 147, 0, 13, 29);
         player_fire_left_regions[6].flip(true, true);
-        player_fire_left = new Animation(0.2f, player_fire_left_regions);
+        player_fire_left = new Animation(0.075f, player_fire_left_regions);
         player_fire_right_regions = new TextureRegion[7];
         player_fire_right_regions[0] = new TextureRegion(texture, 69, 0, 13, 29);
         player_fire_right_regions[0].flip(false, true);
@@ -92,7 +92,7 @@ public class AssetLoader {
         player_fire_right_regions[5].flip(false, true);
         player_fire_right_regions[6] = new TextureRegion(texture, 147, 0, 13, 29);
         player_fire_right_regions[6].flip(false, true);
-        player_fire_right = new Animation(0.2f, player_fire_right_regions);
+        player_fire_right = new Animation(0.075f, player_fire_right_regions);
 
         enemy_stands = new TextureRegion(texture, 0, 29, 17, 29);
         enemy_stands.flip(false, true);

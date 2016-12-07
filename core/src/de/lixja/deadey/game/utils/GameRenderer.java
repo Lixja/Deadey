@@ -87,11 +87,13 @@ public class GameRenderer {
         }
         batcher.end();
         //Shot
-        if (gu.getShot().isAvailable()) {
+        for (int i = 0; i < gu.getShots().size(); i++) {
+            if (gu.getShots().get(i).isAvailable()) {
             shapeRenderer.begin();
             shapeRenderer.setColor(Color.BLACK);
-            shapeRenderer.rect(gu.getShot().getPosition().x, gu.getShot().getPosition().y, gu.getShot().getWidth(), gu.getShot().getHeight());
+            shapeRenderer.rect(gu.getShots().get(i).getPosition().x, gu.getShots().get(i).getPosition().y, gu.getShots().get(i).getWidth(), gu.getShots().get(i).getHeight());
             shapeRenderer.end();
+            }
         }
 
     }
