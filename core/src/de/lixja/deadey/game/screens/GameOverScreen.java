@@ -16,7 +16,11 @@
  */
 package de.lixja.deadey.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import de.lixja.deadey.Deadey;
 
 /**
  *
@@ -24,39 +28,44 @@ import com.badlogic.gdx.Screen;
  */
 public class GameOverScreen implements Screen {
 
+    Deadey game;
+
+    public GameOverScreen(Deadey game) {
+        this.game = game;
+    }
+
     @Override
     public void show() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void render(float delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Gdx.gl.glClearColor(0, 0, 255, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (Gdx.input.isKeyPressed(Keys.ENTER)) {
+            game.setScreen(new GameScreen(game));
+        }
     }
 
     @Override
     public void resize(int width, int height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void pause() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void resume() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void hide() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void dispose() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

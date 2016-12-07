@@ -58,7 +58,7 @@ public class GameUpdater {
         enemy[1].update(delta);
         for (int i = 0; i < enemy.length; i++) {
             if (chandler.update(player, enemy[i])) {
-            game.setScreen(new GameOverScreen());
+                game.setScreen(new GameOverScreen(game));
             } else
                 if (chandler.update(enemy[i], shot)) {
                     enemy[i].die();
@@ -86,8 +86,9 @@ public class GameUpdater {
         return time;
     }
 
-    public void createShot() {
+    public void createShot(boolean left) {
         shot.setPosition(player.getPosition().x + (player.getWidth() / 2), player.getPosition().y + (player.getHeight() / 2));
+        shot.setToLeft(left);
         shot.setAvailable(true);
     }
 
