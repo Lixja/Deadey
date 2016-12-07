@@ -45,7 +45,7 @@ public class Player extends GameObject {
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height);
-        speed = new Vector2(50, 100);
+        speed = new Vector2(75, 100);
         this.gu = gu;
     }
 
@@ -60,26 +60,34 @@ public class Player extends GameObject {
             portal = true;
             portalreloader = 0;
         }
-
         if (Gdx.input.isKeyPressed(Keys.D)) {
-            position.x += speed.x * delta;
+            if (position.x <= 200) {
+                position.x += speed.x * delta;
+            }
             moving = true;
             left = false;
             width = AssetLoader.player_left.getRegionWidth();
 
-        } else if (Gdx.input.isKeyPressed(Keys.A)) {
-            position.x -= speed.x * delta;
+        } else
+            if (Gdx.input.isKeyPressed(Keys.A)) {
+                if (position.x >= 0) {
+                    position.x -= speed.x * delta;
+                }
             moving = true;
             left = true;
             width = AssetLoader.player_left.getRegionWidth();
-        } else if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+        } else {
+            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
             fire = true;
             shotloader += delta;
-            if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration()) {
+                if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration() - 0.15f) {
                 shotloader = 0;
                 gu.createShot(left);
             }
-        }
+            } else {
+                shotloader = 0;
+                }
+            }
         if (!fall) {
             if (Gdx.input.isKeyPressed(Keys.W)) {
                 if (position.y > 10) {
@@ -99,8 +107,8 @@ public class Player extends GameObject {
             }
         }
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
-            position.x = Float.parseFloat("" + Math.random() * 300);
-            position.y = Float.parseFloat("" + Math.random() * 100);
+            position.x = Float.parseFloat("" + Math.random() * (300 - width));
+            position.y = Float.parseFloat("" + Math.random() * 100 + 50);
             portal = false;
         }
 

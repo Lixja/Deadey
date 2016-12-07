@@ -35,7 +35,7 @@ public class Enemy extends GameObject {
 
     public Enemy(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height);
-        speed = new Vector2(25, 0);
+        speed = new Vector2(50, 0);
         this.gu = gu;
     }
 
@@ -49,7 +49,7 @@ public class Enemy extends GameObject {
             left = false;
             width = AssetLoader.enemy_left.getRegionWidth();
         }
-        if (time > 20) {
+        if (time > 30) {
             die();
             time = 0;
         }
@@ -58,7 +58,7 @@ public class Enemy extends GameObject {
     }
 
     public void die() {
-        position.x = Float.parseFloat("" + (Math.random() * 100 + 300));
+        position.x = Float.parseFloat("" + (Math.random() * 200 + 270));
     }
 
     public float getTime() {
