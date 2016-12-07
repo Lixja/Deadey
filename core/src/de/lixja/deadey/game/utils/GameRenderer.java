@@ -17,12 +17,13 @@
 package de.lixja.deadey.game.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.lixja.deadey.Deadey;
+import de.lixja.deadey.game.objects.Enemy;
+import de.lixja.deadey.game.objects.Shot;
 
 /**
  *
@@ -71,30 +72,41 @@ public class GameRenderer {
             } else if (!gu.getPlayer().isLeft()) {
                 batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             }
-        } else if (gu.getPlayer().isLeft()) {
-            batcher.draw(AssetLoader.player_fly_left, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        } else
+            if (!gu.getPlayer().isFire()) {
+                if (gu.getPlayer().isLeft()) {
+            batcher.draw(AssetLoader.player_fly_left.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
         } else {
-            batcher.draw(AssetLoader.player_fly_right, gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-        }
+            batcher.draw(AssetLoader.player_fly_right.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                }
+            } else {
+                if (gu.getPlayer().isLeft()) {
+                    batcher.draw(AssetLoader.player_fly_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                } else {
+                    batcher.draw(AssetLoader.player_fly_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                }
+            }
 
         //Enemy
-        for (int i = 0; i < gu.getEnemy().length; i++) {
-            if (gu.getEnemy()[i].isLeft()) {
-            batcher.draw(AssetLoader.enemy_runs_left.getKeyFrame(gu.getEnemy()[i].getTime(), true), gu.getEnemy()[i].getPosition().x, gu.getEnemy()[i].getPosition().y);
+        for (Enemy e : gu.getEnemy()) {
+            if (e.isLeft()) {
+                batcher.draw(AssetLoader.enemy_runs_left.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
             } else {
-                batcher.draw(AssetLoader.enemy_runs_right.getKeyFrame(gu.getEnemy()[i].getTime(), true), gu.getEnemy()[i].getPosition().x, gu.getEnemy()[i].getPosition().y);
+                batcher.draw(AssetLoader.enemy_runs_right.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
+            }
+        }
+        //Shot
+        for (Shot s : gu.getShots()) {
+            if (s.isAvailable()) {
+                if (s.isToLeft()) {
+                    batcher.draw(AssetLoader.shot_left.getKeyFrame(s.getTime(), true), s.getPosition().x, s.getPosition().y);
+                } else {
+                    batcher.draw(AssetLoader.shot_right.getKeyFrame(s.getTime(), true), s.getPosition().x, s.getPosition().y);
+                }
             }
         }
         batcher.end();
-        //Shot
-        for (int i = 0; i < gu.getShots().size(); i++) {
-            if (gu.getShots().get(i).isAvailable()) {
-            shapeRenderer.begin();
-            shapeRenderer.setColor(Color.BLACK);
-            shapeRenderer.rect(gu.getShots().get(i).getPosition().x, gu.getShots().get(i).getPosition().y, gu.getShots().get(i).getWidth(), gu.getShots().get(i).getHeight());
-            shapeRenderer.end();
-            }
-        }
+
 
     }
 }

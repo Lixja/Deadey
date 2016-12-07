@@ -48,6 +48,10 @@ public class Shot extends GameObject {
         return available;
     }
 
+    public boolean isToLeft() {
+        return toLeft;
+    }
+
     public void setAvailable(boolean available) {
         this.available = available;
     }
