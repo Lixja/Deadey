@@ -26,6 +26,7 @@ public class Shot extends GameObject {
 
     private Vector2 speed;
     private boolean available;
+    private boolean toLeft;
 
     private float time;
 
@@ -35,7 +36,11 @@ public class Shot extends GameObject {
     }
 
     public void update(float delta) {
-        position.x += speed.x * delta;
+        if (toLeft) {
+            position.x -= speed.x * delta;
+        } else {
+            position.x += speed.x * delta;
+        }
         time += delta;
     }
 
@@ -45,6 +50,10 @@ public class Shot extends GameObject {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public void setToLeft(boolean toLeft) {
+        this.toLeft = toLeft;
     }
 
     public void setPosition(float x, float y) {

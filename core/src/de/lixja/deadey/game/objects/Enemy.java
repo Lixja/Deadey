@@ -17,6 +17,7 @@
 package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
+import de.lixja.deadey.game.utils.AssetLoader;
 import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
@@ -42,12 +43,14 @@ public class Enemy extends GameObject {
         if (gu.getPlayer().getPosition().x < position.x) {
             position.x -= speed.x * delta;
             left = true;
+            width = AssetLoader.enemy_left.getRegionWidth();
         } else {
             position.x += speed.x * delta;
             left = false;
+            width = AssetLoader.enemy_left.getRegionWidth();
         }
-        if (time > 10) {
-            position.x = Float.parseFloat("" + (Math.random() * 300) + 300);
+        if (time > 20) {
+            die();
             time = 0;
         }
 
@@ -55,7 +58,7 @@ public class Enemy extends GameObject {
     }
 
     public void die() {
-        position.x = Float.parseFloat("" + (Math.random() * 300) + 300);
+        position.x = Float.parseFloat("" + (Math.random() * 100 + 300));
     }
 
     public float getTime() {

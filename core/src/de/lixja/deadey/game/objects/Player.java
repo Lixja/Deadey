@@ -53,6 +53,8 @@ public class Player extends GameObject {
         moving = false;
         fire = false;
         fly = false;
+        width = AssetLoader.player_stands.getRegionWidth();
+
 
         if (portalreloader >= 5) {
             portal = true;
@@ -63,16 +65,19 @@ public class Player extends GameObject {
             position.x += speed.x * delta;
             moving = true;
             left = false;
+            width = AssetLoader.player_left.getRegionWidth();
+
         } else if (Gdx.input.isKeyPressed(Keys.A)) {
             position.x -= speed.x * delta;
             moving = true;
             left = true;
+            width = AssetLoader.player_left.getRegionWidth();
         } else if (Gdx.input.isKeyPressed(Keys.SPACE)) {
             fire = true;
             shotloader += delta;
             if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration()) {
                 shotloader = 0;
-                gu.createShot();
+                gu.createShot(left);
             }
         }
         if (!fall) {
