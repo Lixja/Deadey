@@ -27,15 +27,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     private static Texture texture;
-    static TextureRegion player_stands, player_left, player_right, player_fly_left, player_fly_right;
-    static TextureRegion player_runs_left_regions[], player_runs_right_regions[];
-    static TextureRegion player_fire_left_regions[], player_fire_right_regions[];
-    static Animation player_runs_left, player_runs_right;
-    static Animation player_fire_left, player_fire_right;
+    public static TextureRegion player_stands, player_left, player_right, player_fly_left, player_fly_right;
+    public static TextureRegion player_runs_left_regions[], player_runs_right_regions[];
+    public static TextureRegion player_fire_left_regions[], player_fire_right_regions[];
+    public static Animation player_runs_left, player_runs_right;
+    public static Animation player_fire_left, player_fire_right;
 
-    static TextureRegion enemy_stands, enemy_left, enemy_right;
-    static TextureRegion enemy_runs_left_regions[], enemy_runs_right_regions[];
-    static Animation enemy_runs_left, enemy_runs_right;
+    public static TextureRegion enemy_stands, enemy_left, enemy_right;
+    public static TextureRegion enemy_runs_left_regions[], enemy_runs_right_regions[];
+    public static Animation enemy_runs_left, enemy_runs_right;
 
     public static void load() {
         texture = new Texture("Texture.png");

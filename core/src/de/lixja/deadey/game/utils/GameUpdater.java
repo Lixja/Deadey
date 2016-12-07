@@ -20,6 +20,7 @@ import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Enemy;
 import de.lixja.deadey.game.objects.Player;
+import de.lixja.deadey.game.objects.Shot;
 import de.lixja.deadey.game.screens.GameOverScreen;
 
 /**
@@ -33,6 +34,7 @@ public class GameUpdater {
 
     private Player player;
     private Enemy enemy[];
+    private Shot shot;
     private CollisionHandler chandler;
 
     private float time;
@@ -41,10 +43,11 @@ public class GameUpdater {
         this.game = game;
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
-        player = new Player(50, 100, 17, 29);
+        player = new Player(50, 100, 17, 29, this);
         enemy = new Enemy[2];
         enemy[0] = new Enemy(300, 100, 17, 29, this);
         enemy[1] = new Enemy(-100, 100, 17, 29, this);
+        shot = new Shot(1000, 1000, 10, 10);
         chandler = new CollisionHandler();
 
     }
@@ -53,8 +56,16 @@ public class GameUpdater {
         player.update(delta);
         enemy[0].update(delta);
         enemy[1].update(delta);
-        if (chandler.update(player, enemy[0])) {
+        for (int i = 0; i < enemy.length; i++) {
+            if (chandler.update(player, enemy[i])) {
             game.setScreen(new GameOverScreen());
+            } else
+                if (chandler.update(enemy[i], shot)) {
+                    enemy[i].die();
+                }
+        }
+        if (shot.isAvailable()) {
+            shot.update(delta);
         }
         time += delta;
     }
@@ -67,8 +78,17 @@ public class GameUpdater {
         return enemy;
     }
 
+    public Shot getShot() {
+        return shot;
+    }
+
     public float getTime() {
         return time;
+    }
+
+    public void createShot() {
+        shot.setPosition(player.getPosition().x + (player.getWidth() / 2), player.getPosition().y + (player.getHeight() / 2));
+        shot.setAvailable(true);
     }
 
 

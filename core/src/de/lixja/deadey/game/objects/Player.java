@@ -18,8 +18,9 @@ package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import de.lixja.deadey.game.utils.AssetLoader;
+import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
  *
@@ -35,14 +36,17 @@ public class Player extends GameObject {
     private boolean fall = false;
     private boolean portal = false;
 
-    private Rectangle rect;
     private float time;
     private float portalreloader;
+    private float shotloader;
 
-    public Player(float x, float y, int width, int height) {
+    private GameUpdater gu;
+
+
+    public Player(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height);
         speed = new Vector2(50, 100);
-        rect = new Rectangle(x, y, width, height);
+        this.gu = gu;
     }
 
     public void update(float delta) {
@@ -65,6 +69,11 @@ public class Player extends GameObject {
             left = true;
         } else if (Gdx.input.isKeyPressed(Keys.SPACE)) {
             fire = true;
+            shotloader += delta;
+            if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration()) {
+                shotloader = 0;
+                gu.createShot();
+            }
         }
         if (!fall) {
             if (Gdx.input.isKeyPressed(Keys.W)) {

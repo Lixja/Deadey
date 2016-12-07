@@ -17,6 +17,7 @@
 package de.lixja.deadey.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,6 +45,8 @@ public class GameRenderer {
 
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
+        shapeRenderer.setAutoShapeType(true);
+
     }
 
     public void render_g(float delta) {
@@ -61,8 +64,9 @@ public class GameRenderer {
                     batcher.draw(AssetLoader.player_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
                 } else if (gu.getPlayer().isLeft()) {
                     batcher.draw(AssetLoader.player_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-                }
-            } else if (gu.getPlayer().isLeft()) {
+                        }
+            } else
+                if (gu.getPlayer().isLeft()) {
                 batcher.draw(AssetLoader.player_runs_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             } else if (!gu.getPlayer().isLeft()) {
                 batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
@@ -82,5 +86,13 @@ public class GameRenderer {
             }
         }
         batcher.end();
+        //Shot
+        if (gu.getShot().isAvailable()) {
+            shapeRenderer.begin();
+            shapeRenderer.setColor(Color.BLACK);
+            shapeRenderer.rect(gu.getShot().getPosition().x, gu.getShot().getPosition().y, gu.getShot().getWidth(), gu.getShot().getHeight());
+            shapeRenderer.end();
+        }
+
     }
 }

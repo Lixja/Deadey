@@ -17,53 +17,44 @@
 package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
-import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class Enemy extends GameObject {
+public class Shot extends GameObject {
 
     private Vector2 speed;
-    private boolean left;
+    private boolean available;
 
     private float time;
 
-    private GameUpdater gu;
-
-    public Enemy(float x, float y, int width, int height, GameUpdater gu) {
+    public Shot(float x, float y, int width, int height) {
         super(x, y, width, height);
-        speed = new Vector2(25, 0);
-        this.gu = gu;
+        speed = new Vector2(100, 0);
     }
 
     public void update(float delta) {
-        if (gu.getPlayer().getPosition().x < position.x) {
-            position.x -= speed.x * delta;
-            left = true;
-        } else {
-            position.x += speed.x * delta;
-            left = false;
-        }
-        if (time > 10) {
-            position.x = Float.parseFloat("" + (Math.random() * 300) + 300);
-            time = 0;
-        }
-
+        position.x += speed.x * delta;
         time += delta;
     }
 
-    public void die() {
-        position.x = Float.parseFloat("" + (Math.random() * 300) + 300);
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public void setPosition(float x, float y) {
+        position.x = x;
+        position.y = y;
     }
 
     public float getTime() {
         return time;
     }
 
-    public boolean isLeft() {
-        return left;
-    }
 
 }
