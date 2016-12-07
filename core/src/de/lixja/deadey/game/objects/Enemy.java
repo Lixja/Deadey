@@ -24,14 +24,10 @@ import de.lixja.deadey.game.utils.GameUpdater;
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class Enemy {
+public class Enemy extends GameObject {
 
-    private Vector2 position;
     private Vector2 speed;
     private boolean left;
-
-    private int width;
-    private int height;
 
     private Rectangle rect;
     private float time;
@@ -39,9 +35,7 @@ public class Enemy {
     private GameUpdater gu;
 
     public Enemy(float x, float y, int width, int height, GameUpdater gu) {
-        this.width = width;
-        this.height = height;
-        position = new Vector2(x, y);
+        super(x, y, width, height);
         speed = new Vector2(25, 0);
         rect = new Rectangle(x, y, width, height);
         this.gu = gu;
@@ -61,10 +55,6 @@ public class Enemy {
         }
 
         time += delta;
-    }
-
-    public Vector2 getPosition() {
-        return position;
     }
 
     public float getTime() {

@@ -17,8 +17,10 @@
 package de.lixja.deadey.game.utils;
 
 import de.lixja.deadey.Deadey;
+import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Enemy;
 import de.lixja.deadey.game.objects.Player;
+import de.lixja.deadey.game.screens.GameOverScreen;
 
 /**
  *
@@ -31,6 +33,7 @@ public class GameUpdater {
 
     private Player player;
     private Enemy enemy[];
+    private CollisionHandler chandler;
 
     private float time;
 
@@ -42,6 +45,7 @@ public class GameUpdater {
         enemy = new Enemy[2];
         enemy[0] = new Enemy(300, 100, 17, 29, this);
         enemy[1] = new Enemy(-100, 100, 17, 29, this);
+        chandler = new CollisionHandler();
 
     }
 
@@ -49,6 +53,9 @@ public class GameUpdater {
         player.update(delta);
         enemy[0].update(delta);
         enemy[1].update(delta);
+        if (chandler.update(player, enemy[0])) {
+            game.setScreen(new GameOverScreen());
+        }
         time += delta;
     }
 

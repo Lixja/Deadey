@@ -25,9 +25,8 @@ import com.badlogic.gdx.math.Vector2;
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class Player {
+public class Player extends GameObject {
 
-    private Vector2 position;
     private Vector2 speed;
     private boolean moving = false;
     private boolean left = false;
@@ -36,17 +35,12 @@ public class Player {
     private boolean fall = false;
     private boolean portal = false;
 
-    private int width;
-    private int height;
-
     private Rectangle rect;
     private float time;
     private float portalreloader;
 
     public Player(float x, float y, int width, int height) {
-        this.width = width;
-        this.height = height;
-        position = new Vector2(x, y);
+        super(x, y, width, height);
         speed = new Vector2(50, 100);
         rect = new Rectangle(x, y, width, height);
     }
@@ -98,10 +92,6 @@ public class Player {
 
         portalreloader += delta;
         time += delta;
-    }
-
-    public Vector2 getPosition() {
-        return position;
     }
 
     public boolean isMoving() {
