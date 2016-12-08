@@ -36,6 +36,7 @@ public class GameRenderer {
     private ShapeRenderer shapeRenderer;
     private SpriteBatch batcher;
     private GameUpdater gu;
+    private MapRenderer mrenderer;
 
     public GameRenderer(Deadey game, GameUpdater gu) {
         this.gu = gu;
@@ -49,11 +50,15 @@ public class GameRenderer {
         shapeRenderer.setProjectionMatrix(cam.combined);
         shapeRenderer.setAutoShapeType(true);
 
+        mrenderer = new MapRenderer(shapeRenderer);
+
     }
 
     public void render_g(float delta) {
         Gdx.gl.glClearColor(0, 255, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        mrenderer.render(gu.getStage1());
 
         batcher.begin();
 

@@ -35,7 +35,7 @@ public class Enemy extends GameObject {
 
     public Enemy(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height);
-        speed = new Vector2(50, 0);
+        speed = new Vector2(40, 0);
         this.gu = gu;
     }
 

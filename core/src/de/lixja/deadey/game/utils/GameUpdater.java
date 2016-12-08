@@ -18,10 +18,12 @@ package de.lixja.deadey.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.files.FileHandle;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.Enemy;
+import de.lixja.deadey.game.objects.Map;
 import de.lixja.deadey.game.objects.Player;
 import de.lixja.deadey.game.objects.Shot;
 import de.lixja.deadey.game.screens.GameOverScreen;
@@ -41,6 +43,7 @@ public class GameUpdater {
     private LinkedList<Shot> shots;
     private LinkedList<Coin> coins;
     private CollisionHandler chandler;
+    private Map stage1;
 
     private float time;
 
@@ -59,6 +62,9 @@ public class GameUpdater {
         coins.add(c);
         shots = new LinkedList<Shot>();
         chandler = new CollisionHandler();
+        FileHandle file = Gdx.files.internal("Stage1.dat");
+        String map = file.readString();
+        stage1 = new Map(map);
 
     }
 
@@ -107,6 +113,9 @@ public class GameUpdater {
         return coins;
     }
 
+    public Map getStage1() {
+        return stage1;
+    }
 
     public float getTime() {
         return time;

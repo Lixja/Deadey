@@ -65,7 +65,7 @@ public class Player extends GameObject {
 
         //Moves right;
         if (Gdx.input.isKeyPressed(Keys.D)) {
-            if (position.x <= 200) {
+            if (position.x <= 300) {
                 position.x += speed.x * delta;
             }
             moving = true;
