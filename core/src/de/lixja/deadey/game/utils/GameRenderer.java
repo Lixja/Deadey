@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.lixja.deadey.Deadey;
+import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.Enemy;
 import de.lixja.deadey.game.objects.Shot;
 
@@ -104,6 +105,10 @@ public class GameRenderer {
                     batcher.draw(AssetLoader.shot_right.getKeyFrame(s.getTime(), true), s.getPosition().x, s.getPosition().y);
                 }
             }
+        }
+
+        for (Coin c : gu.getCoins()) {
+            batcher.draw(AssetLoader.coin.getKeyFrame(c.getTime(), true), c.getPosition().x, c.getPosition().y);
         }
         batcher.end();
 

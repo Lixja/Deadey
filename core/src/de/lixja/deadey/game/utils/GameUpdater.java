@@ -20,6 +20,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
+import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.Enemy;
 import de.lixja.deadey.game.objects.Player;
 import de.lixja.deadey.game.objects.Shot;
@@ -38,6 +39,7 @@ public class GameUpdater {
     private Player player;
     private LinkedList<Enemy> enemys;
     private LinkedList<Shot> shots;
+    private LinkedList<Coin> coins;
     private CollisionHandler chandler;
 
     private float time;
@@ -52,6 +54,9 @@ public class GameUpdater {
             Enemy e = new Enemy((float) (Math.random() * 300) + 300, 100, 17, 29, this);
             enemys.add(e);
         }
+        coins = new LinkedList<Coin>();
+        Coin c = new Coin(200, 90, 9, 9);
+        coins.add(c);
         shots = new LinkedList<Shot>();
         chandler = new CollisionHandler();
 
@@ -71,16 +76,19 @@ public class GameUpdater {
                     }
                 }
         }
-        for (int i1 = 0; i1 < shots.size(); i1++) {
-            if (shots.get(i1).isAvailable()) {
-                shots.get(i1).update(delta);
+        for (Shot shot : shots) {
+            if (shot.isAvailable()) {
+                shot.update(delta);
             }
         }
-        time += delta;
-
+        for (Coin c : coins) {
+            c.update(delta);
+        }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+        time += delta;
+
     }
 
     public Player getPlayer() {
@@ -94,6 +102,11 @@ public class GameUpdater {
     public LinkedList<Shot> getShots() {
         return shots;
     }
+
+    public LinkedList<Coin> getCoins() {
+        return coins;
+    }
+
 
     public float getTime() {
         return time;

@@ -39,6 +39,11 @@ public class AssetLoader {
     public static TextureRegion shot_left_regions[], shot_right_regions[];
     public static Animation shot_left, shot_right;
 
+    public static TextureRegion coin_sides_region[];
+    public static Animation coin;
+
+    public static TextureRegion eye;
+
     public static TextureRegion enemy_stands, enemy_left, enemy_right;
     public static TextureRegion enemy_runs_left_regions[], enemy_runs_right_regions[];
     public static Animation enemy_runs_left, enemy_runs_right;
@@ -98,13 +103,13 @@ public class AssetLoader {
         shot_left_regions = new TextureRegion[2];
         shot_left_regions[0] = new TextureRegion(texture, 0, 58, 12, 6);
         shot_left_regions[0].flip(true, true);
-        shot_left_regions[1] = new TextureRegion(texture, 0, 63, 21, 6);
+        shot_left_regions[1] = new TextureRegion(texture, 0, 63, 12, 6);
         shot_left_regions[1].flip(true, true);
         shot_left = new Animation(0.1f, shot_left_regions);
         shot_right_regions = new TextureRegion[2];
         shot_right_regions[0] = new TextureRegion(texture, 0, 58, 12, 5);
         shot_right_regions[0].flip(false, true);
-        shot_right_regions[1] = new TextureRegion(texture, 0, 63, 21, 5);
+        shot_right_regions[1] = new TextureRegion(texture, 0, 63, 12, 5);
         shot_right_regions[1].flip(false, true);
         shot_right = new Animation(0.1f, shot_right_regions);
         player_fly_left_regions = new TextureRegion[3];
@@ -155,6 +160,20 @@ public class AssetLoader {
         player_fly_fire_right_regions[6] = new TextureRegion(texture, 264, 0, 13, 29);
         player_fly_fire_right_regions[6].flip(false, true);
         player_fly_fire_right = new Animation(0.075f, player_fly_fire_right_regions);
+
+        coin_sides_region = new TextureRegion[4];
+        coin_sides_region[0] = new TextureRegion(texture, 12, 58, 9, 9);
+        coin_sides_region[0].flip(false, true);
+        coin_sides_region[1] = new TextureRegion(texture, 21, 58, 9, 9);
+        coin_sides_region[1].flip(false, true);
+        coin_sides_region[2] = new TextureRegion(texture, 30, 58, 9, 9);
+        coin_sides_region[2].flip(false, true);
+        coin_sides_region[3] = new TextureRegion(texture, 21, 58, 9, 9);
+        coin_sides_region[3].flip(false, true);
+        coin = new Animation(0.3f, coin_sides_region);
+
+        eye = new TextureRegion(texture, 0, 68, 25, 19);
+
 
         enemy_stands = new TextureRegion(texture, 0, 29, 17, 29);
         enemy_stands.flip(false, true);
