@@ -36,7 +36,7 @@ public class GameUpdater {
     private Deadey game;
 
     private Player player;
-    private Enemy enemy[];
+    private LinkedList<Enemy> enemys;
     private LinkedList<Shot> shots;
     private CollisionHandler chandler;
 
@@ -47,10 +47,11 @@ public class GameUpdater {
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
         player = new Player(50, 100, 17, 29, this);
-        enemy = new Enemy[3];
-        enemy[0] = new Enemy(300, 100, 17, 29, this);
-        enemy[1] = new Enemy(330, 100, 17, 29, this);
-        enemy[2] = new Enemy(360, 100, 17, 29, this);
+        enemys = new LinkedList<Enemy>();
+        for (int i = 0; i < 5; i++) {
+            Enemy e = new Enemy((float) (Math.random() * 300) + 300, 100, 17, 29, this);
+            enemys.add(e);
+        }
         shots = new LinkedList<Shot>();
         chandler = new CollisionHandler();
 
@@ -58,14 +59,14 @@ public class GameUpdater {
 
     public void update_g(float delta) {
         player.update(delta);
-        for (int i = 0; i < enemy.length; i++) {
-            enemy[i].update(delta);
-            if (chandler.update(player, enemy[i])) {
+        for (Enemy e : enemys) {
+            e.update(delta);
+            if (chandler.update(player, e)) {
                 game.setScreen(new GameOverScreen(game));
             } else
                 for (int i1 = 0; i1 < shots.size(); i1++) {
-                    if (chandler.update(enemy[i], shots.get(i1)) && shots.get(i1).isAvailable()) {
-                        enemy[i].die();
+                    if (chandler.update(e, shots.get(i1)) && shots.get(i1).isAvailable()) {
+                        e.die();
                         shots.remove(i1);
                     }
                 }
@@ -86,8 +87,8 @@ public class GameUpdater {
         return player;
     }
 
-    public Enemy[] getEnemy() {
-        return enemy;
+    public LinkedList<Enemy> getEnemy() {
+        return enemys;
     }
 
     public LinkedList<Shot> getShots() {
