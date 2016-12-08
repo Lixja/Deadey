@@ -39,13 +39,13 @@ public class Player extends GameObject {
     private float time;
     private float portalreloader;
     private float shotloader;
+    private float flypower = 1f;
 
     private GameUpdater gu;
 
-
     public Player(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height);
-        speed = new Vector2(75, 100);
+        speed = new Vector2(75, 120);
         this.gu = gu;
     }
 
@@ -55,11 +55,15 @@ public class Player extends GameObject {
         fly = false;
         width = AssetLoader.player_stands.getRegionWidth();
 
-
         if (portalreloader >= 5) {
             portal = true;
             portalreloader = 0;
         }
+        if (position.y >= 100) {
+            flypower = 1;
+        }
+
+        //Moves right;
         if (Gdx.input.isKeyPressed(Keys.D)) {
             if (position.x <= 200) {
                 position.x += speed.x * delta;
@@ -68,44 +72,43 @@ public class Player extends GameObject {
             left = false;
             width = AssetLoader.player_left.getRegionWidth();
 
-        } else
+            // Moves Left;
+        } else {
             if (Gdx.input.isKeyPressed(Keys.A)) {
                 if (position.x >= 0) {
                     position.x -= speed.x * delta;
                 }
-            moving = true;
-            left = true;
-            width = AssetLoader.player_left.getRegionWidth();
-        } else {
-            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-            fire = true;
-            shotloader += delta;
-                if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration() - 0.15f) {
-                shotloader = 0;
-                gu.createShot(left);
-            }
+                moving = true;
+                left = true;
+                width = AssetLoader.player_left.getRegionWidth();
+                //Shoots
             } else {
-                shotloader = 0;
-                }
-            }
-        if (!fall) {
-            if (Gdx.input.isKeyPressed(Keys.W)) {
-                if (position.y > 10) {
-                    position.y -= speed.y * delta;
-                    fly = true;
+                if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+                    fire = true;
+                    shotloader += delta;
+                    if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration() - 0.15f) {
+                        shotloader = 0;
+                        gu.createShot(left);
+                    }
                 } else {
-                    fly = false;
-                    fall = true;
+                    shotloader = 0;
                 }
-            } else if (position.y < 100) {
-                fall = true;
-            }
-        } else if (fall) {
-            position.y += speed.y * delta;
-            if (position.y >= 100) {
-                fall = false;
             }
         }
+        //Flys
+
+        if (Gdx.input.isKeyPressed(Keys.W) && flypower > 0) {
+            if (position.y > 10) {
+                position.y -= speed.y * delta;
+            }
+            fly = true;
+            flypower -= delta;
+        } else {
+            if (position.y <= 100) {
+                position.y += speed.y * delta;
+            }
+        }
+        //Portal
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
             position.x = Float.parseFloat("" + Math.random() * (300 - width));
             position.y = Float.parseFloat("" + Math.random() * 100 + 50);
