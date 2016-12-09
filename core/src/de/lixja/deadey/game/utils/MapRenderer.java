@@ -35,18 +35,18 @@ public class MapRenderer {
     public void render(Map map) {
         shapeRenderer.begin();
         shapeRenderer.setColor(Color.BLACK);
-        for (int i = 0; i < map.getMap().length; i++) {
-            for (int i2 = 0; i2 < map.getMap()[i].length; i2++) {
-                if (map.getMap()[i][i2].getId() == 0) {
+        for (int i = 0; i < map.getMap().size(); i++) {
+            for (int i2 = 0; i2 < map.getMap().get(i).size(); i2++) {
+                if (map.getMap().get(i).get(i2).getId() == 0) {
                     shapeRenderer.end();
                     shapeRenderer.begin();
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.rect(map.getMap()[i][i2].getPosition().x, map.getMap()[i][i2].getPosition().y, map.getMap()[i][i2].getHeight(), map.getMap()[i][i2].getHeight());
+                    shapeRenderer.rect(map.getMap().get(i).get(i2).getPosition().x, map.getMap().get(i).get(i2).getPosition().y, map.getMap().get(i).get(i2).getHeight(), map.getMap().get(i).get(i2).getHeight());
                 } else {
                     shapeRenderer.end();
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.rect(map.getMap()[i][i2].getPosition().x, map.getMap()[i][i2].getPosition().y, map.getMap()[i][i2].getHeight(), map.getMap()[i][i2].getHeight());
+                    shapeRenderer.rect(map.getMap().get(i).get(i2).getPosition().x, map.getMap().get(i).get(i2).getPosition().y, map.getMap().get(i).get(i2).getHeight(), map.getMap().get(i).get(i2).getHeight());
                 }
             }
         }

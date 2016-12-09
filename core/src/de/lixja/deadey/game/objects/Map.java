@@ -16,13 +16,15 @@
  */
 package de.lixja.deadey.game.objects;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
 public class Map {
 
-    private Block map[][];
+    private LinkedList<LinkedList<Block>> map;
 
     public Map(String mapfile) {
         setBlocks(mapfile);
@@ -34,15 +36,18 @@ public class Map {
         for (int i = 0; i < mapRow.length; i++) {
             mapDetails[i] = mapRow[i].split(",");
         }
-        map = new Block[mapDetails.length][mapDetails[0].length];
+        map = new LinkedList<LinkedList<Block>>();
         for (int i = 0; i < mapDetails.length; i++) {
+            map.add(new LinkedList<Block>());
             for (int i2 = 0; i2 < mapDetails[i].length; i2++) {
-                map[i][i2] = new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2]));
+                if (Integer.parseInt(mapDetails[i][i2]) != 0) {
+                    map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2])));
+                }
             }
         }
     }
 
-    public Block[][] getMap() {
+    public LinkedList<LinkedList<Block>> getMap() {
         return map;
     }
 
