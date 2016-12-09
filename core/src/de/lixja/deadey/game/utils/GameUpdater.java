@@ -70,8 +70,10 @@ public class GameUpdater {
 
     public void update_g(float delta) {
         player.update(delta);
+        chandler.colidesWidthBlock(stage1, player);
         for (Enemy e : enemys) {
             e.update(delta);
+            chandler.colidesWidthBlock(stage1, e);
             if (chandler.update(player, e)) {
                 game.setScreen(new GameOverScreen(game));
             } else
@@ -88,10 +90,6 @@ public class GameUpdater {
         }
         for (Coin c : coins) {
             c.update(delta);
-        }
-        chandler.colidesWidthBlock(stage1, player);
-        for (int i = 0; i < enemys.size(); i++) {
-            chandler.colidesWidthBlock(stage1, enemys.get(i));
         }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();
