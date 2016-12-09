@@ -41,6 +41,10 @@ public class GameObject {
 
     }
 
+    public void collisionWidthFrom(GameObject object, String direction) {
+
+    }
+
     public Vector2 getPosition() {
         return position;
     }

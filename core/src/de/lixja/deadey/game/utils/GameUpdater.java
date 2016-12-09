@@ -89,6 +89,7 @@ public class GameUpdater {
         for (Coin c : coins) {
             c.update(delta);
         }
+        chandler.colidesWidthBlock(stage1, player);
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();
         }

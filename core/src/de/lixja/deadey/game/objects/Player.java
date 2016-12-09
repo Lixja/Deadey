@@ -19,6 +19,7 @@ package de.lixja.deadey.game.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
+import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.utils.AssetLoader;
 import de.lixja.deadey.game.utils.GameUpdater;
 
@@ -35,6 +36,10 @@ public class Player extends GameObject {
     private boolean fly = false;
     private boolean fall = false;
     private boolean portal = false;
+    private boolean canMoveNorth = true;
+    private boolean canMoveEast = true;
+    private boolean canMoveSouth = true;
+    private boolean canMoveWest = true;
 
     private float time;
     private float portalreloader;
@@ -64,7 +69,7 @@ public class Player extends GameObject {
         }
 
         //Moves right;
-        if (Gdx.input.isKeyPressed(Keys.D)) {
+        if (Gdx.input.isKeyPressed(Keys.D) && canMoveEast) {
             if (position.x <= 300) {
                 position.x += speed.x * delta;
             }
@@ -74,7 +79,7 @@ public class Player extends GameObject {
 
             // Moves Left;
         } else {
-            if (Gdx.input.isKeyPressed(Keys.A)) {
+            if (Gdx.input.isKeyPressed(Keys.A) && canMoveWest) {
                 if (position.x >= 0) {
                     position.x -= speed.x * delta;
                 }
@@ -98,13 +103,13 @@ public class Player extends GameObject {
         //Flys
 
         if (Gdx.input.isKeyPressed(Keys.W) && flypower > 0) {
-            if (position.y > 10) {
+            if (position.y > 10 && canMoveNorth) {
                 position.y -= speed.y * delta;
             }
             fly = true;
             flypower -= delta;
         } else {
-            if (position.y <= 100) {
+            if (position.y <= 100 && canMoveSouth) {
                 position.y += speed.y * delta;
             }
         }
@@ -114,7 +119,10 @@ public class Player extends GameObject {
             position.y = Float.parseFloat("" + Math.random() * 100 + 50);
             portal = false;
         }
-
+        canMoveEast = true;
+        canMoveSouth = true;
+        canMoveNorth = true;
+        canMoveWest = true;
         portalreloader += delta;
         time += delta;
     }
@@ -122,6 +130,28 @@ public class Player extends GameObject {
     @Override
     public void collisionWidth(GameObject object) {
 
+    }
+
+    @Override
+    public void collisionWidthFrom(GameObject object, String direction) {
+        if (direction.equals(CollisionHandler.EAST)) {
+            canMoveWest = false;
+            position.x = object.getPosition().x + object.getWidth() + 1;
+        } else {
+            if (direction.equals(CollisionHandler.SOUTH)) {
+                canMoveSouth = false;
+                position.y = object.getPosition().y - height - 1;
+            } else {
+                if (direction.equals(CollisionHandler.WEST)) {
+                    canMoveSouth = false;
+                    position.x = object.getPosition().x - width - 1;
+                } else {
+                    if (direction.equals(CollisionHandler.NORTH)) {
+
+                    }
+                }
+            }
+        }
     }
 
     public boolean isMoving() {
