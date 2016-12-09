@@ -44,7 +44,7 @@ public class Player extends GameObject {
     private GameUpdater gu;
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height);
+        super(x, y, width, height, "player");
         speed = new Vector2(75, 120);
         this.gu = gu;
     }
@@ -117,6 +117,11 @@ public class Player extends GameObject {
 
         portalreloader += delta;
         time += delta;
+    }
+
+    @Override
+    public void collisionWidth(GameObject object) {
+
     }
 
     public boolean isMoving() {

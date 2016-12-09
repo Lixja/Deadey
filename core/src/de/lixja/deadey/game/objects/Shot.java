@@ -27,11 +27,10 @@ public class Shot extends GameObject {
     private Vector2 speed;
     private boolean available;
     private boolean toLeft;
-
     private float time;
 
     public Shot(float x, float y, int width, int height) {
-        super(x, y, width, height);
+        super(x, y, width, height, "shot");
         speed = new Vector2(100, 0);
     }
 
@@ -42,6 +41,11 @@ public class Shot extends GameObject {
             position.x += speed.x * delta;
         }
         time += delta;
+    }
+
+    @Override
+    public void collisionWidth(GameObject object) {
+
     }
 
     public boolean isAvailable() {

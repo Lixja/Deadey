@@ -25,11 +25,11 @@ public class Coin extends GameObject {
     private float time;
 
     public Coin(float x, float y, int width, int height) {
-        super(x, y, width, height);
+        super(x, y, width, height, "coin");
     }
 
-    public void update(float delta) {
 
+    public void update(float delta) {
         time += delta;
     }
 

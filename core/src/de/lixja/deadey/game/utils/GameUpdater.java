@@ -77,7 +77,6 @@ public class GameUpdater {
             } else
                 for (int i1 = 0; i1 < shots.size(); i1++) {
                     if (chandler.update(e, shots.get(i1)) && shots.get(i1).isAvailable()) {
-                        e.die();
                         shots.remove(i1);
                     }
                 }

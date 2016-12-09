@@ -29,6 +29,8 @@ public class CollisionHandler {
             if (go1.getPosition().x + go1.getWidth() >= go2.getPosition().x) {
                 if (go1.getPosition().y + go1.getHeight() >= go2.getPosition().y) {
                     if (go1.getPosition().y <= go2.getPosition().y + go2.getHeight()) {
+                        go1.collisionWidth(go2);
+                        go2.collisionWidth(go1);
                         return true;
                     }
                 }

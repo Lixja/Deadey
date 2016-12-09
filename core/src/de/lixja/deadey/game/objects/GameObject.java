@@ -27,11 +27,18 @@ public class GameObject {
     protected Vector2 position;
     protected int width;
     protected int height;
+    protected String id;
 
-    public GameObject(float x, float y, int width, int height) {
+
+    public GameObject(float x, float y, int width, int height, String id) {
         position = new Vector2(x, y);
         this.width = width;
         this.height = height;
+        this.id = id;
+    }
+
+    public void collisionWidth(GameObject object) {
+
     }
 
     public Vector2 getPosition() {

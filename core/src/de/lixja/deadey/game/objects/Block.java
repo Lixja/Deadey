@@ -25,7 +25,7 @@ public class Block extends GameObject {
     private int id;
 
     public Block(float x, float y, int width, int height, int id) {
-        super(x, y, width, height);
+        super(x, y, width, height, "block");
         this.id = id;
     }
 

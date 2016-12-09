@@ -34,7 +34,7 @@ public class Enemy extends GameObject {
     private GameUpdater gu;
 
     public Enemy(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height);
+        super(x, y, width, height, "enemy_ground_1");
         speed = new Vector2(40, 0);
         this.gu = gu;
     }
@@ -55,6 +55,10 @@ public class Enemy extends GameObject {
         }
 
         time += delta;
+    }
+
+    public void collisionWidth(GameObject object) {
+        die();
     }
 
     public void die() {
