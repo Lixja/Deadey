@@ -32,7 +32,7 @@ public class CollisionHandler {
     public final static String NORTH = "north";
     public final static String SOUTH = "south";
 
-    public boolean update(GameObject go1, GameObject go2) {
+    public boolean collision(GameObject go1, GameObject go2) {
         if (go1.getPosition().x <= go2.getPosition().x + go2.getWidth()) {
             if (go1.getPosition().x + go1.getWidth() >= go2.getPosition().x) {
                 if (go1.getPosition().y + go1.getHeight() >= go2.getPosition().y) {

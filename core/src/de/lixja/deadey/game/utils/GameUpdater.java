@@ -74,11 +74,11 @@ public class GameUpdater {
         for (Enemy e : enemys) {
             e.update(delta);
             chandler.colidesWidthBlock(stage1, e);
-            if (chandler.update(player, e)) {
+            if (chandler.collision(player, e)) {
                 game.setScreen(new GameOverScreen(game));
             } else
                 for (int i1 = 0; i1 < shots.size(); i1++) {
-                    if (chandler.update(e, shots.get(i1)) && shots.get(i1).isAvailable()) {
+                    if (chandler.collision(e, shots.get(i1)) && shots.get(i1).isAvailable()) {
                         shots.remove(i1);
                     }
                 }
@@ -90,6 +90,7 @@ public class GameUpdater {
         }
         for (Coin c : coins) {
             c.update(delta);
+            chandler.collision(player, c);
         }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();
