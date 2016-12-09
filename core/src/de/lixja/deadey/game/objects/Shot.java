@@ -44,8 +44,8 @@ public class Shot extends GameObject {
     }
 
     @Override
-    public void collisionWidth(GameObject object) {
-
+    public void collisionWith(GameObject object) {
+        available = false;
     }
 
     public boolean isAvailable() {

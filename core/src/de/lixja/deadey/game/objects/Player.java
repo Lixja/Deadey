@@ -128,12 +128,12 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void collisionWidth(GameObject object) {
+    public void collisionWith(GameObject object) {
 
     }
 
     @Override
-    public void collisionWidthFrom(GameObject object, String direction) {
+    public void collisionWithFrom(GameObject object, String direction) {
         if (direction.equals(CollisionHandler.EAST)) {
             canMoveWest = false;
             position.x = object.getPosition().x + object.getWidth() + 1;

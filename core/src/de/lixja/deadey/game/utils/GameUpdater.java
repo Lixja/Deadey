@@ -53,7 +53,7 @@ public class GameUpdater {
         this.GameHeight = game.getGameHeight();
         player = new Player(50, 100, 17, 29, this);
         enemys = new LinkedList<Enemy>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5000; i++) {
             Enemy e = new Enemy((float) (Math.random() * 300) + 300, 100, 17, 29, this);
             enemys.add(e);
         }
@@ -70,27 +70,33 @@ public class GameUpdater {
 
     public void update_g(float delta) {
         player.update(delta);
-        chandler.colidesWidthBlock(stage1, player);
+        chandler.colidesWidthBlockAt(stage1, player);
         for (Enemy e : enemys) {
             e.update(delta);
-            chandler.colidesWidthBlock(stage1, e);
-            if (chandler.collision(player, e)) {
+            chandler.colidesWidthBlockAt(stage1, e);
+            if (chandler.colides(player, e)) {
                 game.setScreen(new GameOverScreen(game));
             } else
                 for (int i1 = 0; i1 < shots.size(); i1++) {
-                    if (chandler.collision(e, shots.get(i1)) && shots.get(i1).isAvailable()) {
-                        shots.remove(i1);
+                    if (shots.get(i1).isAvailable()) {
+                        if (chandler.colides(e, shots.get(i1))) {
+                            shots.remove(i1);
+                        }
                     }
                 }
         }
         for (Shot shot : shots) {
             if (shot.isAvailable()) {
                 shot.update(delta);
+                if (chandler.colidesWidthBlock(stage1, shot)) {
+                    shots.remove(shot);
+                }
+
             }
         }
         for (Coin c : coins) {
             c.update(delta);
-            chandler.collision(player, c);
+            chandler.colides(player, c);
         }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();

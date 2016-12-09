@@ -29,7 +29,7 @@ public class Coin extends GameObject {
     }
 
     @Override
-    public void collisionWidth(GameObject object) {
+    public void collisionWith(GameObject object) {
         position.x = (float) (Math.random() * 250);
         position.y = (float) (Math.random() * 75);
     }

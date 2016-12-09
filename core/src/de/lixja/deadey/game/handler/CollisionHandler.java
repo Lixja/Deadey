@@ -32,13 +32,13 @@ public class CollisionHandler {
     public final static String NORTH = "north";
     public final static String SOUTH = "south";
 
-    public boolean collision(GameObject go1, GameObject go2) {
+    public boolean colides(GameObject go1, GameObject go2) {
         if (go1.getPosition().x <= go2.getPosition().x + go2.getWidth()) {
             if (go1.getPosition().x + go1.getWidth() >= go2.getPosition().x) {
                 if (go1.getPosition().y + go1.getHeight() >= go2.getPosition().y) {
                     if (go1.getPosition().y <= go2.getPosition().y + go2.getHeight()) {
-                        go1.collisionWidth(go2);
-                        go2.collisionWidth(go1);
+                        go1.collisionWith(go2);
+                        go2.collisionWith(go1);
                         return true;
                     }
                 }
@@ -50,11 +50,25 @@ public class CollisionHandler {
     public boolean colidesWidthBlock(Map map, GameObject go) {
         for (LinkedList<Block> rows : map.getMap()) {
             for (Block block : rows) {
+                if (colides(block, go)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+
+    public boolean colidesWidthBlockAt(Map map, GameObject go) {
+        boolean collision = false;
+        for (LinkedList<Block> rows : map.getMap()) {
+            for (Block block : rows) {
                 if (go.getPosition().y + go.getHeight() >= block.getPosition().y) {
                     if (go.getPosition().y < block.getPosition().y) {
                         if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
                             if (go.getPosition().x + go.getWidth() >= block.getPosition().x) {
-                                go.collisionWidthFrom(block, SOUTH);
+                                go.collisionWithFrom(block, SOUTH);
+                                collision = true;
                             }
 
                         }
@@ -65,7 +79,8 @@ public class CollisionHandler {
                     if (go.getPosition().x > block.getPosition().x) {
                         if (go.getPosition().y + go.getHeight() >= block.getPosition().y) {
                             if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
-                                go.collisionWidthFrom(block, EAST);
+                                go.collisionWithFrom(block, EAST);
+                                collision = true;
                             }
                         }
                     }
@@ -74,7 +89,8 @@ public class CollisionHandler {
                     if (go.getPosition().x < block.getPosition().x) {
                         if (go.getPosition().y + go.getHeight() >= block.getPosition().y) {
                             if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
-                                go.collisionWidthFrom(block, WEST);
+                                go.collisionWithFrom(block, WEST);
+                                collision = true;
                             }
                         }
                     }
@@ -83,7 +99,8 @@ public class CollisionHandler {
                     if (go.getPosition().y > block.getPosition().y) {
                         if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
                             if (go.getPosition().x + go.getWidth() >= block.getPosition().x) {
-                                go.collisionWidthFrom(block, NORTH);
+                                go.collisionWithFrom(block, NORTH);
+                                collision = true;
                             }
 
                         }
@@ -92,7 +109,7 @@ public class CollisionHandler {
 
             }
         }
-        return false;
+        return collision;
     }
 
 }

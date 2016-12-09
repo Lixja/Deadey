@@ -37,11 +37,11 @@ public class GameObject {
         this.id = id;
     }
 
-    public void collisionWidth(GameObject object) {
+    public void collisionWith(GameObject object) {
 
     }
 
-    public void collisionWidthFrom(GameObject object, String direction) {
+    public void collisionWithFrom(GameObject object, String direction) {
 
     }
 
