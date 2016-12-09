@@ -17,6 +17,7 @@
 package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
+import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.utils.AssetLoader;
 import de.lixja.deadey.game.utils.GameUpdater;
 
@@ -28,7 +29,10 @@ public class Enemy extends GameObject {
 
     private Vector2 speed;
     private boolean left;
-
+    private boolean canMoveNorth = true;
+    private boolean canMoveEast = true;
+    private boolean canMoveSouth = true;
+    private boolean canMoveWest = true;
     private float time;
 
     private GameUpdater gu;
@@ -40,11 +44,12 @@ public class Enemy extends GameObject {
     }
 
     public void update(float delta) {
-        if (gu.getPlayer().getPosition().x < position.x) {
+        if (gu.getPlayer().getPosition().x < position.x && canMoveEast) {
             position.x -= speed.x * delta;
             left = true;
             width = AssetLoader.enemy_left.getRegionWidth();
-        } else {
+        } else
+            if (canMoveWest) {
             position.x += speed.x * delta;
             left = false;
             width = AssetLoader.enemy_left.getRegionWidth();
@@ -54,12 +59,40 @@ public class Enemy extends GameObject {
             time = 0;
         }
 
+        canMoveEast = true;
+        canMoveSouth = true;
+        canMoveNorth = true;
+        canMoveWest = true;
         time += delta;
     }
 
     public void collisionWidth(GameObject object) {
         die();
     }
+
+    @Override
+    public void collisionWidthFrom(GameObject object, String direction) {
+        if (direction.equals(CollisionHandler.EAST)) {
+            canMoveWest = false;
+            position.x = object.getPosition().x + object.getWidth() + 1;
+        } else {
+            if (direction.equals(CollisionHandler.SOUTH)) {
+                canMoveSouth = false;
+                position.y = object.getPosition().y - height - 1;
+            } else {
+                if (direction.equals(CollisionHandler.WEST)) {
+                    canMoveSouth = false;
+                    position.x = object.getPosition().x - width - 1;
+                } else {
+                    if (direction.equals(CollisionHandler.NORTH)) {
+                        canMoveSouth = false;
+                        position.y = object.getPosition().y + object.getHeight() + 1;
+                    }
+                }
+            }
+        }
+    }
+
 
     public void die() {
         position.x = Float.parseFloat("" + (Math.random() * 200 + 270));

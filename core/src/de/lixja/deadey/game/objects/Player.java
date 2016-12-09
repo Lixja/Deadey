@@ -147,7 +147,8 @@ public class Player extends GameObject {
                     position.x = object.getPosition().x - width - 1;
                 } else {
                     if (direction.equals(CollisionHandler.NORTH)) {
-
+                        canMoveSouth = false;
+                        position.y = object.getPosition().y + object.getHeight() + 1;
                     }
                 }
             }

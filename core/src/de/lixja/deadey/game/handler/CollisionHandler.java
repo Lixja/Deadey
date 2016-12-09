@@ -60,16 +60,7 @@ public class CollisionHandler {
                         }
                     }
                 }
-                if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
-                    if (go.getPosition().y > block.getPosition().y) {
-                        if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
-                            if (go.getPosition().x + go.getWidth() >= block.getPosition().x) {
-                                go.collisionWidthFrom(block, NORTH);
-                            }
 
-                        }
-                    }
-                }
                 if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
                     if (go.getPosition().x > block.getPosition().x) {
                         if (go.getPosition().y + go.getHeight() >= block.getPosition().y) {
@@ -85,6 +76,16 @@ public class CollisionHandler {
                             if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
                                 go.collisionWidthFrom(block, WEST);
                             }
+                        }
+                    }
+                }
+                if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
+                    if (go.getPosition().y > block.getPosition().y) {
+                        if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
+                            if (go.getPosition().x + go.getWidth() >= block.getPosition().x) {
+                                go.collisionWidthFrom(block, NORTH);
+                            }
+
                         }
                     }
                 }

@@ -90,6 +90,9 @@ public class GameUpdater {
             c.update(delta);
         }
         chandler.colidesWidthBlock(stage1, player);
+        for (int i = 0; i < enemys.size(); i++) {
+            chandler.colidesWidthBlock(stage1, enemys.get(i));
+        }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();
         }
