@@ -101,9 +101,9 @@ public class AssetLoader {
         player_fire_right_regions[6].flip(false, true);
         player_fire_right = new Animation(0.075f, player_fire_right_regions);
         shot_left_regions = new TextureRegion[2];
-        shot_left_regions[0] = new TextureRegion(texture, 0, 58, 12, 6);
+        shot_left_regions[0] = new TextureRegion(texture, 0, 58, 12, 5);
         shot_left_regions[0].flip(true, true);
-        shot_left_regions[1] = new TextureRegion(texture, 0, 63, 12, 6);
+        shot_left_regions[1] = new TextureRegion(texture, 0, 63, 12, 5);
         shot_left_regions[1].flip(true, true);
         shot_left = new Animation(0.1f, shot_left_regions);
         shot_right_regions = new TextureRegion[2];
