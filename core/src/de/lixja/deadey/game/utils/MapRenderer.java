@@ -17,6 +17,7 @@
 package de.lixja.deadey.game.utils;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.lixja.deadey.game.objects.Map;
 
@@ -27,13 +28,16 @@ import de.lixja.deadey.game.objects.Map;
 public class MapRenderer {
 
     ShapeRenderer shapeRenderer;
+    OrthographicCamera cam;
 
-    public MapRenderer(ShapeRenderer shapeRenderer) {
+    public MapRenderer(ShapeRenderer shapeRenderer, OrthographicCamera cam) {
         this.shapeRenderer = shapeRenderer;
+        this.cam = cam;
     }
 
     public void render(Map map) {
         shapeRenderer.begin();
+        shapeRenderer.setProjectionMatrix(cam.combined);
         shapeRenderer.setColor(Color.BLACK);
         for (int i = 0; i < map.getMap().size(); i++) {
             for (int i2 = 0; i2 < map.getMap().get(i).size(); i2++) {

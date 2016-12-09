@@ -50,7 +50,7 @@ public class GameRenderer {
         shapeRenderer.setProjectionMatrix(cam.combined);
         shapeRenderer.setAutoShapeType(true);
 
-        mrenderer = new MapRenderer(shapeRenderer);
+        mrenderer = new MapRenderer(shapeRenderer, cam);
 
     }
 
@@ -58,9 +58,15 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 255, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        cam.translate(gu.getCamera().getToMoveX(), gu.getCamera().getToMoveY());
+        cam.update();
+        //moveCamera(100 * gu.getTime());
+
         mrenderer.render(gu.getStage1());
 
         batcher.begin();
+        batcher.setProjectionMatrix(cam.combined);
+
 
         //Player
         if (!gu.getPlayer().isFly()) {
@@ -116,7 +122,10 @@ public class GameRenderer {
             batcher.draw(AssetLoader.coin.getKeyFrame(c.getTime(), true), c.getPosition().x, c.getPosition().y);
         }
         batcher.end();
+    }
 
-
+    public void moveCamera(float speedX) {
+        cam.translate(speedX, 0);
+        cam.update();
     }
 }

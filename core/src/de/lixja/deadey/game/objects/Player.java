@@ -70,9 +70,8 @@ public class Player extends GameObject {
 
         //Moves right;
         if (Gdx.input.isKeyPressed(Keys.D) && canMoveEast) {
-            if (position.x <= 300) {
-                position.x += speed.x * delta;
-            }
+            position.x += speed.x * delta;
+            gu.getCamera().moveCamera(speed.x * delta, 0);
             moving = true;
             left = false;
             width = AssetLoader.player_left.getRegionWidth();
@@ -82,6 +81,7 @@ public class Player extends GameObject {
             if (Gdx.input.isKeyPressed(Keys.A) && canMoveWest) {
                 if (position.x >= 0) {
                     position.x -= speed.x * delta;
+                    gu.getCamera().moveCamera(-(speed.x * delta), 0);
                 }
                 moving = true;
                 left = true;
@@ -115,8 +115,11 @@ public class Player extends GameObject {
         }
         //Portal
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
-            position.x = Float.parseFloat("" + Math.random() * (300 - width));
-            position.y = Float.parseFloat("" + Math.random() * 100 + 50);
+            float teleX = Float.parseFloat("" + Math.random() * (300 - width));
+            float teleY = Float.parseFloat("" + Math.random() * 100 + 50);
+            gu.getCamera().moveCamera(teleX - position.x, 0);
+            position.x = teleX;
+            position.y = teleY;
             portal = false;
         }
         canMoveEast = true;

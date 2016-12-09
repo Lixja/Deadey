@@ -22,6 +22,7 @@ import com.badlogic.gdx.files.FileHandle;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Coin;
+import de.lixja.deadey.game.objects.DCamera;
 import de.lixja.deadey.game.objects.Enemy;
 import de.lixja.deadey.game.objects.Map;
 import de.lixja.deadey.game.objects.Player;
@@ -44,6 +45,7 @@ public class GameUpdater {
     private LinkedList<Coin> coins;
     private CollisionHandler chandler;
     private Map stage1;
+    private DCamera cam;
 
     private float time;
 
@@ -51,9 +53,9 @@ public class GameUpdater {
         this.game = game;
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
-        player = new Player(50, 100, 17, 29, this);
+        player = new Player(100, 100, 17, 29, this);
         enemys = new LinkedList<Enemy>();
-        for (int i = 0; i < 5000; i++) {
+        for (int i = 0; i < 5; i++) {
             Enemy e = new Enemy((float) (Math.random() * 300) + 300, 100, 17, 29, this);
             enemys.add(e);
         }
@@ -65,7 +67,7 @@ public class GameUpdater {
         FileHandle file = Gdx.files.internal("Stage1.dat");
         String map = file.readString();
         stage1 = new Map(map);
-
+        cam = new DCamera();
     }
 
     public void update_g(float delta) {
@@ -135,6 +137,10 @@ public class GameUpdater {
         shot.setToLeft(left);
         shot.setAvailable(true);
         shots.add(shot);
+    }
+
+    public DCamera getCamera() {
+        return cam;
     }
 
 
