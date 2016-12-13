@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.Vector2;
 public class GameObject {
 
     protected Vector2 position;
+    protected Vector2 startPosition;
     protected int width;
     protected int height;
     protected String id;
@@ -32,6 +33,7 @@ public class GameObject {
 
     public GameObject(float x, float y, int width, int height, String id) {
         position = new Vector2(x, y);
+        startPosition = new Vector2(x, y);
         this.width = width;
         this.height = height;
         this.id = id;

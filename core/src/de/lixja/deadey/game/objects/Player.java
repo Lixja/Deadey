@@ -178,7 +178,7 @@ public class Player extends GameObject {
     private void movePlayer(float x, float y) {
         position.x += x;
         position.y += y;
-        gu.getCamera().moveCamera(x, y);
+        gu.getCamera().moveCamera(x, 0);
     }
 
     private void reloadFlyPower() {

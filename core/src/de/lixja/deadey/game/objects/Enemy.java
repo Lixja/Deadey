@@ -98,7 +98,8 @@ public class Enemy extends GameObject {
 
 
     public void die() {
-        position.x = Float.parseFloat("" + (Math.random() * 200 + 270));
+        position.x = startPosition.x;
+        position.y = startPosition.y;
     }
 
     public float getTime() {

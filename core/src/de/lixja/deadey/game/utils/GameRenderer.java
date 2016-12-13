@@ -60,7 +60,6 @@ public class GameRenderer {
 
         cam.translate(gu.getCamera().getToMoveX(), gu.getCamera().getToMoveY());
         cam.update();
-        //moveCamera(100 * gu.getTime());
 
         mrenderer.render(gu.getStage1());
 

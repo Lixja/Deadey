@@ -53,20 +53,22 @@ public class GameUpdater {
         this.game = game;
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
-        player = new Player(100, 100, 17, 29, this);
-        enemys = new LinkedList<Enemy>();
-        for (int i = 0; i < 5; i++) {
-            Enemy e = new Enemy((float) (Math.random() * 300) + 300, 100, 17, 29, this);
-            enemys.add(e);
-        }
-        coins = new LinkedList<Coin>();
-        Coin c = new Coin(200, 90, 9, 9);
-        coins.add(c);
-        shots = new LinkedList<Shot>();
-        chandler = new CollisionHandler();
         FileHandle file = Gdx.files.internal("Stage1.dat");
         String map = file.readString();
         stage1 = new Map(map);
+        player = new Player(stage1.getPlayerStart().x, stage1.getPlayerStart().y, 17, 29, this);
+        enemys = new LinkedList<Enemy>();
+        for (int i = 0; i < stage1.getEnemyStart().size(); i++)        {
+            Enemy e = new Enemy(stage1.getEnemyStart().get(i).x, stage1.getEnemyStart().get(i).y, 17, 29, this);
+            enemys.add(e);
+        }
+        coins = new LinkedList<Coin>();
+        for (int i = 0; i < stage1.getCoins().size(); i++) {
+            Coin c = new Coin(stage1.getCoins().get(i).x, stage1.getCoins().get(i).y, 9, 9);
+            coins.add(c);
+        }
+        shots = new LinkedList<Shot>();
+        chandler = new CollisionHandler();
         cam = new DCamera();
     }
 
@@ -96,9 +98,11 @@ public class GameUpdater {
 
             }
         }
-        for (Coin c : coins) {
-            c.update(delta);
-            chandler.colides(player, c);
+        for (int i = 0; i < coins.size(); i++) {
+            coins.get(i).update(delta);
+            if (chandler.colides(player, coins.get(i))) {
+                coins.remove(i);
+            }
         }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();

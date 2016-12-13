@@ -16,6 +16,7 @@
  */
 package de.lixja.deadey.game.objects;
 
+import com.badlogic.gdx.math.Vector2;
 import java.util.LinkedList;
 
 /**
@@ -25,8 +26,13 @@ import java.util.LinkedList;
 public class Map {
 
     private LinkedList<LinkedList<Block>> map;
+    private Vector2 playerStart;
+    private LinkedList<Vector2> enemyStart;
+    private LinkedList<Vector2> coins;
 
     public Map(String mapfile) {
+        enemyStart = new LinkedList<Vector2>();
+        coins = new LinkedList<Vector2>();
         setBlocks(mapfile);
     }
 
@@ -40,9 +46,18 @@ public class Map {
         for (int i = 0; i < mapDetails.length; i++) {
             map.add(new LinkedList<Block>());
             for (int i2 = 0; i2 < mapDetails[i].length; i2++) {
-                if (Integer.parseInt(mapDetails[i][i2]) != 0) {
+                if (Integer.parseInt(mapDetails[i][i2]) == 1) {
                     map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2])));
-                }
+                } else
+                    if (Integer.parseInt(mapDetails[i][i2]) == 55) {
+                        coins.add(new Vector2(i2 * 10, i * 10));
+                    } else
+                    if (Integer.parseInt(mapDetails[i][i2]) == 333) {
+                        playerStart = new Vector2(i2 * 10, i * 10);
+                    } else
+                        if (Integer.parseInt(mapDetails[i][i2]) == 999) {
+                            enemyStart.add(new Vector2(i2 * 10, i * 10));
+                        }
             }
         }
     }
@@ -50,5 +65,19 @@ public class Map {
     public LinkedList<LinkedList<Block>> getMap() {
         return map;
     }
+
+    public Vector2 getPlayerStart() {
+        return playerStart;
+    }
+
+    public LinkedList<Vector2> getCoins() {
+        return coins;
+    }
+
+
+    public LinkedList<Vector2> getEnemyStart() {
+        return enemyStart;
+    }
+
 
 }
