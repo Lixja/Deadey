@@ -39,7 +39,7 @@ public class Enemy extends GameObject {
 
     public Enemy(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, "enemy_ground_1");
-        speed = new Vector2(40, 0);
+        speed = new Vector2(40, 100);
         this.gu = gu;
     }
 
@@ -53,6 +53,9 @@ public class Enemy extends GameObject {
             position.x += speed.x * delta;
             left = false;
             width = AssetLoader.enemy_left.getRegionWidth();
+            }
+        if (position.y <= 100 && canMoveSouth) {
+            position.y += speed.y * delta;
         }
         if (time > 30) {
             die();
