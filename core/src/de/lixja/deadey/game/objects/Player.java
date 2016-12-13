@@ -44,7 +44,7 @@ public class Player extends GameObject {
     private float time;
     private float portalreloader;
     private float shotloader;
-    private float flypower = 2f;
+    private float flypower = 1f;
 
     private GameUpdater gu;
 
@@ -79,7 +79,7 @@ public class Player extends GameObject {
         } else {
             if (Gdx.input.isKeyPressed(Keys.A) && canMoveWest) {
                 if (position.x >= 0) {
-                    movePlayer(0, -(speed.x * delta));
+                    movePlayer(-(speed.x * delta), 0);
                 }
                 moving = true;
                 left = true;
@@ -143,11 +143,11 @@ public class Player extends GameObject {
                 reloadFlyPower();
             } else {
                 if (direction.equals(CollisionHandler.WEST)) {
-                    canMoveSouth = false;
+                    canMoveEast = false;
                     movePlayer((position.x - object.getPosition().x - width - 1), 0);
                 } else {
                     if (direction.equals(CollisionHandler.NORTH)) {
-                        canMoveSouth = false;
+                        canMoveNorth = false;
                         movePlayer(0, (object.getPosition().y + object.getHeight() + 1 - position.y));
                     }
                 }
@@ -182,7 +182,7 @@ public class Player extends GameObject {
     }
 
     private void reloadFlyPower() {
-        flypower = 2f;
+        flypower = 1f;
     }
 
 }
