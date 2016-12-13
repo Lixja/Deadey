@@ -48,8 +48,8 @@ public class AssetLoader {
     public static TextureRegion enemy_anti_player_runs_left_regions[], enemy_anti_player_runs_right_regions[];
     public static Animation enemy_anti_player_runs_left, enemy_anti_player_runs_right;
 
-    public static TextureRegion enemy_dragon_left_flys_regions[], enemy_dragon_right_flys_regions[];
-    public static Animation enemy_dragon_left_flys, enemy_dragon_right_flys;
+    public static TextureRegion enemy_bird_left_flys_regions[], enemy_bird_right_flys_regions[];
+    public static Animation enemy_bird_left_flys, enemy_bird_right_flys;
 
     public static void load() {
         texture = new Texture("Texture.png");
@@ -197,22 +197,22 @@ public class AssetLoader {
         enemy_anti_player_runs_right_regions[1].flip(false, true);
         enemy_anti_player_runs_right = new Animation(0.05f, enemy_anti_player_runs_right_regions);
 
-        enemy_dragon_left_flys_regions = new TextureRegion[3];
-        enemy_dragon_left_flys_regions[0] = new TextureRegion(texture, 0, 96, 32, 19);
-        enemy_dragon_left_flys_regions[0].flip(true, true);
-        enemy_dragon_left_flys_regions[1] = new TextureRegion(texture, 32, 96, 32, 19);
-        enemy_dragon_left_flys_regions[1].flip(true, true);
-        enemy_dragon_left_flys_regions[2] = new TextureRegion(texture, 64, 96, 32, 19);
-        enemy_dragon_left_flys_regions[2].flip(true, true);
-        enemy_dragon_left_flys = new Animation(0.3f, enemy_dragon_left_flys_regions);
-        enemy_dragon_right_flys_regions = new TextureRegion[3];
-        enemy_dragon_right_flys_regions[0] = new TextureRegion(texture, 0, 96, 32, 19);
-        enemy_dragon_right_flys_regions[0].flip(false, true);
-        enemy_dragon_right_flys_regions[1] = new TextureRegion(texture, 32, 96, 32, 19);
-        enemy_dragon_right_flys_regions[1].flip(false, true);
-        enemy_dragon_right_flys_regions[2] = new TextureRegion(texture, 64, 96, 32, 19);
-        enemy_dragon_right_flys_regions[2].flip(false, true);
-        enemy_dragon_right_flys = new Animation(0.1f, enemy_dragon_right_flys_regions);
+        enemy_bird_left_flys_regions = new TextureRegion[3];
+        enemy_bird_left_flys_regions[0] = new TextureRegion(texture, 0, 96, 32, 19);
+        enemy_bird_left_flys_regions[0].flip(true, true);
+        enemy_bird_left_flys_regions[1] = new TextureRegion(texture, 32, 96, 32, 19);
+        enemy_bird_left_flys_regions[1].flip(true, true);
+        enemy_bird_left_flys_regions[2] = new TextureRegion(texture, 64, 96, 32, 19);
+        enemy_bird_left_flys_regions[2].flip(true, true);
+        enemy_bird_left_flys = new Animation(0.3f, enemy_bird_left_flys_regions);
+        enemy_bird_right_flys_regions = new TextureRegion[3];
+        enemy_bird_right_flys_regions[0] = new TextureRegion(texture, 0, 96, 32, 19);
+        enemy_bird_right_flys_regions[0].flip(false, true);
+        enemy_bird_right_flys_regions[1] = new TextureRegion(texture, 32, 96, 32, 19);
+        enemy_bird_right_flys_regions[1].flip(false, true);
+        enemy_bird_right_flys_regions[2] = new TextureRegion(texture, 64, 96, 32, 19);
+        enemy_bird_right_flys_regions[2].flip(false, true);
+        enemy_bird_right_flys = new Animation(0.1f, enemy_bird_right_flys_regions);
 
     }
 

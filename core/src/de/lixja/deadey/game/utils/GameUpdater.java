@@ -24,7 +24,7 @@ import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.DCamera;
 import de.lixja.deadey.game.objects.EnemyAntiPlayer;
-import de.lixja.deadey.game.objects.EnemyDragon;
+import de.lixja.deadey.game.objects.EnemyBird;
 import de.lixja.deadey.game.objects.Map;
 import de.lixja.deadey.game.objects.Player;
 import de.lixja.deadey.game.objects.Shot;
@@ -42,7 +42,7 @@ public class GameUpdater {
 
     private Player player;
     private LinkedList<EnemyAntiPlayer> enemyAntiPlayers;
-    private LinkedList<EnemyDragon> enemyDragon;
+    private LinkedList<EnemyBird> enemyBird;
     private LinkedList<Shot> shots;
     private LinkedList<Coin> coins;
     private CollisionHandler chandler;
@@ -64,10 +64,10 @@ public class GameUpdater {
             EnemyAntiPlayer e = new EnemyAntiPlayer(stage1.getEnemyAntiPlayersStart().get(i).x, stage1.getEnemyAntiPlayersStart().get(i).y, 17, 29, this);
             enemyAntiPlayers.add(e);
         }
-        enemyDragon = new LinkedList<EnemyDragon>();
-        for (int i = 0; i < stage1.getEnemyDragonStart().size(); i++) {
-            EnemyDragon e = new EnemyDragon(stage1.getEnemyDragonStart().get(i).x, stage1.getEnemyDragonStart().get(i).y, 32, 19, this);
-            enemyDragon.add(e);
+        enemyBird = new LinkedList<EnemyBird>();
+        for (int i = 0; i < stage1.getEnemyBirdStart().size(); i++) {
+            EnemyBird e = new EnemyBird(stage1.getEnemyBirdStart().get(i).x, stage1.getEnemyBirdStart().get(i).y, 32, 19, this);
+            enemyBird.add(e);
         }
         coins = new LinkedList<Coin>();
         for (int i = 0; i < stage1.getCoins().size(); i++) {
@@ -96,7 +96,7 @@ public class GameUpdater {
                     }
                 }
         }
-        for (EnemyDragon e : enemyDragon) {
+        for (EnemyBird e : enemyBird) {
             e.update(delta);
             chandler.colidesWidthBlockAt(stage1, e);
             if (chandler.colides(player, e)) {
@@ -141,8 +141,8 @@ public class GameUpdater {
         return enemyAntiPlayers;
     }
 
-    public LinkedList<EnemyDragon> getEnemyDragon() {
-        return enemyDragon;
+    public LinkedList<EnemyBird> getEnemyBird() {
+        return enemyBird;
     }
 
 

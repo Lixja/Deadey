@@ -18,14 +18,13 @@ package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
 import de.lixja.deadey.game.handler.CollisionHandler;
-import de.lixja.deadey.game.utils.AssetLoader;
 import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class EnemyDragon extends GameObject {
+public class EnemyBird extends GameObject {
 
     private Vector2 speed;
     private boolean left;
@@ -37,62 +36,40 @@ public class EnemyDragon extends GameObject {
 
     private GameUpdater gu;
 
-    public EnemyDragon(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, "enemy_dragon");
-        speed = new Vector2(130, 250);
+    public final static String OBJECTID = "enemy_bird";
+
+    public EnemyBird(float x, float y, int width, int height, GameUpdater gu) {
+        super(x, y, width, height, OBJECTID);
+        speed = new Vector2(350, 250);
         this.gu = gu;
     }
 
     public void update(float delta) {
-        if (gu.getPlayer().getPosition().x < position.x && canMoveEast) {
+        if (canMoveWest) {
+            left = true;
             position.x -= speed.x * delta;
-            left = false;
-            width = AssetLoader.enemy_anti_player_left.getRegionWidth();
         } else {
-            if (canMoveWest) {
-                position.x += speed.x * delta;
-                left = true;
-                width = AssetLoader.enemy_anti_player_left.getRegionWidth();
-            }
-        }
-        if (position.y <= 100 && canMoveSouth) {
-            position.y += speed.y * delta;
-        }
-        if (time > 30) {
-            die();
-            time = 0;
+            left = false;
+            position.x += speed.x * delta;
         }
 
-        canMoveEast = true;
-        canMoveSouth = true;
-        canMoveNorth = true;
-        canMoveWest = true;
         time += delta;
     }
 
     public void collisionWith(GameObject object) {
-        die();
+        if (object.equals("shot")) {
+            die();
+        }
     }
 
     @Override
     public void collisionWithFrom(GameObject object, String direction) {
         if (direction.equals(CollisionHandler.EAST)) {
             canMoveWest = false;
-            position.x = object.getPosition().x + object.getWidth() + 1;
         } else {
-            if (direction.equals(CollisionHandler.SOUTH)) {
-                canMoveSouth = false;
-                position.y = object.getPosition().y - height - 1;
-            } else {
-                if (direction.equals(CollisionHandler.WEST)) {
-                    canMoveSouth = false;
-                    position.x = object.getPosition().x - width - 1;
-                } else {
-                    if (direction.equals(CollisionHandler.NORTH)) {
-                        canMoveSouth = false;
-                        position.y = object.getPosition().y + object.getHeight() + 1;
-                    }
-                }
+            if (direction.equals(CollisionHandler.WEST)) {
+                    canMoveEast = false;
+                    canMoveWest = true;
             }
         }
     }
