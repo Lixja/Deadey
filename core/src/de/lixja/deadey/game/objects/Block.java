@@ -22,13 +22,16 @@ package de.lixja.deadey.game.objects;
  */
 public class Block extends GameObject {
 
+    public final static String OBJECTID = "block";
+    public static String WIN_BLOCK = "win_block";
+
     public Block(float x, float y, int width, int height, int id) {
-        super(x, y, width, height, "block");
+        super(x, y, width, height, OBJECTID);
         if (id == 1) {
-            this.id = "block";
+            this.id = OBJECTID;
         } else {
             if (id == 369) {
-                this.id = "won";
+                this.id = WIN_BLOCK;
             }
         }
     }

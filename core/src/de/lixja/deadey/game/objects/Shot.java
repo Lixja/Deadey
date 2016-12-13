@@ -28,10 +28,11 @@ public class Shot extends GameObject {
     private boolean available;
     private boolean toLeft;
     private float time;
+    public final static String OBJECTID = "shot";
 
     public Shot(float x, float y, int width, int height) {
-        super(x, y, width, height, "shot");
-        speed = new Vector2(100, 0);
+        super(x, y, width, height, OBJECTID);
+        speed = new Vector2(330, 0);
     }
 
     public void update(float delta) {

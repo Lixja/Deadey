@@ -57,7 +57,7 @@ public class EnemyBird extends GameObject {
     }
 
     public void collisionWith(GameObject object) {
-        if (object.equals("shot")) {
+        if (object.getId().equals(Shot.OBJECTID)) {
             die();
         }
     }

@@ -47,9 +47,10 @@ public class Player extends GameObject {
     private float flypower = 1f;
 
     private GameUpdater gu;
+    public final static String OBJECTID = "player";
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, "player");
+        super(x, y, width, height, OBJECTID);
         speed = new Vector2(250, 180);
         this.gu = gu;
     }
@@ -133,7 +134,7 @@ public class Player extends GameObject {
 
     @Override
     public void collisionWithFrom(GameObject object, String direction) {
-        if (object.getId().equals("block")) {
+        if (object.getId().equals(Block.OBJECTID)) {
         if (direction.equals(CollisionHandler.EAST)) {
             canMoveWest = false;
             movePlayer((position.x - object.getPosition().x + object.getWidth() + 1), 0);
@@ -155,7 +156,7 @@ public class Player extends GameObject {
             }
             }
         } else
-            if (object.getId().equals("won")) {
+            if (object.getId().equals(Block.WIN_BLOCK)) {
                 gu.won();
         }
     }

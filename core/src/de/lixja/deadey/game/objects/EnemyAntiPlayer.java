@@ -37,9 +37,11 @@ public class EnemyAntiPlayer extends GameObject {
 
     private GameUpdater gu;
 
+    public final static String OBJECTID = "enemy_anti_player";
+
     public EnemyAntiPlayer(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, "enemy_anti_player");
-        speed = new Vector2(40, 100);
+        super(x, y, width, height, OBJECTID);
+        speed = new Vector2(90, 100);
         this.gu = gu;
     }
 
@@ -57,10 +59,6 @@ public class EnemyAntiPlayer extends GameObject {
         if (position.y <= 100 && canMoveSouth) {
             position.y += speed.y * delta;
         }
-        if (time > 30) {
-            die();
-            time = 0;
-        }
 
         canMoveEast = true;
         canMoveSouth = true;
@@ -70,7 +68,9 @@ public class EnemyAntiPlayer extends GameObject {
     }
 
     public void collisionWith(GameObject object) {
-        die();
+        if (object.getId().equals(Shot.OBJECTID)) {
+            die();
+        }
     }
 
     @Override
@@ -84,11 +84,11 @@ public class EnemyAntiPlayer extends GameObject {
                 position.y = object.getPosition().y - height - 1;
             } else {
                 if (direction.equals(CollisionHandler.WEST)) {
-                    canMoveSouth = false;
+                    canMoveEast = false;
                     position.x = object.getPosition().x - width - 1;
                 } else {
                     if (direction.equals(CollisionHandler.NORTH)) {
-                        canMoveSouth = false;
+                        canMoveNorth = false;
                         position.y = object.getPosition().y + object.getHeight() + 1;
                     }
                 }

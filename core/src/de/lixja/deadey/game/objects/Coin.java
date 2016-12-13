@@ -23,9 +23,10 @@ package de.lixja.deadey.game.objects;
 public class Coin extends GameObject {
 
     private float time;
+    public final static String OBJECTID = "coin";
 
     public Coin(float x, float y, int width, int height) {
-        super(x, y, width, height, "coin");
+        super(x, y, width, height, OBJECTID);
     }
 
     @Override
