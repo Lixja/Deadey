@@ -23,7 +23,8 @@ import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.DCamera;
-import de.lixja.deadey.game.objects.Enemy;
+import de.lixja.deadey.game.objects.EnemyAntiPlayer;
+import de.lixja.deadey.game.objects.EnemyDragon;
 import de.lixja.deadey.game.objects.Map;
 import de.lixja.deadey.game.objects.Player;
 import de.lixja.deadey.game.objects.Shot;
@@ -40,7 +41,8 @@ public class GameUpdater {
     private Deadey game;
 
     private Player player;
-    private LinkedList<Enemy> enemys;
+    private LinkedList<EnemyAntiPlayer> enemyAntiPlayers;
+    private LinkedList<EnemyDragon> enemyDragon;
     private LinkedList<Shot> shots;
     private LinkedList<Coin> coins;
     private CollisionHandler chandler;
@@ -57,10 +59,15 @@ public class GameUpdater {
         String map = file.readString();
         stage1 = new Map(map);
         player = new Player(stage1.getPlayerStart().x, stage1.getPlayerStart().y, 17, 29, this);
-        enemys = new LinkedList<Enemy>();
-        for (int i = 0; i < stage1.getEnemyStart().size(); i++)        {
-            Enemy e = new Enemy(stage1.getEnemyStart().get(i).x, stage1.getEnemyStart().get(i).y, 17, 29, this);
-            enemys.add(e);
+        enemyAntiPlayers = new LinkedList<EnemyAntiPlayer>();
+        for (int i = 0; i < stage1.getEnemyAntiPlayersStart().size(); i++)        {
+            EnemyAntiPlayer e = new EnemyAntiPlayer(stage1.getEnemyAntiPlayersStart().get(i).x, stage1.getEnemyAntiPlayersStart().get(i).y, 17, 29, this);
+            enemyAntiPlayers.add(e);
+        }
+        enemyDragon = new LinkedList<EnemyDragon>();
+        for (int i = 0; i < stage1.getEnemyDragonStart().size(); i++) {
+            EnemyDragon e = new EnemyDragon(stage1.getEnemyDragonStart().get(i).x, stage1.getEnemyDragonStart().get(i).y, 32, 19, this);
+            enemyDragon.add(e);
         }
         coins = new LinkedList<Coin>();
         for (int i = 0; i < stage1.getCoins().size(); i++) {
@@ -75,7 +82,7 @@ public class GameUpdater {
     public void update_g(float delta) {
         player.update(delta);
         chandler.colidesWidthBlockAt(stage1, player);
-        for (Enemy e : enemys) {
+        for (EnemyAntiPlayer e : enemyAntiPlayers) {
             e.update(delta);
             chandler.colidesWidthBlockAt(stage1, e);
             if (chandler.colides(player, e)) {
@@ -88,6 +95,21 @@ public class GameUpdater {
                         }
                     }
                 }
+        }
+        for (EnemyDragon e : enemyDragon) {
+            e.update(delta);
+            chandler.colidesWidthBlockAt(stage1, e);
+            if (chandler.colides(player, e)) {
+                game.setScreen(new GameOverScreen(game));
+            } else {
+                for (int i1 = 0; i1 < shots.size(); i1++) {
+                    if (shots.get(i1).isAvailable()) {
+                        if (chandler.colides(e, shots.get(i1))) {
+                            shots.remove(i1);
+                        }
+                    }
+                }
+            }
         }
         for (int i = 0; i < shots.size(); i++) {
             if (shots.get(i).isAvailable()) {
@@ -115,9 +137,14 @@ public class GameUpdater {
         return player;
     }
 
-    public LinkedList<Enemy> getEnemy() {
-        return enemys;
+    public LinkedList<EnemyAntiPlayer> getEnemyAntiPlayers() {
+        return enemyAntiPlayers;
     }
+
+    public LinkedList<EnemyDragon> getEnemyDragon() {
+        return enemyDragon;
+    }
+
 
     public LinkedList<Shot> getShots() {
         return shots;

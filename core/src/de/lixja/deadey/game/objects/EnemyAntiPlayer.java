@@ -25,7 +25,7 @@ import de.lixja.deadey.game.utils.GameUpdater;
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class Enemy extends GameObject {
+public class EnemyAntiPlayer extends GameObject {
 
     private Vector2 speed;
     private boolean left;
@@ -37,8 +37,8 @@ public class Enemy extends GameObject {
 
     private GameUpdater gu;
 
-    public Enemy(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, "enemy_ground_1");
+    public EnemyAntiPlayer(float x, float y, int width, int height, GameUpdater gu) {
+        super(x, y, width, height, "enemy_anti_player");
         speed = new Vector2(40, 100);
         this.gu = gu;
     }
@@ -47,12 +47,12 @@ public class Enemy extends GameObject {
         if (gu.getPlayer().getPosition().x < position.x && canMoveEast) {
             position.x -= speed.x * delta;
             left = true;
-            width = AssetLoader.enemy_left.getRegionWidth();
+            width = AssetLoader.enemy_anti_player_left.getRegionWidth();
         } else
             if (canMoveWest) {
             position.x += speed.x * delta;
             left = false;
-            width = AssetLoader.enemy_left.getRegionWidth();
+            width = AssetLoader.enemy_anti_player_left.getRegionWidth();
             }
         if (position.y <= 100 && canMoveSouth) {
             position.y += speed.y * delta;

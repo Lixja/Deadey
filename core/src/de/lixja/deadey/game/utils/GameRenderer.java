@@ -23,7 +23,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.objects.Coin;
-import de.lixja.deadey.game.objects.Enemy;
+import de.lixja.deadey.game.objects.EnemyAntiPlayer;
+import de.lixja.deadey.game.objects.EnemyDragon;
 import de.lixja.deadey.game.objects.Shot;
 
 /**
@@ -99,11 +100,19 @@ public class GameRenderer {
             }
 
         //Enemy
-        for (Enemy e : gu.getEnemy()) {
+        for (EnemyAntiPlayer e : gu.getEnemyAntiPlayers()) {
             if (e.isLeft()) {
-                batcher.draw(AssetLoader.enemy_runs_left.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
+                batcher.draw(AssetLoader.enemy_anti_player_runs_left.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
             } else {
-                batcher.draw(AssetLoader.enemy_runs_right.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
+                batcher.draw(AssetLoader.enemy_anti_player_runs_right.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
+            }
+        }
+        //EnemyDragon
+        for (EnemyDragon e : gu.getEnemyDragon()) {
+            if (e.isLeft()) {
+                batcher.draw(AssetLoader.enemy_dragon_left_flys.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
+            } else {
+                batcher.draw(AssetLoader.enemy_dragon_right_flys.getKeyFrame(e.getTime(), true), e.getPosition().x, e.getPosition().y);
             }
         }
         //Shot

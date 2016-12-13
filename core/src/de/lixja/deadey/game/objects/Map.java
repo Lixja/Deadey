@@ -27,11 +27,13 @@ public class Map {
 
     private LinkedList<LinkedList<Block>> map;
     private Vector2 playerStart;
-    private LinkedList<Vector2> enemyStart;
+    private LinkedList<Vector2> enemyAntiPlayerStart;
+    private LinkedList<Vector2> enemyDragonStart;
     private LinkedList<Vector2> coins;
 
     public Map(String mapfile) {
-        enemyStart = new LinkedList<Vector2>();
+        enemyAntiPlayerStart = new LinkedList<Vector2>();
+        enemyDragonStart = new LinkedList<Vector2>();
         coins = new LinkedList<Vector2>();
         setBlocks(mapfile);
     }
@@ -54,8 +56,11 @@ public class Map {
                     case 333:
                         playerStart = new Vector2(i2 * 10, i * 10);
                         break;
+                    case 666:
+                        enemyDragonStart.add(new Vector2(i2 * 10, i * 10));
+                        break;
                     case 999:
-                        enemyStart.add(new Vector2(i2 * 10, i * 10));
+                        enemyAntiPlayerStart.add(new Vector2(i2 * 10, i * 10));
                         break;
                     default:
                         map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2])
@@ -80,9 +85,14 @@ public class Map {
     }
 
 
-    public LinkedList<Vector2> getEnemyStart() {
-        return enemyStart;
+    public LinkedList<Vector2> getEnemyAntiPlayersStart() {
+        return enemyAntiPlayerStart;
     }
+
+    public LinkedList<Vector2> getEnemyDragonStart() {
+        return enemyDragonStart;
+    }
+
 
 
 }
