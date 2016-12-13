@@ -50,7 +50,7 @@ public class Player extends GameObject {
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, "player");
-        speed = new Vector2(75, 120);
+        speed = new Vector2(250, 180);
         this.gu = gu;
     }
 
@@ -133,6 +133,7 @@ public class Player extends GameObject {
 
     @Override
     public void collisionWithFrom(GameObject object, String direction) {
+        if (object.getId().equals("block")) {
         if (direction.equals(CollisionHandler.EAST)) {
             canMoveWest = false;
             movePlayer((position.x - object.getPosition().x + object.getWidth() + 1), 0);
@@ -152,6 +153,10 @@ public class Player extends GameObject {
                     }
                 }
             }
+            }
+        } else
+            if (object.getId().equals("won")) {
+                gu.won();
         }
     }
 
