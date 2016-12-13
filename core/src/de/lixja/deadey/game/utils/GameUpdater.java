@@ -89,11 +89,11 @@ public class GameUpdater {
                     }
                 }
         }
-        for (Shot shot : shots) {
-            if (shot.isAvailable()) {
-                shot.update(delta);
-                if (chandler.colidesWidthBlock(stage1, shot)) {
-                    shots.remove(shot);
+        for (int i = 0; i < shots.size(); i++) {
+            if (shots.get(i).isAvailable()) {
+                shots.get(i).update(delta);
+                if (chandler.colidesWidthBlock(stage1, shots.get(i))) {
+                    shots.remove(i);
                 }
 
             }
