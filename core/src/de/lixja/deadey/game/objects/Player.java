@@ -44,7 +44,7 @@ public class Player extends GameObject {
     private float time;
     private float portalreloader;
     private float shotloader;
-    private float flypower = 1f;
+    private float flypower = 2f;
 
     private GameUpdater gu;
 
@@ -65,13 +65,12 @@ public class Player extends GameObject {
             portalreloader = 0;
         }
         if (position.y >= 100) {
-            flypower = 1;
+            reloadFlyPower();
         }
 
         //Moves right;
         if (Gdx.input.isKeyPressed(Keys.D) && canMoveEast) {
-            position.x += speed.x * delta;
-            gu.getCamera().moveCamera(speed.x * delta, 0);
+            movePlayer(speed.x * delta, 0);
             moving = true;
             left = false;
             width = AssetLoader.player_left.getRegionWidth();
@@ -80,8 +79,7 @@ public class Player extends GameObject {
         } else {
             if (Gdx.input.isKeyPressed(Keys.A) && canMoveWest) {
                 if (position.x >= 0) {
-                    position.x -= speed.x * delta;
-                    gu.getCamera().moveCamera(-(speed.x * delta), 0);
+                    movePlayer(0, -(speed.x * delta));
                 }
                 moving = true;
                 left = true;
@@ -103,23 +101,21 @@ public class Player extends GameObject {
         //Flys
 
         if (Gdx.input.isKeyPressed(Keys.W) && flypower > 0) {
-            if (position.y > 10 && canMoveNorth) {
-                position.y -= speed.y * delta;
+            if (canMoveNorth) {
+                movePlayer(0, -(speed.y * delta));
             }
             fly = true;
             flypower -= delta;
         } else {
             if (position.y <= 100 && canMoveSouth) {
-                position.y += speed.y * delta;
+                movePlayer(0, speed.y * delta);
             }
         }
         //Portal
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
-            float teleX = Float.parseFloat("" + Math.random() * (300 - width));
-            float teleY = Float.parseFloat("" + Math.random() * 100 + 50);
-            gu.getCamera().moveCamera(teleX - position.x, 0);
-            position.x = teleX;
-            position.y = teleY;
+            float teleX = position.x - Float.parseFloat("" + Math.random() * (300 - width));
+            float teleY = Float.parseFloat("" + Math.random() * 100 + 50) - position.y;
+            movePlayer(teleX, teleY);
             portal = false;
         }
         canMoveEast = true;
@@ -139,19 +135,20 @@ public class Player extends GameObject {
     public void collisionWithFrom(GameObject object, String direction) {
         if (direction.equals(CollisionHandler.EAST)) {
             canMoveWest = false;
-            position.x = object.getPosition().x + object.getWidth() + 1;
+            movePlayer((position.x - object.getPosition().x + object.getWidth() + 1), 0);
         } else {
             if (direction.equals(CollisionHandler.SOUTH)) {
                 canMoveSouth = false;
-                position.y = object.getPosition().y - height - 1;
+                movePlayer(0, object.getPosition().y - height - 1 - position.y);
+                reloadFlyPower();
             } else {
                 if (direction.equals(CollisionHandler.WEST)) {
                     canMoveSouth = false;
-                    position.x = object.getPosition().x - width - 1;
+                    movePlayer((position.x - object.getPosition().x - width - 1), 0);
                 } else {
                     if (direction.equals(CollisionHandler.NORTH)) {
                         canMoveSouth = false;
-                        position.y = object.getPosition().y + object.getHeight() + 1;
+                        movePlayer(0, (object.getPosition().y + object.getHeight() + 1 - position.y));
                     }
                 }
             }
@@ -176,6 +173,16 @@ public class Player extends GameObject {
 
     public float getTime() {
         return time;
+    }
+
+    private void movePlayer(float x, float y) {
+        position.x += x;
+        position.y += y;
+        gu.getCamera().moveCamera(x, y);
+    }
+
+    private void reloadFlyPower() {
+        flypower = 2f;
     }
 
 }
