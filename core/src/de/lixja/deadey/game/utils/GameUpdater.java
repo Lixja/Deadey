@@ -147,6 +147,10 @@ public class GameUpdater {
         return cam;
     }
 
+    public void won() {
+        game.setScreen(new GameOverScreen(game));
+    }
+
 
 
 }

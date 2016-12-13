@@ -59,5 +59,10 @@ public class GameObject {
         return height;
     }
 
+    public String getId() {
+        return id;
+    }
+
+
 
 }

@@ -46,18 +46,23 @@ public class Map {
         for (int i = 0; i < mapDetails.length; i++) {
             map.add(new LinkedList<Block>());
             for (int i2 = 0; i2 < mapDetails[i].length; i2++) {
-                if (Integer.parseInt(mapDetails[i][i2]) == 1) {
-                    map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2])));
-                } else
-                    if (Integer.parseInt(mapDetails[i][i2]) == 55) {
+                if (Integer.parseInt(mapDetails[i][i2]) != 0) {
+                switch (Integer.parseInt(mapDetails[i][i2])) {
+                    case 55:
                         coins.add(new Vector2(i2 * 10, i * 10));
-                    } else
-                    if (Integer.parseInt(mapDetails[i][i2]) == 333) {
+                        break;
+                    case 333:
                         playerStart = new Vector2(i2 * 10, i * 10);
-                    } else
-                        if (Integer.parseInt(mapDetails[i][i2]) == 999) {
-                            enemyStart.add(new Vector2(i2 * 10, i * 10));
-                        }
+                        break;
+                    case 999:
+                        enemyStart.add(new Vector2(i2 * 10, i * 10));
+                        break;
+                    default:
+                        map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2])
+                        ));
+                        break;
+                    }
+                }
             }
         }
     }

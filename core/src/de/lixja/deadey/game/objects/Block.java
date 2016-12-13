@@ -22,15 +22,15 @@ package de.lixja.deadey.game.objects;
  */
 public class Block extends GameObject {
 
-    private int id;
-
     public Block(float x, float y, int width, int height, int id) {
         super(x, y, width, height, "block");
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+        if (id == 1) {
+            this.id = "block";
+        } else {
+            if (id == 369) {
+                this.id = "won";
+            }
+        }
     }
 
 }
