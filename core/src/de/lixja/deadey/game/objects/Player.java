@@ -79,9 +79,7 @@ public class Player extends GameObject {
             // Moves Left;
         } else {
             if (Gdx.input.isKeyPressed(Keys.A) && canMoveWest) {
-                if (position.x >= 0) {
-                    movePlayer(-(speed.x * delta), 0);
-                }
+                movePlayer(-(speed.x * delta), 0);
                 moving = true;
                 left = true;
                 width = AssetLoader.player_left.getRegionWidth();
@@ -108,7 +106,7 @@ public class Player extends GameObject {
             fly = true;
             flypower -= delta;
         } else {
-            if (position.y <= 100 && canMoveSouth) {
+            if (canMoveSouth) {
                 movePlayer(0, speed.y * delta);
             }
         }

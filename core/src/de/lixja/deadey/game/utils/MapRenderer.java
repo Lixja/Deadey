@@ -19,6 +19,7 @@ package de.lixja.deadey.game.utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.lixja.deadey.game.objects.Block;
 import de.lixja.deadey.game.objects.Map;
 
 /**
@@ -41,13 +42,13 @@ public class MapRenderer {
         shapeRenderer.setColor(Color.BLACK);
         for (int i = 0; i < map.getMap().size(); i++) {
             for (int i2 = 0; i2 < map.getMap().get(i).size(); i2++) {
-                if ("block".equals(map.getMap().get(i).get(i2).getId())) {
+                if (map.getMap().get(i).get(i2).getId().equals(Block.OBJECTID)) {
                     shapeRenderer.end();
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(Color.BLACK);
                     shapeRenderer.rect(map.getMap().get(i).get(i2).getPosition().x, map.getMap().get(i).get(i2).getPosition().y, map.getMap().get(i).get(i2).getHeight(), map.getMap().get(i).get(i2).getHeight());
                 } else
-                    if ("won".equals(map.getMap().get(i).get(i2).getId())) {
+                    if (map.getMap().get(i).get(i2).getId().equals(Block.WIN_BLOCK)) {
                         shapeRenderer.end();
                         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                         shapeRenderer.setColor(Color.GOLD);

@@ -56,7 +56,7 @@ public class EnemyAntiPlayer extends GameObject {
             left = false;
             width = AssetLoader.enemy_anti_player_left.getRegionWidth();
             }
-        if (position.y <= 100 && canMoveSouth) {
+        if (canMoveSouth) {
             position.y += speed.y * delta;
         }
 
