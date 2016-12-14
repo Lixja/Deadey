@@ -69,32 +69,32 @@ public class Player extends GameObject {
         }
 
         //Moves right;
-        if (Gdx.input.isKeyPressed(Keys.D) && canMoveEast) {
-            movePlayer(speed.x * delta, 0);
+        if (Gdx.input.isKeyPressed(Keys.D)) {
+            if (canMoveEast) {
+                movePlayer(speed.x * delta, 0);
+            }
             moving = true;
             left = false;
             width = AssetLoader.player_left.getRegionWidth();
 
             // Moves Left;
-        } else {
-            if (Gdx.input.isKeyPressed(Keys.A) && canMoveWest) {
+        } else if (Gdx.input.isKeyPressed(Keys.A)) {
+            if (canMoveWest) {
                 movePlayer(-(speed.x * delta), 0);
-                moving = true;
-                left = true;
-                width = AssetLoader.player_left.getRegionWidth();
-                //Shoots
-            } else {
-                if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-                    fire = true;
-                    shotloader += delta;
-                    if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration() - 0.15f) {
-                        shotloader = 0;
-                        gu.createShot(left);
-                    }
-                } else {
-                    shotloader = 0;
-                }
             }
+            moving = true;
+            left = true;
+            width = AssetLoader.player_left.getRegionWidth();
+            //Shoots
+        } else if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+            fire = true;
+            shotloader += delta;
+            if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration() - 0.15f) {
+                shotloader = 0;
+                gu.createShot(left);
+            }
+        } else {
+            shotloader = 0;
         }
         //Flys
 
@@ -104,14 +104,12 @@ public class Player extends GameObject {
             }
             fly = true;
             flypower -= delta;
-        } else {
-            if (canMoveSouth) {
-                movePlayer(0, speed.y * delta);
-            }
+        } else if (canMoveSouth) {
+            movePlayer(0, speed.y * delta);
         }
         //Portal
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
-            float teleX = position.x - Float.parseFloat("" + Math.random() * (300 - width));
+            float teleX = Float.parseFloat("" + Math.random() * (300 - width)) - position.x;
             float teleY = Float.parseFloat("" + Math.random() * 100 + 50) - position.y;
             movePlayer(teleX, teleY);
             portal = false;
@@ -133,29 +131,24 @@ public class Player extends GameObject {
 
     @Override
     public void collisionWithFrom(GameObject object, String direction) {
-        if (object.getId().equals(Block.OBJECTID)) {
-        if (direction.equals(CollisionHandler.EAST)) {
-            canMoveWest = false;
-            movePlayer((position.x - object.getPosition().x + object.getWidth() + 1), 0);
-        } else {
-            if (direction.equals(CollisionHandler.SOUTH)) {
+        if (object.getId().equals(Block.OBJECTID) || object.getId().equals(Block.DESTROYABLE_BLOCK)) {
+            if (direction.equals(CollisionHandler.EAST)) {
+                canMoveWest = false;
+                movePlayer(object.getPosition().x + object.getWidth() + 1 - position.x, 0);
+            } else if (direction.equals(CollisionHandler.SOUTH)) {
                 canMoveSouth = false;
                 movePlayer(0, object.getPosition().y - height - 1 - position.y);
                 reloadFlyPower();
-            } else {
-                if (direction.equals(CollisionHandler.WEST)) {
-                    canMoveEast = false;
-                    movePlayer((position.x - object.getPosition().x - width - 1), 0);
-                } else {
-                    if (direction.equals(CollisionHandler.NORTH)) {
-                        canMoveNorth = false;
-                        movePlayer(0, (object.getPosition().y + object.getHeight() + 1 - position.y));
-                    }
-                }
+            } else if (direction.equals(CollisionHandler.WEST)) {
+                canMoveEast = false;
+                movePlayer(object.getPosition().x - width - 1 - position.x, 0);
+            } else if (direction.equals(CollisionHandler.NORTH)) {
+                canMoveNorth = false;
+                movePlayer(0, object.getPosition().y + object.getHeight() + 1 - position.y);
+            } else if (object.getId().equals(Block.WIN_BLOCK)) {
+                gu.won();
             }
-            }
-        } else
-            if (object.getId().equals(Block.WIN_BLOCK)) {
+        } else if (object.getId().equals(Block.WIN_BLOCK)) {
                 gu.won();
         }
     }
