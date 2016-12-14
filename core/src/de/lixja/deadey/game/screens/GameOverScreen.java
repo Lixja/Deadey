@@ -20,6 +20,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.lixja.deadey.Deadey;
 
 /**
@@ -28,10 +31,20 @@ import de.lixja.deadey.Deadey;
  */
 public class GameOverScreen implements Screen {
 
-    Deadey game;
+    private Deadey game;
+    private boolean won;
+    private BitmapFont font;
+    private SpriteBatch batcher;
+    private OrthographicCamera cam;
 
-    public GameOverScreen(Deadey game) {
+    public GameOverScreen(boolean won, Deadey game) {
         this.game = game;
+        this.won = won;
+        cam = new OrthographicCamera();
+        cam.setToOrtho(true, game.getGameWidth(), game.getGameHeight());
+        batcher = new SpriteBatch();
+        batcher.setProjectionMatrix(cam.combined);
+        font = new BitmapFont(true);
     }
 
     @Override
@@ -43,9 +56,18 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        batcher.setProjectionMatrix(cam.combined); //or your matrix to draw GAME WORLD, not UI
+        batcher.begin();
+
+        if (won) {
+            font.draw(batcher, "You won!", 100, 100);
+        } else {
+            font.draw(batcher, "GameOver!", 100, 100);
+        }
         if (Gdx.input.isKeyPressed(Keys.ENTER)) {
             game.setScreen(new GameScreen(game));
         }
+        batcher.end();
     }
 
     @Override

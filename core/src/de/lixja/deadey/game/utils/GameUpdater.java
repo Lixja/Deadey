@@ -86,7 +86,7 @@ public class GameUpdater {
             e.update(delta);
             chandler.colidesWidthBlockAt(stage1, e);
             if (chandler.colides(player, e)) {
-                game.setScreen(new GameOverScreen(game));
+                lose();
             } else
                 for (int i1 = 0; i1 < shots.size(); i1++) {
                     if (shots.get(i1).isAvailable()) {
@@ -100,7 +100,7 @@ public class GameUpdater {
             e.update(delta);
             chandler.colidesWidthBlockAt(stage1, e);
             if (chandler.colides(player, e)) {
-                game.setScreen(new GameOverScreen(game));
+                lose();
             } else {
                 for (int i1 = 0; i1 < shots.size(); i1++) {
                     if (shots.get(i1).isAvailable()) {
@@ -163,7 +163,7 @@ public class GameUpdater {
     }
 
     public void createShot(boolean left) {
-        Shot shot = new Shot(1, 1, 10, 10);
+        Shot shot = new Shot(1, 1, 10, 10, this);
         shot.setPosition(player.getPosition().x + (player.getWidth() / 2), player.getPosition().y + (player.getHeight() / 2));
         shot.setToLeft(left);
         shot.setAvailable(true);
@@ -175,7 +175,11 @@ public class GameUpdater {
     }
 
     public void won() {
-        game.setScreen(new GameOverScreen(game));
+        game.setScreen(new GameOverScreen(true, game));
+    }
+
+    public void lose() {
+        game.setScreen(new GameOverScreen(false, game));
     }
 
 

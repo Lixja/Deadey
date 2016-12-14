@@ -46,6 +46,7 @@ public class Player extends GameObject {
     private float shotloader;
     private float flypower = 1f;
 
+    private int points;
     private GameUpdater gu;
     public final static String OBJECTID = "player";
 
@@ -53,6 +54,7 @@ public class Player extends GameObject {
         super(x, y, width, height, OBJECTID);
         speed = new Vector2(250, 180);
         this.gu = gu;
+        points = 0;
     }
 
     public void update(float delta) {
@@ -64,9 +66,6 @@ public class Player extends GameObject {
         if (portalreloader >= 5) {
             portal = true;
             portalreloader = 0;
-        }
-        if (position.y >= 100) {
-            reloadFlyPower();
         }
 
         //Moves right;
@@ -127,7 +126,9 @@ public class Player extends GameObject {
 
     @Override
     public void collisionWith(GameObject object) {
-
+        if (object.getId().equals(Coin.OBJECTID)) {
+            points += 10;
+        }
     }
 
     @Override
@@ -187,6 +188,14 @@ public class Player extends GameObject {
 
     private void reloadFlyPower() {
         flypower = 1f;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void addPoints(int points) {
+        this.points += points;
     }
 
 }

@@ -19,8 +19,10 @@ package de.lixja.deadey.game.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.EnemyAntiPlayer;
@@ -38,6 +40,8 @@ public class GameRenderer {
     private SpriteBatch batcher;
     private GameUpdater gu;
     private MapRenderer mrenderer;
+    private BitmapFont font;
+    private Matrix4 normalProjection;
 
     public GameRenderer(Deadey game, GameUpdater gu) {
         this.gu = gu;
@@ -52,6 +56,10 @@ public class GameRenderer {
         shapeRenderer.setAutoShapeType(true);
 
         mrenderer = new MapRenderer(shapeRenderer, cam);
+        font = new BitmapFont();
+        normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+
 
     }
 
@@ -129,6 +137,9 @@ public class GameRenderer {
         for (Coin c : gu.getCoins()) {
             batcher.draw(AssetLoader.coin.getKeyFrame(c.getTime(), true), c.getPosition().x, c.getPosition().y);
         }
+
+        batcher.setProjectionMatrix(normalProjection);
+        font.draw(batcher, "Points: " + gu.getPlayer().getPoints(), 550, 350);
         batcher.end();
     }
 

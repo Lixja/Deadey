@@ -17,6 +17,7 @@
 package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
+import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
  *
@@ -29,10 +30,12 @@ public class Shot extends GameObject {
     private boolean toLeft;
     private float time;
     public final static String OBJECTID = "shot";
+    private GameUpdater gu;
 
-    public Shot(float x, float y, int width, int height) {
+    public Shot(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, OBJECTID);
         speed = new Vector2(330, 0);
+        this.gu = gu;
     }
 
     public void update(float delta) {
@@ -47,6 +50,12 @@ public class Shot extends GameObject {
     @Override
     public void collisionWith(GameObject object) {
         available = false;
+        if (object.getId().equals(EnemyBird.OBJECTID)) {
+            gu.getPlayer().addPoints(100);
+        } else
+            if (object.getId().equals(EnemyAntiPlayer.OBJECTID)) {
+                gu.getPlayer().addPoints(50);
+            }
     }
 
     public boolean isAvailable() {
