@@ -92,6 +92,7 @@ public class GameUpdater {
                     if (shots.get(i1).isAvailable()) {
                         if (chandler.colides(e, shots.get(i1))) {
                             shots.remove(i1);
+
                         }
                     }
                 }

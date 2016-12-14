@@ -44,7 +44,7 @@ public class Player extends GameObject {
     private float time;
     private float portalreloader;
     private float shotloader;
-    private float flypower = 1f;
+    private float flypower = 0.3f;
 
     private int points;
     private GameUpdater gu;
@@ -150,6 +150,8 @@ public class Player extends GameObject {
             }
         } else if (object.getId().equals(Block.WIN_BLOCK)) {
                 gu.won();
+        } else if (object.getId().equals(Block.END_BLOCK)) {
+            gu.lose();
         }
     }
 
@@ -180,7 +182,7 @@ public class Player extends GameObject {
     }
 
     private void reloadFlyPower() {
-        flypower = 1f;
+        flypower = 0.3f;
     }
 
     public int getPoints() {

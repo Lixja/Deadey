@@ -75,6 +75,7 @@ public class EnemyAntiPlayer extends GameObject {
 
     @Override
     public void collisionWithFrom(GameObject object, String direction) {
+        if (object.getId().equals(Block.OBJECTID) || object.getId().equals(Block.DESTROYABLE_BLOCK)) {
         if (direction.equals(CollisionHandler.EAST)) {
             canMoveWest = false;
             position.x = object.getPosition().x + object.getWidth() + 1;
@@ -94,7 +95,10 @@ public class EnemyAntiPlayer extends GameObject {
                 }
             }
         }
-    }
+        } else if (object.getId().equals(Block.END_BLOCK)) {
+            die();
+        }
+        }
 
 
     public void die() {
