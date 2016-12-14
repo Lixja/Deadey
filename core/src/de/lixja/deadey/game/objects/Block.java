@@ -25,6 +25,7 @@ public class Block extends GameObject {
     public final static String OBJECTID = "block";
     public final static String WIN_BLOCK = "win_block";
     public final static String DESTROYABLE_BLOCK = "destroy_block";
+    public final static String END_BLOCK = "end_block";
     private Map map;
 
     public Block(float x, float y, int width, int height, int id, Map map) {
@@ -35,6 +36,9 @@ public class Block extends GameObject {
                 break;
             case 2:
                 this.id = DESTROYABLE_BLOCK;
+                break;
+            case 3:
+                this.id = END_BLOCK;
                 break;
             case 369:
                 this.id = WIN_BLOCK;

@@ -44,11 +44,6 @@ public class GameScreen implements Screen {
         gu = new GameUpdater(game);
         gr = new GameRenderer(game, gu);
     }
-
-    public GameScreen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public void show() {
     }
