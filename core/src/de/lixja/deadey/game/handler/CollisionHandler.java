@@ -48,9 +48,10 @@ public class CollisionHandler {
     }
 
     public boolean colidesWidthBlock(Map map, GameObject go) {
-        for (LinkedList<Block> rows : map.getMap()) {
-            for (Block block : rows) {
-                if (colides(block, go)) {
+        for (int i = 0; i < map.getMap().size(); i++) {
+            for (int i2 = 0; i2 < map.getMap().get(i).size(); i2++) {
+                if (colides(map.getMap().get(i).get(i2), go)) {
+                    map.getMap().get(i).get(i2).collides(go, i, i2);
                     return true;
                 }
             }

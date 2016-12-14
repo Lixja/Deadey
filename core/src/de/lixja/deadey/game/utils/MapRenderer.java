@@ -47,12 +47,17 @@ public class MapRenderer {
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(Color.BLACK);
                     shapeRenderer.rect(map.getMap().get(i).get(i2).getPosition().x, map.getMap().get(i).get(i2).getPosition().y, map.getMap().get(i).get(i2).getHeight(), map.getMap().get(i).get(i2).getHeight());
-                } else
-                    if (map.getMap().get(i).get(i2).getId().equals(Block.WIN_BLOCK)) {
-                        shapeRenderer.end();
-                        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                        shapeRenderer.setColor(Color.GOLD);
-                        shapeRenderer.rect(map.getMap().get(i).get(i2).getPosition().x, map.getMap().get(i).get(i2).getPosition().y, map.getMap().get(i).get(i2).getHeight(), map.getMap().get(i).get(i2).getHeight());
+                } else if (map.getMap().get(i).get(i2).getId().equals(Block.DESTROYABLE_BLOCK)) {
+                    shapeRenderer.end();
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(Color.GRAY);
+                    shapeRenderer.rect(map.getMap().get(i).get(i2).getPosition().x, map.getMap().get(i).get(i2).getPosition().y, map.getMap().get(i).get(i2).getHeight(), map.getMap().get(i).get(i2).getHeight());
+
+                } else if (map.getMap().get(i).get(i2).getId().equals(Block.WIN_BLOCK)) {
+                    shapeRenderer.end();
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(Color.GOLD);
+                    shapeRenderer.rect(map.getMap().get(i).get(i2).getPosition().x, map.getMap().get(i).get(i2).getPosition().y, map.getMap().get(i).get(i2).getHeight(), map.getMap().get(i).get(i2).getHeight());
 
                     }
             }

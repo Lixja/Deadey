@@ -49,7 +49,7 @@ public class Map {
             map.add(new LinkedList<Block>());
             for (int i2 = 0; i2 < mapDetails[i].length; i2++) {
                 if (Integer.parseInt(mapDetails[i][i2]) != 0) {
-                switch (Integer.parseInt(mapDetails[i][i2])) {
+                    switch (Integer.parseInt(mapDetails[i][i2])) {
                     case 55:
                         coins.add(new Vector2(i2 * 10, i * 10));
                         break;
@@ -63,13 +63,16 @@ public class Map {
                         enemyAntiPlayerStart.add(new Vector2(i2 * 10, i * 10));
                         break;
                     default:
-                        map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2])
-                        ));
+                        map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2]), this));
                         break;
                     }
                 }
             }
         }
+    }
+
+    public void removeFromMap(int x, int y) {
+        map.get(x).remove(y);
     }
 
     public LinkedList<LinkedList<Block>> getMap() {

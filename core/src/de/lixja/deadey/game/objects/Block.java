@@ -23,15 +23,31 @@ package de.lixja.deadey.game.objects;
 public class Block extends GameObject {
 
     public final static String OBJECTID = "block";
-    public static String WIN_BLOCK = "win_block";
+    public final static String WIN_BLOCK = "win_block";
+    public final static String DESTROYABLE_BLOCK = "destroy_block";
+    private Map map;
 
-    public Block(float x, float y, int width, int height, int id) {
+    public Block(float x, float y, int width, int height, int id, Map map) {
         super(x, y, width, height, OBJECTID);
-        if (id == 1) {
-            this.id = OBJECTID;
-        } else {
-            if (id == 369) {
+        switch (id) {
+            case 1:
+                this.id = OBJECTID;
+                break;
+            case 2:
+                this.id = DESTROYABLE_BLOCK;
+                break;
+            case 369:
                 this.id = WIN_BLOCK;
+                break;
+
+        }
+        this.map = map;
+    }
+
+    public void collides(GameObject object, int x, int y) {
+        if (id == DESTROYABLE_BLOCK) {
+            if (object.getId().equals(Shot.OBJECTID)) {
+                map.removeFromMap(x, y);
             }
         }
     }
