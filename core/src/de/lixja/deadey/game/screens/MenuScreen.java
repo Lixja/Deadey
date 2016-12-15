@@ -73,8 +73,9 @@ public class MenuScreen implements Screen {
         stage.addActor(startGamebtn);
         TextButton creditsbtn = new TextButton("Credits", skin); // Use the initialized skin
         creditsbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 2);
-        stage.addListener(new ClickListener() {
+        creditsbtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new CreditScreen(game));
             }
         });
         stage.addActor(creditsbtn);
