@@ -34,15 +34,14 @@ import de.lixja.deadey.Deadey;
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class MenuScreen extends ClickListener implements Screen {
+public class MenuScreen implements Screen {
 
     Skin skin;
     Stage stage;
     TextButton startGamebtn;
-
     Deadey game;
 
-    public MenuScreen(Deadey game) {
+    public MenuScreen(final Deadey game) {
         super();
         this.game = game;
         stage = new Stage();
@@ -66,15 +65,26 @@ public class MenuScreen extends ClickListener implements Screen {
 
         startGamebtn = new TextButton("Start", skin); // Use the initialized skin
         startGamebtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 3);
-        startGamebtn.addListener(this);
+        startGamebtn.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameScreen(game));
+            }
+        });
         stage.addActor(startGamebtn);
         TextButton creditsbtn = new TextButton("Credits", skin); // Use the initialized skin
         creditsbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 2);
-        stage.addListener(this);
+        stage.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
         stage.addActor(creditsbtn);
         TextButton exitbtn = new TextButton("Exit", skin); // Use the initialized skin
         exitbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4));
-        exitbtn.addListener(this);
+        exitbtn.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
         stage.addActor(exitbtn);
 
     }
@@ -110,14 +120,6 @@ public class MenuScreen extends ClickListener implements Screen {
 
     @Override
     public void dispose() {
-    }
-
-    @Override
-    public void clicked(InputEvent event, float x, float y) {
-        game.setScreen(new GameScreen(game));
-
-        if (event.getRelatedActor() == startGamebtn) {
-        }
     }
 
 }
