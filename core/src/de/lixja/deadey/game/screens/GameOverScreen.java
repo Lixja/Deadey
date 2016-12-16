@@ -65,7 +65,7 @@ public class GameOverScreen implements Screen {
             font.draw(batcher, "GameOver!", 100, 100);
         }
         if (Gdx.input.isKeyPressed(Keys.ENTER)) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new LevelScreen(game));
         }
         batcher.end();
     }

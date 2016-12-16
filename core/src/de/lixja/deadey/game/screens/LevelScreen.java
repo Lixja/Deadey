@@ -17,7 +17,9 @@
 package de.lixja.deadey.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -27,20 +29,28 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.lixja.deadey.Deadey;
+import de.lixja.deadey.game.handler.DClickListener;
 
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class MenuScreen implements Screen {
+public class LevelScreen implements Screen {
 
     Skin skin;
     Stage stage;
     Deadey game;
 
-    public MenuScreen(final Deadey game) {
+    /*
+            this.game = game;
+        for (FileHandle levels : Gdx.files.internal("world").list()) {
+            System.out.println(levels.file().getAbsolutePath());
+            levels.list()
+        }
+     */
+
+    public LevelScreen(Deadey game) {
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -61,31 +71,54 @@ public class MenuScreen implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
-        TextButton startGamebtn = new TextButton("Start", skin); // Use the initialized skin
-        startGamebtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 3);
-        startGamebtn.addListener(new ClickListener() {
+        FileHandle worlds[] = Gdx.files.internal("world").list();
+        for (int i = 0; i < worlds.length; i++) {
+            TextButton tmp = new TextButton(worlds[i].name(), skin); // Use the initialized skin
+        tmp.setPosition((Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8) * i, (Gdx.graphics.getHeight() / 2));
+            tmp.addListener(new DClickListener(worlds[i]) {
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelScreen(game));
+                showLevels(file);
             }
         });
-        stage.addActor(startGamebtn);
-        TextButton creditsbtn = new TextButton("Credits", skin); // Use the initialized skin
-        creditsbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 2);
-        creditsbtn.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CreditScreen(game));
-            }
-        });
-        stage.addActor(creditsbtn);
-        TextButton exitbtn = new TextButton("Exit", skin); // Use the initialized skin
-        exitbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4));
-        exitbtn.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-        stage.addActor(exitbtn);
+        stage.addActor(tmp);
+        }
+    }
 
+    public void showLevels(FileHandle world) {
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        BitmapFont font = new BitmapFont();
+        skin = new Skin();
+        skin.add("default", font);
+
+        Pixmap pixmap = new Pixmap((int) Gdx.graphics.getWidth() / 4, (int) Gdx.graphics.getHeight() / 10, Pixmap.Format.RGB888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("background", new Texture(pixmap));
+
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("background", Color.GRAY);
+        textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.checked = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+        FileHandle levels[] = world.list();
+        for (int i = 0; i < levels.length; i++) {
+            TextButton tmp = new TextButton(levels[i].name(), skin); // Use the initialized skin
+            tmp.setPosition((Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8) * i, (Gdx.graphics.getHeight() / 2));
+            tmp.addListener(new DClickListener(levels[i]) {
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new GameScreen(game, file.readString()));
+                }
+            });
+            stage.addActor(tmp);
+        }
+    }
+
+    @Override
+    public void show() {
     }
 
     @Override
@@ -95,14 +128,16 @@ public class MenuScreen implements Screen {
 
         stage.act();
         stage.draw();
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+            stage.getCamera().translate(250 * delta, 0, 0);
+        } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+            stage.getCamera().translate(-250 * delta, 0, 0);
+
+        }
     }
 
     @Override
     public void resize(int width, int height) {
-    }
-
-    @Override
-    public void show() {
     }
 
     @Override

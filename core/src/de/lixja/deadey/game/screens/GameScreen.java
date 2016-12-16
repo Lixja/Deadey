@@ -38,10 +38,10 @@ public class GameScreen implements Screen {
 
     private Player player;
 
-    public GameScreen(Deadey game) {
+    public GameScreen(Deadey game, String level) {
         this.gameHeight = game.getGameWidth();
         this.gameWidth = game.getGameHeight();
-        gu = new GameUpdater(game);
+        gu = new GameUpdater(game, level);
         gr = new GameRenderer(game, gu);
     }
     @Override

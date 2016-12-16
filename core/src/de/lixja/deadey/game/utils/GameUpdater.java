@@ -18,7 +18,6 @@ package de.lixja.deadey.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.files.FileHandle;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Coin;
@@ -51,12 +50,11 @@ public class GameUpdater {
 
     private float time;
 
-    public GameUpdater(Deadey game) {
+    public GameUpdater(Deadey game, String level) {
         this.game = game;
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
-        FileHandle file = Gdx.files.internal("Stage1.dat");
-        String map = file.readString();
+        String map = level;
         stage1 = new Map(map);
         player = new Player(stage1.getPlayerStart().x, stage1.getPlayerStart().y, 17, 29, this);
         enemyAntiPlayers = new LinkedList<EnemyAntiPlayer>();
@@ -82,17 +80,17 @@ public class GameUpdater {
     public void update_g(float delta) {
         player.update(delta);
         chandler.colidesWidthBlockAt(stage1, player);
-        for (EnemyAntiPlayer e : enemyAntiPlayers) {
-            e.update(delta);
-            chandler.colidesWidthBlockAt(stage1, e);
-            if (chandler.colides(player, e)) {
+        for (int i = 0; i < enemyAntiPlayers.size(); i++) {
+            enemyAntiPlayers.get(i).update(delta);
+            chandler.colidesWidthBlockAt(stage1, enemyAntiPlayers.get(i));
+            if (chandler.colides(player, enemyAntiPlayers.get(i))) {
                 lose();
             } else
                 for (int i1 = 0; i1 < shots.size(); i1++) {
                     if (shots.get(i1).isAvailable()) {
-                        if (chandler.colides(e, shots.get(i1))) {
+                        if (chandler.colides(enemyAntiPlayers.get(i), shots.get(i1))) {
                             shots.remove(i1);
-
+                            enemyAntiPlayers.remove(i);
                         }
                     }
                 }
