@@ -44,6 +44,8 @@ public class Player extends GameObject {
     private float time;
     private float portalreloader;
     private float shotloader;
+    private float shotreloader = 0f;
+    private float shotcounter = 5;
     private float flypower = 0.3f;
 
     private int points;
@@ -67,6 +69,10 @@ public class Player extends GameObject {
             portal = true;
             portalreloader = 0;
         }
+        if (shotreloader >= 5) {
+            shotcounter = 5;
+            shotreloader = 0;
+        }
 
         //Moves right;
         if (Gdx.input.isKeyPressed(Keys.D)) {
@@ -85,12 +91,15 @@ public class Player extends GameObject {
             moving = true;
             left = true;
             width = AssetLoader.player_left.getRegionWidth();
-            //Shoots
-        } else if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+
+        }
+        //Shoots
+        if (Gdx.input.isKeyPressed(Keys.SPACE) && shotcounter > 0) {
             fire = true;
             shotloader += delta;
             if (shotloader >= AssetLoader.player_fire_left.getAnimationDuration() - 0.15f) {
                 shotloader = 0;
+                shotcounter -= 1;
                 gu.createShot(left);
             }
         } else {
@@ -119,6 +128,7 @@ public class Player extends GameObject {
         canMoveNorth = true;
         canMoveWest = true;
         portalreloader += delta;
+        shotreloader += delta;
         time += delta;
     }
 

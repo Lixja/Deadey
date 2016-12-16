@@ -32,10 +32,13 @@ public class AssetLoader {
     public static TextureRegion player_fly_fire_left_regions[], player_fly_fire_right_regions[];
     public static TextureRegion player_runs_left_regions[], player_runs_right_regions[];
     public static TextureRegion player_fire_left_regions[], player_fire_right_regions[];
+    public static TextureRegion player_runs_fire_left_regions[], player_runs_fire_right_regions[];
     public static Animation player_runs_left, player_runs_right;
+    public static Animation player_runs_fire_left, player_runs_fire_right;
     public static Animation player_fire_left, player_fire_right;
     public static Animation player_fly_left, player_fly_right;
     public static Animation player_fly_fire_left, player_fly_fire_right;
+
     public static TextureRegion shot_left_regions[], shot_right_regions[];
     public static Animation shot_left, shot_right;
 
@@ -86,7 +89,7 @@ public class AssetLoader {
         player_fire_left_regions[5].flip(true, true);
         player_fire_left_regions[6] = new TextureRegion(texture, 134, 0, 13, 29);
         player_fire_left_regions[6].flip(true, true);
-        player_fire_left = new Animation(0.075f, player_fire_left_regions);
+        player_fire_left = new Animation(0.05f, player_fire_left_regions);
         player_fire_right_regions = new TextureRegion[7];
         player_fire_right_regions[0] = new TextureRegion(texture, 56, 0, 13, 29);
         player_fire_right_regions[0].flip(false, true);
@@ -102,7 +105,39 @@ public class AssetLoader {
         player_fire_right_regions[5].flip(false, true);
         player_fire_right_regions[6] = new TextureRegion(texture, 134, 0, 13, 29);
         player_fire_right_regions[6].flip(false, true);
-        player_fire_right = new Animation(0.075f, player_fire_right_regions);
+        player_fire_right = new Animation(0.05f, player_fire_right_regions);
+        player_runs_fire_left_regions = new TextureRegion[7];
+        player_runs_fire_left_regions[0] = new TextureRegion(texture, 277, 0, 13, 29);
+        player_runs_fire_left_regions[0].flip(true, true);
+        player_runs_fire_left_regions[1] = new TextureRegion(texture, 290, 0, 13, 29);
+        player_runs_fire_left_regions[1].flip(false, true);
+        player_runs_fire_left_regions[2] = new TextureRegion(texture, 303, 0, 13, 29);
+        player_runs_fire_left_regions[2].flip(true, true);
+        player_runs_fire_left_regions[3] = new TextureRegion(texture, 316, 0, 13, 29);
+        player_runs_fire_left_regions[3].flip(true, true);
+        player_runs_fire_left_regions[4] = new TextureRegion(texture, 329, 0, 13, 29);
+        player_runs_fire_left_regions[4].flip(true, true);
+        player_runs_fire_left_regions[5] = new TextureRegion(texture, 342, 0, 13, 29);
+        player_runs_fire_left_regions[5].flip(true, true);
+        player_runs_fire_left_regions[6] = new TextureRegion(texture, 355, 0, 13, 29);
+        player_runs_fire_left_regions[6].flip(true, true);
+        player_runs_fire_left = new Animation(0.05f, player_runs_fire_left_regions);
+        player_runs_fire_right_regions = new TextureRegion[7];
+        player_runs_fire_right_regions[0] = new TextureRegion(texture, 277, 0, 13, 29);
+        player_runs_fire_right_regions[0].flip(false, true);
+        player_runs_fire_right_regions[1] = new TextureRegion(texture, 290, 0, 13, 29);
+        player_runs_fire_right_regions[1].flip(false, true);
+        player_runs_fire_right_regions[2] = new TextureRegion(texture, 303, 0, 13, 29);
+        player_runs_fire_right_regions[2].flip(false, true);
+        player_runs_fire_right_regions[3] = new TextureRegion(texture, 316, 0, 13, 29);
+        player_runs_fire_right_regions[3].flip(false, true);
+        player_runs_fire_right_regions[4] = new TextureRegion(texture, 329, 0, 13, 29);
+        player_runs_fire_right_regions[4].flip(false, true);
+        player_runs_fire_right_regions[5] = new TextureRegion(texture, 342, 0, 13, 29);
+        player_runs_fire_right_regions[5].flip(false, true);
+        player_runs_fire_right_regions[6] = new TextureRegion(texture, 355, 0, 13, 29);
+        player_runs_fire_right_regions[6].flip(false, true);
+        player_runs_fire_right = new Animation(0.05f, player_runs_fire_right_regions);
         shot_left_regions = new TextureRegion[2];
         shot_left_regions[0] = new TextureRegion(texture, 0, 58, 12, 5);
         shot_left_regions[0].flip(true, true);
@@ -146,7 +181,7 @@ public class AssetLoader {
         player_fly_fire_left_regions[5].flip(true, true);
         player_fly_fire_left_regions[6] = new TextureRegion(texture, 264, 0, 13, 29);
         player_fly_fire_left_regions[6].flip(true, true);
-        player_fly_fire_left = new Animation(0.075f, player_fly_fire_left_regions);
+        player_fly_fire_left = new Animation(0.05f, player_fly_fire_left_regions);
         player_fly_fire_right_regions = new TextureRegion[7];
         player_fly_fire_right_regions[0] = new TextureRegion(texture, 186, 0, 13, 29);
         player_fly_fire_right_regions[0].flip(false, true);
@@ -162,7 +197,7 @@ public class AssetLoader {
         player_fly_fire_right_regions[5].flip(false, true);
         player_fly_fire_right_regions[6] = new TextureRegion(texture, 264, 0, 13, 29);
         player_fly_fire_right_regions[6].flip(false, true);
-        player_fly_fire_right = new Animation(0.075f, player_fly_fire_right_regions);
+        player_fly_fire_right = new Animation(0.05f, player_fly_fire_right_regions);
 
         coin_sides_region = new TextureRegion[4];
         coin_sides_region[0] = new TextureRegion(texture, 12, 58, 9, 9);

@@ -60,8 +60,6 @@ public class GameRenderer {
         font = new BitmapFont();
         normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-
-
     }
 
     public void render_g(float delta) {
@@ -76,7 +74,6 @@ public class GameRenderer {
         batcher.begin();
         batcher.setProjectionMatrix(cam.combined);
 
-
         //Player
         if (!gu.getPlayer().isFly()) {
             if (!gu.getPlayer().isMoving()) {
@@ -86,27 +83,31 @@ public class GameRenderer {
                     batcher.draw(AssetLoader.player_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
                 } else if (gu.getPlayer().isLeft()) {
                     batcher.draw(AssetLoader.player_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-                        }
-            } else
+                }
+            } else if (!gu.getPlayer().isFire()) {
                 if (gu.getPlayer().isLeft()) {
-                batcher.draw(AssetLoader.player_runs_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                    batcher.draw(AssetLoader.player_runs_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                } else if (!gu.getPlayer().isLeft()) {
+                    batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                }
             } else if (!gu.getPlayer().isLeft()) {
-                batcher.draw(AssetLoader.player_runs_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                batcher.draw(AssetLoader.player_runs_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+            } else if (gu.getPlayer().isLeft()) {
+                batcher.draw(AssetLoader.player_runs_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             }
-        } else
+        } else {
             if (!gu.getPlayer().isFire()) {
                 if (gu.getPlayer().isLeft()) {
-            batcher.draw(AssetLoader.player_fly_left.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-        } else {
-            batcher.draw(AssetLoader.player_fly_right.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-                }
-            } else {
-                if (gu.getPlayer().isLeft()) {
-                    batcher.draw(AssetLoader.player_fly_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                    batcher.draw(AssetLoader.player_fly_left.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
                 } else {
-                    batcher.draw(AssetLoader.player_fly_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                    batcher.draw(AssetLoader.player_fly_right.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
                 }
+            } else if (gu.getPlayer().isLeft()) {
+                batcher.draw(AssetLoader.player_fly_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+            } else {
+                batcher.draw(AssetLoader.player_fly_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             }
+        }
 
         //Enemy
         for (EnemyAntiPlayer e : gu.getEnemyAntiPlayers()) {
