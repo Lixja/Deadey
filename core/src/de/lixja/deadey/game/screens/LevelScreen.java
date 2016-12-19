@@ -106,7 +106,7 @@ public class LevelScreen implements Screen {
 
         FileHandle levels[] = world.list();
         for (int i = 0; i < levels.length; i++) {
-            TextButton tmp = new TextButton(levels[i].name(), skin); // Use the initialized skin
+            TextButton tmp = new TextButton(levels[i].nameWithoutExtension(), skin); // Use the initialized skin
             tmp.setPosition((Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8) * i, (Gdx.graphics.getHeight() / 2));
             tmp.addListener(new DClickListener(levels[i]) {
                 public void clicked(InputEvent event, float x, float y) {
