@@ -47,7 +47,7 @@ public class GameRenderer {
         this.gu = gu;
         cam = new OrthographicCamera();
         cam.setToOrtho(true, game.getGameWidth(), game.getGameHeight());
-        cam.translate(gu.getPlayer().getPosition().x - 100, gu.getPlayer().getPosition().y - 130);
+        cam.translate(gu.getPlayer().getPosition().x - 100, 0);
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
