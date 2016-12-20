@@ -23,6 +23,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -45,6 +47,12 @@ public class MenuScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         BitmapFont font = new BitmapFont();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 12;
+        parameter.color = Color.WHITE;
+        font = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose();
         skin = new Skin();
         skin.add("default", font);
 
@@ -61,7 +69,7 @@ public class MenuScreen implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
-        TextButton startGamebtn = new TextButton("Start", skin); // Use the initialized skin
+        TextButton startGamebtn = new TextButton("START", skin); // Use the initialized skin
         startGamebtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 3);
         startGamebtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -69,7 +77,7 @@ public class MenuScreen implements Screen {
             }
         });
         stage.addActor(startGamebtn);
-        TextButton creditsbtn = new TextButton("Credits", skin); // Use the initialized skin
+        TextButton creditsbtn = new TextButton("CREDITS", skin); // Use the initialized skin
         creditsbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 2);
         creditsbtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -77,7 +85,7 @@ public class MenuScreen implements Screen {
             }
         });
         stage.addActor(creditsbtn);
-        TextButton exitbtn = new TextButton("Exit", skin); // Use the initialized skin
+        TextButton exitbtn = new TextButton("EXIT", skin); // Use the initialized skin
         exitbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4));
         exitbtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {

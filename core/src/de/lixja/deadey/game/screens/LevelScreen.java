@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -54,7 +55,12 @@ public class LevelScreen implements Screen {
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        BitmapFont font = new BitmapFont();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 12;
+        parameter.color = Color.WHITE;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
         skin = new Skin();
         skin.add("default", font);
 
@@ -73,7 +79,7 @@ public class LevelScreen implements Screen {
 
         FileHandle worlds[] = Gdx.files.internal("world").list();
         for (int i = 0; i < worlds.length; i++) {
-            TextButton tmp = new TextButton(worlds[i].name(), skin); // Use the initialized skin
+            TextButton tmp = new TextButton(worlds[i].name().toUpperCase(), skin); // Use the initialized skin
         tmp.setPosition((Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8) * i, (Gdx.graphics.getHeight() / 2));
             tmp.addListener(new DClickListener(worlds[i]) {
             public void clicked(InputEvent event, float x, float y) {
@@ -87,7 +93,12 @@ public class LevelScreen implements Screen {
     public void showLevels(FileHandle world) {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        BitmapFont font = new BitmapFont();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 12;
+        parameter.color = Color.WHITE;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
         skin = new Skin();
         skin.add("default", font);
 
@@ -106,7 +117,7 @@ public class LevelScreen implements Screen {
 
         FileHandle levels[] = world.list();
         for (int i = 0; i < levels.length; i++) {
-            TextButton tmp = new TextButton(levels[i].nameWithoutExtension(), skin); // Use the initialized skin
+            TextButton tmp = new TextButton(levels[i].nameWithoutExtension().toUpperCase(), skin); // Use the initialized skin
             tmp.setPosition((Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8) * i, (Gdx.graphics.getHeight() / 2));
             tmp.addListener(new DClickListener(levels[i]) {
                 public void clicked(InputEvent event, float x, float y) {

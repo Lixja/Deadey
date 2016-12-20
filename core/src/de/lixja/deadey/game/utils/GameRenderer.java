@@ -17,10 +17,12 @@
 package de.lixja.deadey.game.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import de.lixja.deadey.Deadey;
@@ -57,7 +59,12 @@ public class GameRenderer {
         shapeRenderer.setAutoShapeType(true);
 
         mrenderer = new MapRenderer(shapeRenderer, cam);
-        font = new BitmapFont();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 12;
+        parameter.color = Color.WHITE;
+        font = generator.generateFont(parameter);
+        generator.dispose();
         normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
     }
@@ -141,7 +148,7 @@ public class GameRenderer {
         }
 
         batcher.setProjectionMatrix(normalProjection);
-        font.draw(batcher, "Points: " + gu.getPlayer().getPoints(), 550, 350);
+        font.draw(batcher, "POINTS: " + gu.getPlayer().getPoints(), 550, 350);
         batcher.end();
     }
 

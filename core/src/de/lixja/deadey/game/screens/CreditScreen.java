@@ -19,10 +19,12 @@ package de.lixja.deadey.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import de.lixja.deadey.Deadey;
 import java.io.IOException;
@@ -60,7 +62,13 @@ public class CreditScreen implements Screen {
         cam.setToOrtho(true, game.getGameWidth(), game.getGameHeight());
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
-        font = new BitmapFont(true);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 18;
+        parameter.color = Color.WHITE;
+        parameter.flip = true;
+        font = generator.generateFont(parameter);
+        generator.dispose();
 
         credits = new LinkedList<String>();
         FileHandle file = Gdx.files.internal("credits.xml");
@@ -74,7 +82,7 @@ public class CreditScreen implements Screen {
             for (int i = 0; i < memberList.getLength(); i++) {
                 Node member = memberList.item(i);
                 Element element = (Element) member;
-                credits.add(element.getElementsByTagName("job").item(0).getTextContent() + ": " + element.getElementsByTagName("name").item(0).getTextContent());
+                credits.add(element.getElementsByTagName("job").item(0).getTextContent() + ": " + element.getElementsByTagName("name").item(0).getTextContent().toUpperCase());
             }
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(CreditScreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,7 +115,7 @@ public class CreditScreen implements Screen {
         }
         left = false;
 
-        speed = new Vector2(100, 0);
+        speed = new Vector2(60, 0);
 
 
 
