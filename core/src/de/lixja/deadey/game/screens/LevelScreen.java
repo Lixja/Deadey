@@ -110,6 +110,8 @@ public class LevelScreen implements Screen {
             tmp.setPosition((Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8) * i, (Gdx.graphics.getHeight() / 2));
             tmp.addListener(new DClickListener(levels[i]) {
                 public void clicked(InputEvent event, float x, float y) {
+                    stage.dispose();
+                    Gdx.input.setInputProcessor(null);
                     game.setScreen(new GameScreen(game, file.readString()));
                 }
             });
