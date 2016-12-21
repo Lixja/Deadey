@@ -19,10 +19,12 @@ package de.lixja.deadey.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import de.lixja.deadey.Deadey;
 
 /**
@@ -44,7 +46,13 @@ public class GameOverScreen implements Screen {
         cam.setToOrtho(true, game.getGameWidth(), game.getGameHeight());
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
-        font = new BitmapFont(true);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 18;
+        parameter.color = Color.WHITE;
+        parameter.flip = true;
+        font = generator.generateFont(parameter);
+        generator.dispose();
     }
 
     @Override
@@ -60,9 +68,9 @@ public class GameOverScreen implements Screen {
         batcher.begin();
 
         if (won) {
-            font.draw(batcher, "You won!", 100, 100);
+            font.draw(batcher, "YOU WON!", 100, 100);
         } else {
-            font.draw(batcher, "GameOver!", 100, 100);
+            font.draw(batcher, "GAMEOVER!", 100, 100);
         }
         if (Gdx.input.isKeyPressed(Keys.ENTER)) {
             game.setScreen(new LevelScreen(game));

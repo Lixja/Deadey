@@ -82,7 +82,7 @@ public class CreditScreen implements Screen {
             for (int i = 0; i < memberList.getLength(); i++) {
                 Node member = memberList.item(i);
                 Element element = (Element) member;
-                credits.add(element.getElementsByTagName("job").item(0).getTextContent() + ": " + element.getElementsByTagName("name").item(0).getTextContent().toUpperCase());
+                credits.add(element.getElementsByTagName("job").item(0).getTextContent().toUpperCase() + ": " + element.getElementsByTagName("name").item(0).getTextContent().toUpperCase());
             }
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(CreditScreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,17 +94,9 @@ public class CreditScreen implements Screen {
 
 
         positions = new LinkedList<Vector2>();
+        float y = 0;
         for (String credit : credits) {
-            float y;
-
-            y = (float) Math.random() * 200 + 50;
-
-            for (int i = 0; i < positions.size(); i++) {
-                if (!((y >= (positions.get(i).y + 50)) || (y <= (positions.get(i).y - 50)))) {
-                    i = 0;
-                    y = (float) Math.random() * 200;
-                }
-            }
+            y += 30;
 
             if (left) {
                 positions.add(new Vector2(0, y));
