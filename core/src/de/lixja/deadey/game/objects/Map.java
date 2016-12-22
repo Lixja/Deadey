@@ -18,7 +18,6 @@ package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
 import de.lixja.deadey.game.utils.GameUpdater;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -28,7 +27,6 @@ import java.util.LinkedList;
 public class Map {
 
     private LinkedList<LinkedList<Block>> map;
-    private HashMap<Integer, Integer> chandlerMap;
     private Vector2 playerStart;
     private LinkedList<Vector2> enemyAntiPlayerStart;
     private LinkedList<Vector2> enemyBirdStart;
@@ -51,7 +49,6 @@ public class Map {
             mapDetails[i] = mapRow[i].split(",");
         }
         map = new LinkedList<LinkedList<Block>>();
-        chandlerMap = new HashMap<Integer, Integer>();
         for (int i = 0; i < mapDetails.length; i++) {
             map.add(new LinkedList<Block>());
             for (int i2 = 0; i2 < mapDetails[i].length; i2++) {
@@ -71,9 +68,6 @@ public class Map {
                         break;
                         default:
                             map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2]), this, gu));
-                            if (Integer.parseInt(mapDetails[i][i2]) != 1) {
-                                chandlerMap.put(i2, i);
-                            }
                         break;
                     }
                 }
@@ -81,18 +75,13 @@ public class Map {
         }
     }
 
-    public void removeFromMap(int x, int y) {
-        map.get(x).remove(y);
+    public void removeFromMap(int x, Block block) {
+        map.get(x).remove(block);
     }
 
     public LinkedList<LinkedList<Block>> getMap() {
         return map;
     }
-
-    public HashMap<Integer, Integer> getChandlerMap() {
-        return chandlerMap;
-    }
-
 
     public Vector2 getPlayerStart() {
         return playerStart;
