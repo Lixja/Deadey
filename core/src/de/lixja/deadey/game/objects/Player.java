@@ -40,13 +40,13 @@ public class Player extends GameObject {
     private float shotloader;
     private float shotreloader = 0f;
     private float shotcounter = 5;
-    private float flypower = 1f;
+    private float flypower = 0.75f;
 
     private int points;
     public final static String OBJECTID = "player";
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, 150, 120, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
+        super(x, y, width, height, 150, 150, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
         points = 0;
     }
 
@@ -150,7 +150,7 @@ public class Player extends GameObject {
     }
 
     private void reloadFlyPower() {
-        flypower = 1f;
+        flypower = 0.75f;
     }
 
     public int getPoints() {
