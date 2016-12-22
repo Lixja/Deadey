@@ -107,6 +107,7 @@ public class Player extends GameObject {
 
         updateBody();
         gu.getCamera().setX(position.x);
+        gu.getCamera().setY(position.y);
 
         portalreloader += delta;
         shotreloader += delta;

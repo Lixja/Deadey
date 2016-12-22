@@ -79,6 +79,7 @@ public class GameRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         cam.position.x = gu.getCamera().getPosition().x;
+        cam.position.y = gu.getCamera().getPosition().y;
         cam.update();
 
         mrenderer.render(gu.getStage1());

@@ -34,6 +34,10 @@ public class DCamera {
         position.x = x;
     }
 
+    public void setY(float y) {
+        position.y = y;
+    }
+
     public Vector2 getPosition() {
         return position;
     }
