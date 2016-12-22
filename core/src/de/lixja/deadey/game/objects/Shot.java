@@ -16,6 +16,7 @@
  */
 package de.lixja.deadey.game.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.lixja.deadey.game.utils.GameUpdater;
@@ -26,7 +27,6 @@ import de.lixja.deadey.game.utils.GameUpdater;
  */
 public class Shot extends GameObject {
 
-    private boolean available;
     private boolean toLeft;
     private float time;
     public final static String OBJECTID = "shot";
@@ -55,22 +55,14 @@ public class Shot extends GameObject {
         } else if (object.getId().equals(EnemyAntiPlayer.OBJECTID)) {
                 gu.getPlayer().addPoints(50);
         }
-        if (!object.getId().equals(Player.OBJECTID)) {
+        if (!(object.getId().equals(Player.OBJECTID)) && !(object.getId().equals(Shot.OBJECTID))) {
+            Gdx.app.log("dk", "" + object.getId());
             this.markForDelete();
-            available = false;
+            gu.removeShot(this);
         }
     }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
     public boolean isToLeft() {
         return toLeft;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
     }
 
     public void setToLeft(boolean toLeft) {

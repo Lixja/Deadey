@@ -107,7 +107,6 @@ public class Player extends GameObject {
         if (Gdx.input.isKeyPressed(Keys.L)) {
             gu.lose();
         }
-        Gdx.app.log("" + position.x, "" + position.y);
         updateBody();
         gu.getCamera().setX(position.x);
         gu.getCamera().setY(position.y);

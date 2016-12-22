@@ -101,9 +101,7 @@ public class GameUpdater {
         }
 
         for (int i = 0; i < shots.size(); i++) {
-            if (shots.get(i).isAvailable()) {
-                shots.get(i).update(delta);
-            }
+            shots.get(i).update(delta);
         }
         for (int i = 0; i < coins.size(); i++) {
             coins.get(i).update(delta);
@@ -149,12 +147,10 @@ public class GameUpdater {
             Shot shot = new Shot(player.getPosition().x - (player.getWidth()) - 1, player.getPosition().y + (player.getHeight() / 2), 10, 10, this
             );
             shot.setToLeft(left);
-            shot.setAvailable(true);
             shots.add(shot);
         } else {
             Shot shot = new Shot(player.getPosition().x + (player.getWidth()) + 1, player.getPosition().y + (player.getHeight() / 2), 10, 10, this);
             shot.setToLeft(left);
-            shot.setAvailable(true);
             shots.add(shot);
         }
 
@@ -189,6 +185,10 @@ public class GameUpdater {
 
     public void removeEnemyBird(EnemyBird e) {
         this.enemyBird.remove(e);
+    }
+
+    public void removeShot(Shot s) {
+        this.shots.remove(s);
     }
 
     public void addGameObject(GameObject go) {

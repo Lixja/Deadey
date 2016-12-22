@@ -106,18 +106,16 @@ public class GameRenderer {
             } else if (gu.getPlayer().isLeft()) {
                 batcher.draw(AssetLoader.player_runs_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             }
-        } else {
-            if (!gu.getPlayer().isFire()) {
-                if (gu.getPlayer().isLeft()) {
-                    batcher.draw(AssetLoader.player_fly_left.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-                } else {
-                    batcher.draw(AssetLoader.player_fly_right.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
-                }
-            } else if (gu.getPlayer().isLeft()) {
-                batcher.draw(AssetLoader.player_fly_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        } else if (!gu.getPlayer().isFire()) {
+            if (gu.getPlayer().isLeft()) {
+                batcher.draw(AssetLoader.player_fly_left.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             } else {
-                batcher.draw(AssetLoader.player_fly_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+                batcher.draw(AssetLoader.player_fly_right.getKeyFrame(gu.getPlayer().getTime(), false), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
             }
+        } else if (gu.getPlayer().isLeft()) {
+            batcher.draw(AssetLoader.player_fly_fire_left.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
+        } else {
+            batcher.draw(AssetLoader.player_fly_fire_right.getKeyFrame(gu.getPlayer().getTime(), true), gu.getPlayer().getPosition().x, gu.getPlayer().getPosition().y);
         }
 
         //Enemy
@@ -138,12 +136,10 @@ public class GameRenderer {
         }
         //Shot
         for (Shot s : gu.getShots()) {
-            if (s.isAvailable()) {
-                if (s.isToLeft()) {
-                    batcher.draw(AssetLoader.shot_left.getKeyFrame(s.getTime(), true), s.getPosition().x, s.getPosition().y);
-                } else {
-                    batcher.draw(AssetLoader.shot_right.getKeyFrame(s.getTime(), true), s.getPosition().x, s.getPosition().y);
-                }
+            if (s.isToLeft()) {
+                batcher.draw(AssetLoader.shot_left.getKeyFrame(s.getTime(), true), s.getPosition().x, s.getPosition().y);
+            } else {
+                batcher.draw(AssetLoader.shot_right.getKeyFrame(s.getTime(), true), s.getPosition().x, s.getPosition().y);
             }
         }
 
@@ -158,7 +154,6 @@ public class GameRenderer {
         //Box2D debug
         //debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
         //drenderer.render(gu.getWorld(), this.debugProjection);
-
     }
 
     public void moveCamera(float speedX) {
