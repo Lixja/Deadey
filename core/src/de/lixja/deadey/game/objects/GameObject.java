@@ -122,8 +122,8 @@ public class GameObject {
     }
 
     protected void setBodyPosition(float x, float y) {
-        float toX = (x + width / 2) / GameUpdater.PPM - body.getPosition().x;
-        float toY = (y + height / 2) / GameUpdater.PPM - body.getPosition().y;
+        float toX = (x + width / 2) / GameUpdater.PPM;
+        float toY = (y + height / 2) / GameUpdater.PPM;
         body.setTransform(toX, toY, 0);
     }
 

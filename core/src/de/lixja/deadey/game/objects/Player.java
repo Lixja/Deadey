@@ -99,12 +99,15 @@ public class Player extends GameObject {
         }
         //Portal
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
-            float teleX = Float.parseFloat("" + Math.random() * (300 - width));
-            float teleY = Float.parseFloat("" + Math.random() * 100 + 50);
+            float teleX = Float.parseFloat("" + Math.random() * (300));
+            float teleY = Float.parseFloat("" + Math.random() * 150);
             setBodyPosition(teleX, teleY);
             portal = false;
         }
-
+        if (Gdx.input.isKeyPressed(Keys.L)) {
+            gu.lose();
+        }
+        Gdx.app.log("" + position.x, "" + position.y);
         updateBody();
         gu.getCamera().setX(position.x);
         gu.getCamera().setY(position.y);
