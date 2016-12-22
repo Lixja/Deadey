@@ -75,7 +75,7 @@ public class GameRenderer {
     }
 
     public void render_g(float delta) {
-        Gdx.gl.glClearColor(0, 255, 127, 1);
+        Gdx.gl.glClearColor(0.4f, 1, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         cam.position.x = gu.getCamera().getPosition().x;
@@ -155,8 +155,9 @@ public class GameRenderer {
         font.draw(batcher, "POINTS: " + gu.getPlayer().getPoints(), 550, 350);
         batcher.end();
 
-        debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
-        drenderer.render(gu.getWorld(), this.debugProjection);
+        //Box2D debug
+        //debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
+        //drenderer.render(gu.getWorld(), this.debugProjection);
 
     }
 

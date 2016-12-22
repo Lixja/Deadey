@@ -103,7 +103,6 @@ public class GameUpdater {
         for (int i = 0; i < shots.size(); i++) {
             if (shots.get(i).isAvailable()) {
                 shots.get(i).update(delta);
-
             }
         }
         for (int i = 0; i < coins.size(); i++) {
