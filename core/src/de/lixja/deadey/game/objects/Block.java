@@ -55,7 +55,7 @@ public class Block extends GameObject {
     public void collisionWith(GameObject object) {
         if (id.equals(DESTROYABLE_BLOCK)) {
             if (object.getId().equals(Shot.OBJECTID)) {
-                map.removeFromMap((int) (position.y / 20), this);
+                map.removeFromMap((int) (position.y / 10), this);
                 this.markForDelete();
             }
         }

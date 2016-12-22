@@ -84,7 +84,6 @@ public class GameRenderer {
 
         mrenderer.render(gu.getStage1());
         batcher.setProjectionMatrix(cam.combined);
-        debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
         batcher.begin();
         //Player
         if (!gu.getPlayer().isFly()) {
@@ -156,6 +155,7 @@ public class GameRenderer {
         font.draw(batcher, "POINTS: " + gu.getPlayer().getPoints(), 550, 350);
         batcher.end();
 
+        debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
         drenderer.render(gu.getWorld(), this.debugProjection);
 
     }

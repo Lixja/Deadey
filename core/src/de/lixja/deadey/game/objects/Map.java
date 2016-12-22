@@ -67,7 +67,7 @@ public class Map {
                         enemyAntiPlayerStart.add(new Vector2(i2 * 10, i * 10));
                         break;
                         default:
-                            map.get(i).add(new Block(i2 * 20, i * 20, 20, 20, Integer.parseInt(mapDetails[i][i2]), this, gu));
+                            map.get(i).add(new Block(i2 * 10, i * 10, 10, 10, Integer.parseInt(mapDetails[i][i2]), this, gu));
                         break;
                     }
                 }
