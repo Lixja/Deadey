@@ -16,6 +16,9 @@
  */
 package de.lixja.deadey.game.objects;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import de.lixja.deadey.game.utils.GameUpdater;
+
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
@@ -25,13 +28,14 @@ public class Coin extends GameObject {
     private float time;
     public final static String OBJECTID = "coin";
 
-    public Coin(float x, float y, int width, int height) {
-        super(x, y, width, height, OBJECTID);
+    public Coin(float x, float y, int width, int height, GameUpdater gu) {
+        super(x, y, width, height, OBJECTID, BodyDef.BodyType.StaticBody, gu);
     }
 
     @Override
     public void collisionWith(GameObject object) {
-
+        markForDelete();
+        gu.removeCoin(this);
     }
 
 

@@ -17,6 +17,7 @@
 package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
@@ -25,25 +26,24 @@ import de.lixja.deadey.game.utils.GameUpdater;
  */
 public class Shot extends GameObject {
 
-    private Vector2 speed;
     private boolean available;
     private boolean toLeft;
     private float time;
     public final static String OBJECTID = "shot";
-    private GameUpdater gu;
 
     public Shot(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, OBJECTID);
+        super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
         speed = new Vector2(330, 0);
-        this.gu = gu;
     }
 
     public void update(float delta) {
         if (toLeft) {
-            position.x -= speed.x * delta;
+            this.move(true, false, false, false, delta);
         } else {
-            position.x += speed.x * delta;
+            this.move(false, true, false, false, delta);
         }
+        fightAgainstGravity();
+        updateBody();
         time += delta;
     }
 
@@ -52,10 +52,12 @@ public class Shot extends GameObject {
         available = false;
         if (object.getId().equals(EnemyBird.OBJECTID)) {
             gu.getPlayer().addPoints(100);
-        } else
-            if (object.getId().equals(EnemyAntiPlayer.OBJECTID)) {
+        } else if (object.getId().equals(EnemyAntiPlayer.OBJECTID)) {
                 gu.getPlayer().addPoints(50);
-            }
+        }
+        if (!object.getId().equals(Player.OBJECTID)) {
+            this.markForDelete();
+        }
     }
 
     public boolean isAvailable() {

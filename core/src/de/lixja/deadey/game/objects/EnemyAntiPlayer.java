@@ -17,7 +17,7 @@
 package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
-import de.lixja.deadey.game.handler.CollisionHandler;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.lixja.deadey.game.utils.AssetLoader;
 import de.lixja.deadey.game.utils.GameUpdater;
 
@@ -27,83 +27,45 @@ import de.lixja.deadey.game.utils.GameUpdater;
  */
 public class EnemyAntiPlayer extends GameObject {
 
-    private Vector2 speed;
     private boolean left;
-    private boolean canMoveNorth = true;
-    private boolean canMoveEast = true;
-    private boolean canMoveSouth = true;
-    private boolean canMoveWest = true;
     private float time;
-
-    private GameUpdater gu;
 
     public final static String OBJECTID = "enemy_anti_player";
 
     public EnemyAntiPlayer(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, OBJECTID);
+        super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
         speed = new Vector2(90, 100);
-        this.gu = gu;
     }
 
     public void update(float delta) {
-        if (gu.getPlayer().getPosition().x < position.x && canMoveEast) {
-            position.x -= speed.x * delta;
+        if (gu.getPlayer().getPosition().x < position.x) {
+            body.applyForceToCenter(-(speed.x * delta) * GameUpdater.PPM, 0, true);
             left = true;
             width = AssetLoader.enemy_anti_player_left.getRegionWidth();
-        } else
-            if (canMoveWest) {
-            position.x += speed.x * delta;
+        } else {
+            body.applyForceToCenter((speed.x * delta) * GameUpdater.PPM, 0, true);
             left = false;
             width = AssetLoader.enemy_anti_player_left.getRegionWidth();
-            }
-        if (canMoveSouth) {
-            position.y += speed.y * delta;
         }
 
-        canMoveEast = true;
-        canMoveSouth = true;
-        canMoveNorth = true;
-        canMoveWest = true;
+        updateBody();
         time += delta;
     }
 
     public void collisionWith(GameObject object) {
         if (object.getId().equals(Shot.OBJECTID)) {
             die();
-        }
-    }
-
-    @Override
-    public void collisionWithFrom(GameObject object, String direction) {
-        if (object.getId().equals(Block.OBJECTID) || object.getId().equals(Block.DESTROYABLE_BLOCK)) {
-        if (direction.equals(CollisionHandler.EAST)) {
-            canMoveWest = false;
-            position.x = object.getPosition().x + object.getWidth() + 1;
-        } else {
-            if (direction.equals(CollisionHandler.SOUTH)) {
-                canMoveSouth = false;
-                position.y = object.getPosition().y - height - 1;
-            } else {
-                if (direction.equals(CollisionHandler.WEST)) {
-                    canMoveEast = false;
-                    position.x = object.getPosition().x - width - 1;
-                } else {
-                    if (direction.equals(CollisionHandler.NORTH)) {
-                        canMoveNorth = false;
-                        position.y = object.getPosition().y + object.getHeight() + 1;
-                    }
-                }
-            }
-        }
         } else if (object.getId().equals(Block.END_BLOCK)) {
             die();
         }
-        }
-
+    }
 
     public void die() {
         position.x = startPosition.x;
         position.y = startPosition.y;
+        setBodyPosition(startPosition.x, startPosition.y);
+        gu.removeEnemyAntiPlayer(this);
+        this.markForDelete();
     }
 
     public float getTime() {

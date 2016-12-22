@@ -18,8 +18,7 @@ package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
-import de.lixja.deadey.game.handler.CollisionHandler;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.lixja.deadey.game.utils.AssetLoader;
 import de.lixja.deadey.game.utils.GameUpdater;
 
@@ -29,33 +28,25 @@ import de.lixja.deadey.game.utils.GameUpdater;
  */
 public class Player extends GameObject {
 
-    private Vector2 speed;
     private boolean moving = false;
     private boolean left = false;
     private boolean fire = false;
     private boolean fly = false;
     private boolean fall = false;
     private boolean portal = false;
-    private boolean canMoveNorth = true;
-    private boolean canMoveEast = true;
-    private boolean canMoveSouth = true;
-    private boolean canMoveWest = true;
 
     private float time;
     private float portalreloader;
     private float shotloader;
     private float shotreloader = 0f;
     private float shotcounter = 5;
-    private float flypower = 0.3f;
+    private float flypower = 1f;
 
     private int points;
-    private GameUpdater gu;
     public final static String OBJECTID = "player";
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, OBJECTID);
-        speed = new Vector2(250, 180);
-        this.gu = gu;
+        super(x, y, width, height, 150, 120, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
         points = 0;
     }
 
@@ -76,18 +67,13 @@ public class Player extends GameObject {
 
         //Moves right;
         if (Gdx.input.isKeyPressed(Keys.D)) {
-            if (canMoveEast) {
-                movePlayer(speed.x * delta, 0);
-            }
+            move(false, true, false, false, delta);
             moving = true;
             left = false;
             width = AssetLoader.player_left.getRegionWidth();
-
             // Moves Left;
         } else if (Gdx.input.isKeyPressed(Keys.A)) {
-            if (canMoveWest) {
-                movePlayer(-(speed.x * delta), 0);
-            }
+            move(true, false, false, false, delta);
             moving = true;
             left = true;
             width = AssetLoader.player_left.getRegionWidth();
@@ -108,25 +94,21 @@ public class Player extends GameObject {
         //Flys
 
         if (Gdx.input.isKeyPressed(Keys.W) && flypower > 0) {
-            if (canMoveNorth) {
-                movePlayer(0, -(speed.y * delta));
-            }
+            move(false, false, true, false, delta);
             fly = true;
             flypower -= delta;
-        } else if (canMoveSouth) {
-            movePlayer(0, speed.y * delta);
         }
         //Portal
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
-            float teleX = Float.parseFloat("" + Math.random() * (300 - width)) - position.x;
-            float teleY = Float.parseFloat("" + Math.random() * 100 + 50) - position.y;
-            movePlayer(teleX, teleY);
+            float teleX = Float.parseFloat("" + Math.random() * (300 - width));
+            float teleY = Float.parseFloat("" + Math.random() * 100 + 50);
+            moveTo(teleX, teleY);
             portal = false;
         }
-        canMoveEast = true;
-        canMoveSouth = true;
-        canMoveNorth = true;
-        canMoveWest = true;
+
+        updateBody();
+        gu.getCamera().setX(position.x);
+
         portalreloader += delta;
         shotreloader += delta;
         time += delta;
@@ -136,32 +118,12 @@ public class Player extends GameObject {
     public void collisionWith(GameObject object) {
         if (object.getId().equals(Coin.OBJECTID)) {
             points += 10;
-        }
-    }
-
-    @Override
-    public void collisionWithFrom(GameObject object, String direction) {
-        if (object.getId().equals(Block.OBJECTID) || object.getId().equals(Block.DESTROYABLE_BLOCK)) {
-            if (direction.equals(CollisionHandler.EAST)) {
-                canMoveWest = false;
-                movePlayer(object.getPosition().x + object.getWidth() + 1 - position.x, 0);
-            } else if (direction.equals(CollisionHandler.SOUTH)) {
-                canMoveSouth = false;
-                movePlayer(0, object.getPosition().y - height - 1 - position.y);
-                reloadFlyPower();
-            } else if (direction.equals(CollisionHandler.WEST)) {
-                canMoveEast = false;
-                movePlayer(object.getPosition().x - width - 1 - position.x, 0);
-            } else if (direction.equals(CollisionHandler.NORTH)) {
-                canMoveNorth = false;
-                movePlayer(0, object.getPosition().y + object.getHeight() + 1 - position.y);
-            } else if (object.getId().equals(Block.WIN_BLOCK)) {
-                gu.won();
-            }
         } else if (object.getId().equals(Block.WIN_BLOCK)) {
-                gu.won();
+            gu.won();
         } else if (object.getId().equals(Block.END_BLOCK)) {
             gu.lose();
+        } else if (object.getId().equals(Block.OBJECTID) || object.getId().equals(Block.DESTROYABLE_BLOCK)) {
+            reloadFlyPower();
         }
     }
 
@@ -185,14 +147,8 @@ public class Player extends GameObject {
         return time;
     }
 
-    private void movePlayer(float x, float y) {
-        position.x += x;
-        position.y += y;
-        gu.getCamera().moveCamera(x, 0);
-    }
-
     private void reloadFlyPower() {
-        flypower = 0.3f;
+        flypower = 1f;
     }
 
     public int getPoints() {

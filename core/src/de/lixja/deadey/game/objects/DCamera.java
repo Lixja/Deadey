@@ -16,42 +16,28 @@
  */
 package de.lixja.deadey.game.objects;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
 public class DCamera {
 
-    float toMoveX, toMoveY;
-    float angle;
+    private Vector2 position;
 
     public DCamera() {
+        position = new Vector2();
     }
 
-    public void moveCamera(float speedX, float speedY) {
-        toMoveX += speedX;
-        toMoveY += speedY;
+    public void setX(float x) {
+        position.x = x;
     }
 
-    public void rotateCamera(float angle) {
-        this.angle += angle;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public void setRotationTo(float angle) {
-        this.angle = angle;
-    }
-
-    public float getToMoveX() {
-        float tmp = toMoveX;
-        toMoveX = 0;
-        return tmp;
-    }
-
-    public float getToMoveY() {
-        float tmp = toMoveY;
-        toMoveY = 0;
-        return tmp;
-    }
 
 
 }

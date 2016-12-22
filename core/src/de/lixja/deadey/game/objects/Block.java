@@ -16,6 +16,9 @@
  */
 package de.lixja.deadey.game.objects;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import de.lixja.deadey.game.utils.GameUpdater;
+
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
@@ -28,8 +31,8 @@ public class Block extends GameObject {
     public final static String END_BLOCK = "end_block";
     private Map map;
 
-    public Block(float x, float y, int width, int height, int id, Map map) {
-        super(x, y, width, height, OBJECTID);
+    public Block(float x, float y, int width, int height, int id, Map map, GameUpdater gu) {
+        super(x, y, width, height, OBJECTID, BodyDef.BodyType.StaticBody, gu);
         switch (id) {
             case 1:
                 this.id = OBJECTID;
@@ -49,9 +52,10 @@ public class Block extends GameObject {
     }
 
     public void collides(GameObject object, int x, int y) {
-        if (id == DESTROYABLE_BLOCK) {
+        if (id.equals(DESTROYABLE_BLOCK)) {
             if (object.getId().equals(Shot.OBJECTID)) {
                 map.removeFromMap(x, y);
+                this.markForDelete();
             }
         }
     }

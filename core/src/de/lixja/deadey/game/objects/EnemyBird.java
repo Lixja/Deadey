@@ -17,7 +17,7 @@
 package de.lixja.deadey.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
-import de.lixja.deadey.game.handler.CollisionHandler;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.lixja.deadey.game.utils.GameUpdater;
 
 /**
@@ -26,50 +26,39 @@ import de.lixja.deadey.game.utils.GameUpdater;
  */
 public class EnemyBird extends GameObject {
 
-    private Vector2 speed;
     private boolean left;
-    private boolean canMoveNorth = true;
-    private boolean canMoveEast = true;
-    private boolean canMoveSouth = true;
     private boolean canMoveWest = true;
     private float time;
-
-    private GameUpdater gu;
 
     public final static String OBJECTID = "enemy_bird";
 
     public EnemyBird(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, OBJECTID);
+        super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
         speed = new Vector2(350, 250);
-        this.gu = gu;
     }
 
     public void update(float delta) {
         if (canMoveWest) {
             left = true;
+            this.move(true, false, false, false, delta);
             position.x -= speed.x * delta;
         } else {
             left = false;
-            position.x += speed.x * delta;
+            this.move(false, true, false, false, delta);
         }
-
+        fightAgainstGravity();
+        updateBody();
         time += delta;
     }
 
     public void collisionWith(GameObject object) {
         if (object.getId().equals(Shot.OBJECTID)) {
             die();
-        }
-    }
-
-    @Override
-    public void collisionWithFrom(GameObject object, String direction) {
-        if (direction.equals(CollisionHandler.EAST)) {
-            canMoveWest = false;
-        } else {
-            if (direction.equals(CollisionHandler.WEST)) {
-                    canMoveEast = false;
-                    canMoveWest = true;
+        } else if (object.getId().equals(Block.OBJECTID) || (object.getId().equals(Block.DESTROYABLE_BLOCK))) {
+            if (canMoveWest) {
+                canMoveWest = false;
+            } else {
+                canMoveWest = true;
             }
         }
     }
@@ -77,6 +66,8 @@ public class EnemyBird extends GameObject {
     public void die() {
         position.x = startPosition.x;
         position.y = startPosition.y;
+        markForDelete();
+        gu.removeEnemyBird(this);
     }
 
     public float getTime() {

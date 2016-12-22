@@ -18,12 +18,15 @@ package de.lixja.deadey.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.handler.CollisionHandler;
 import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.DCamera;
 import de.lixja.deadey.game.objects.EnemyAntiPlayer;
 import de.lixja.deadey.game.objects.EnemyBird;
+import de.lixja.deadey.game.objects.GameObject;
 import de.lixja.deadey.game.objects.Map;
 import de.lixja.deadey.game.objects.Player;
 import de.lixja.deadey.game.objects.Shot;
@@ -39,11 +42,15 @@ public class GameUpdater {
     private int GameWidth, GameHeight;
     private Deadey game;
 
+    private World world;
+    public static float PPM = 10f;
+
     private Player player;
     private LinkedList<EnemyAntiPlayer> enemyAntiPlayers;
     private LinkedList<EnemyBird> enemyBird;
     private LinkedList<Shot> shots;
     private LinkedList<Coin> coins;
+    private LinkedList<GameObject> go;
     private CollisionHandler chandler;
     private Map stage1;
     private DCamera cam;
@@ -54,11 +61,15 @@ public class GameUpdater {
         this.game = game;
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
+        world = new World(new Vector2(0, 9.8f), true);
+        chandler = new CollisionHandler();
+        go = new LinkedList<GameObject>();
+        world.setContactListener(chandler);
         String map = level;
-        stage1 = new Map(map);
+        stage1 = new Map(map, this);
         player = new Player(stage1.getPlayerStart().x, stage1.getPlayerStart().y, 17, 29, this);
         enemyAntiPlayers = new LinkedList<EnemyAntiPlayer>();
-        for (int i = 0; i < stage1.getEnemyAntiPlayersStart().size(); i++)        {
+        for (int i = 0; i < stage1.getEnemyAntiPlayersStart().size(); i++) {
             EnemyAntiPlayer e = new EnemyAntiPlayer(stage1.getEnemyAntiPlayersStart().get(i).x, stage1.getEnemyAntiPlayersStart().get(i).y, 17, 29, this);
             enemyAntiPlayers.add(e);
         }
@@ -69,61 +80,35 @@ public class GameUpdater {
         }
         coins = new LinkedList<Coin>();
         for (int i = 0; i < stage1.getCoins().size(); i++) {
-            Coin c = new Coin(stage1.getCoins().get(i).x, stage1.getCoins().get(i).y, 9, 9);
+            Coin c = new Coin(stage1.getCoins().get(i).x, stage1.getCoins().get(i).y, 9, 9, this);
             coins.add(c);
         }
         shots = new LinkedList<Shot>();
-        chandler = new CollisionHandler();
         cam = new DCamera();
     }
 
     public void update_g(float delta) {
+        removeDeadBodies();
+        world.step(delta, 6, 2);
         player.update(delta);
-        chandler.colidesWidthBlockAt(stage1, player);
         for (int i = 0; i < enemyAntiPlayers.size(); i++) {
             enemyAntiPlayers.get(i).update(delta);
-            chandler.colidesWidthBlockAt(stage1, enemyAntiPlayers.get(i));
-            if (chandler.colides(player, enemyAntiPlayers.get(i))) {
-                lose();
-            } else
-                for (int i1 = 0; i1 < shots.size(); i1++) {
-                    if (shots.get(i1).isAvailable()) {
-                        if (chandler.colides(enemyAntiPlayers.get(i), shots.get(i1))) {
-                            shots.remove(i1);
-                            enemyAntiPlayers.remove(i);
-                        }
-                    }
-                }
         }
+
         for (EnemyBird e : enemyBird) {
             e.update(delta);
-            chandler.colidesWidthBlockAt(stage1, e);
-            if (chandler.colides(player, e)) {
-                lose();
-            } else {
-                for (int i1 = 0; i1 < shots.size(); i1++) {
-                    if (shots.get(i1).isAvailable()) {
-                        if (chandler.colides(e, shots.get(i1))) {
-                            shots.remove(i1);
-                        }
-                    }
-                }
-            }
+
         }
+
         for (int i = 0; i < shots.size(); i++) {
             if (shots.get(i).isAvailable()) {
                 shots.get(i).update(delta);
-                if (chandler.colidesWidthBlock(stage1, shots.get(i))) {
-                    shots.remove(i);
-                }
 
             }
         }
         for (int i = 0; i < coins.size(); i++) {
             coins.get(i).update(delta);
-            if (chandler.colides(player, coins.get(i))) {
-                coins.remove(i);
-            }
+
         }
         if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             Gdx.app.exit();
@@ -144,7 +129,6 @@ public class GameUpdater {
         return enemyBird;
     }
 
-
     public LinkedList<Shot> getShots() {
         return shots;
     }
@@ -162,15 +146,55 @@ public class GameUpdater {
     }
 
     public void createShot(boolean left) {
-        Shot shot = new Shot(1, 1, 10, 10, this);
-        shot.setPosition(player.getPosition().x + (player.getWidth() / 2), player.getPosition().y + (player.getHeight() / 2));
-        shot.setToLeft(left);
-        shot.setAvailable(true);
-        shots.add(shot);
+        if (left) {
+            Shot shot = new Shot(player.getPosition().x - (player.getWidth()) - 1, player.getPosition().y + (player.getHeight() / 2), 10, 10, this
+            );
+            shot.setToLeft(left);
+            shot.setAvailable(true);
+            shots.add(shot);
+        } else {
+            Shot shot = new Shot(player.getPosition().x + (player.getWidth()) + 1, player.getPosition().y + (player.getHeight() / 2), 10, 10, this);
+            shot.setToLeft(left);
+            shot.setAvailable(true);
+            shots.add(shot);
+        }
+
+    }
+
+    public void removeDeadBodies() {
+        for (int i = 0; i < go.size(); i++) {
+            if (go.get(i).isToDelete()) {
+                world.destroyBody(go.get(i).getBody());
+                go.get(i).getBody().setUserData(null);
+                go.get(i).setBody(null);
+                go.remove(i);
+            }
+        }
     }
 
     public DCamera getCamera() {
         return cam;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void removeCoin(Coin coin) {
+        this.coins.remove(coin);
+    }
+
+    public void removeEnemyAntiPlayer(EnemyAntiPlayer e) {
+        this.enemyAntiPlayers.remove(e);
+    }
+
+    public void removeEnemyBird(EnemyBird e) {
+        this.enemyBird.remove(e);
+    }
+
+    public void addGameObject(GameObject go) {
+        chandler.addGameObject(go);
+        this.go.add(go);
     }
 
     public void won() {
@@ -180,7 +204,5 @@ public class GameUpdater {
     public void lose() {
         game.setScreen(new GameOverScreen(false, game));
     }
-
-
 
 }

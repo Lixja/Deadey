@@ -16,101 +16,59 @@
  */
 package de.lixja.deadey.game.handler;
 
-import de.lixja.deadey.game.objects.Block;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import de.lixja.deadey.game.objects.GameObject;
-import de.lixja.deadey.game.objects.Map;
 import java.util.LinkedList;
 
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
  */
-public class CollisionHandler {
+public class CollisionHandler implements ContactListener {
 
-    public final static String EAST = "east";
-    public final static String WEST = "west";
-    public final static String NORTH = "north";
-    public final static String SOUTH = "south";
+    public LinkedList<GameObject> go;
 
-    public boolean colides(GameObject go1, GameObject go2) {
-        if (go1.getPosition().x <= go2.getPosition().x + go2.getWidth()) {
-            if (go1.getPosition().x + go1.getWidth() >= go2.getPosition().x) {
-                if (go1.getPosition().y + go1.getHeight() >= go2.getPosition().y) {
-                    if (go1.getPosition().y <= go2.getPosition().y + go2.getHeight()) {
-                        go1.collisionWith(go2);
-                        go2.collisionWith(go1);
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    public CollisionHandler() {
+        go = new LinkedList<GameObject>();
     }
 
-    public boolean colidesWidthBlock(Map map, GameObject go) {
-        for (int i = 0; i < map.getMap().size(); i++) {
-            for (int i2 = 0; i2 < map.getMap().get(i).size(); i2++) {
-                if (colides(map.getMap().get(i).get(i2), go)) {
-                    map.getMap().get(i).get(i2).collides(go, i, i2);
-                    return true;
-                }
+    public void addGameObject(GameObject go) {
+        this.go.add(go);
+    }
+
+    @Override
+    public void beginContact(Contact contact) {
+        Body body1 = contact.getFixtureA().getBody();
+        Body body2 = contact.getFixtureB().getBody();
+
+        int go1 = 0;
+        int go2 = 0;
+
+        for (int i = 0; i < go.size(); i++) {
+            if (body1.equals(go.get(i).getBody())) {
+                go1 = i;
+            } else if (body2.equals(go.get(i).getBody())) {
+                go2 = i;
             }
         }
-        return false;
+        go.get(go1).collisionWith(go.get(go2));
+        go.get(go2).collisionWith(go.get(go1));
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
     }
     
-
-    public boolean colidesWidthBlockAt(Map map, GameObject go) {
-        boolean collision = false;
-        for (LinkedList<Block> rows : map.getMap()) {
-            for (Block block : rows) {
-                if (go.getPosition().y + go.getHeight() >= block.getPosition().y) {
-                    if (go.getPosition().y < block.getPosition().y) {
-                        if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
-                            if (go.getPosition().x + go.getWidth() >= block.getPosition().x) {
-                                go.collisionWithFrom(block, SOUTH);
-                                collision = true;
-                            }
-
-                        }
-                    }
-                }
-
-                if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
-                    if (go.getPosition().x > block.getPosition().x) {
-                        if (go.getPosition().y + go.getHeight() >= block.getPosition().y) {
-                            if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
-                                go.collisionWithFrom(block, EAST);
-                                collision = true;
-                            }
-                        }
-                    }
-                }
-                if (go.getPosition().x + go.getWidth() >= block.getPosition().x) {
-                    if (go.getPosition().x < block.getPosition().x) {
-                        if (go.getPosition().y + go.getHeight() >= block.getPosition().y) {
-                            if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
-                                go.collisionWithFrom(block, WEST);
-                                collision = true;
-                            }
-                        }
-                    }
-                }
-                if (go.getPosition().y <= block.getPosition().y + block.getHeight()) {
-                    if (go.getPosition().y > block.getPosition().y) {
-                        if (go.getPosition().x <= block.getPosition().x + block.getWidth()) {
-                            if (go.getPosition().x + go.getWidth() >= block.getPosition().x) {
-                                go.collisionWithFrom(block, NORTH);
-                                collision = true;
-                            }
-
-                        }
-                    }
-                }
-
-            }
-        }
-        return collision;
-    }
-
 }

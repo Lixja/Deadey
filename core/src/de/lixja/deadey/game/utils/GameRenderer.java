@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import de.lixja.deadey.Deadey;
 import de.lixja.deadey.game.objects.Coin;
 import de.lixja.deadey.game.objects.EnemyAntiPlayer;
@@ -44,6 +45,9 @@ public class GameRenderer {
     private MapRenderer mrenderer;
     private BitmapFont font;
     private Matrix4 normalProjection;
+    private Matrix4 debugProjection;
+
+    Box2DDebugRenderer drenderer;
 
     public GameRenderer(Deadey game, GameUpdater gu) {
         this.gu = gu;
@@ -67,20 +71,20 @@ public class GameRenderer {
         generator.dispose();
         normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        drenderer = new Box2DDebugRenderer();
     }
 
     public void render_g(float delta) {
         Gdx.gl.glClearColor(0, 255, 127, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        cam.translate(gu.getCamera().getToMoveX(), gu.getCamera().getToMoveY());
+        cam.position.x = gu.getCamera().getPosition().x;
         cam.update();
 
         mrenderer.render(gu.getStage1());
-
-        batcher.begin();
         batcher.setProjectionMatrix(cam.combined);
-
+        debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
+        batcher.begin();
         //Player
         if (!gu.getPlayer().isFly()) {
             if (!gu.getPlayer().isMoving()) {
@@ -150,6 +154,9 @@ public class GameRenderer {
         batcher.setProjectionMatrix(normalProjection);
         font.draw(batcher, "POINTS: " + gu.getPlayer().getPoints(), 550, 350);
         batcher.end();
+
+        drenderer.render(gu.getWorld(), this.debugProjection);
+
     }
 
     public void moveCamera(float speedX) {
