@@ -61,9 +61,6 @@ public class EnemyAntiPlayer extends GameObject {
     }
 
     public void die() {
-        position.x = startPosition.x;
-        position.y = startPosition.y;
-        setBodyPosition(startPosition.x, startPosition.y);
         gu.removeEnemyAntiPlayer(this);
         this.markForDelete();
     }

@@ -97,12 +97,6 @@ public class GameObject {
         }
     }
 
-    public void moveTo(float x, float y) {
-        position.x = x;
-        position.y = y;
-        setBodyPosition(x, y);
-    }
-
     public void fightAgainstGravity() {
         body.applyForceToCenter(0, -9.8f, true);
     }
@@ -128,8 +122,9 @@ public class GameObject {
     }
 
     protected void setBodyPosition(float x, float y) {
-        body.getPosition().x = (x + width / 2) / GameUpdater.PPM;
-        body.getPosition().y = (y + height / 2) / GameUpdater.PPM;
+        float toX = (x + width / 2) / GameUpdater.PPM - body.getPosition().x;
+        float toY = (y + height / 2) / GameUpdater.PPM - body.getPosition().y;
+        body.setTransform(toX, toY, 0);
     }
 
 

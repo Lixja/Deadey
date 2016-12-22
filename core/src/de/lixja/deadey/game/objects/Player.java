@@ -32,7 +32,6 @@ public class Player extends GameObject {
     private boolean left = false;
     private boolean fire = false;
     private boolean fly = false;
-    private boolean fall = false;
     private boolean portal = false;
 
     private float time;
@@ -102,7 +101,7 @@ public class Player extends GameObject {
         if (Gdx.input.isKeyPressed(Keys.Q) && portal) {
             float teleX = Float.parseFloat("" + Math.random() * (300 - width));
             float teleY = Float.parseFloat("" + Math.random() * 100 + 50);
-            moveTo(teleX, teleY);
+            setBodyPosition(teleX, teleY);
             portal = false;
         }
 
