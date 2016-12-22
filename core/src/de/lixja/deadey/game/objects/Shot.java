@@ -34,6 +34,7 @@ public class Shot extends GameObject {
     public Shot(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
         speed = new Vector2(330, 0);
+        fixture.setSensor(true);
     }
 
     public void update(float delta) {
@@ -49,7 +50,6 @@ public class Shot extends GameObject {
 
     @Override
     public void collisionWith(GameObject object) {
-        available = false;
         if (object.getId().equals(EnemyBird.OBJECTID)) {
             gu.getPlayer().addPoints(100);
         } else if (object.getId().equals(EnemyAntiPlayer.OBJECTID)) {
@@ -57,6 +57,7 @@ public class Shot extends GameObject {
         }
         if (!object.getId().equals(Player.OBJECTID)) {
             this.markForDelete();
+            available = false;
         }
     }
 
