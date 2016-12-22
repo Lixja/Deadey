@@ -124,6 +124,8 @@ public class Player extends GameObject {
             gu.lose();
         } else if (object.getId().equals(Block.OBJECTID) || object.getId().equals(Block.DESTROYABLE_BLOCK)) {
             reloadFlyPower();
+        } else if (object.getId().equals(EnemyBird.OBJECTID) || object.getId().equals(EnemyAntiPlayer.OBJECTID)) {
+            gu.lose();
         }
     }
 
