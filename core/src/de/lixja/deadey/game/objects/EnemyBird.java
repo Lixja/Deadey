@@ -51,10 +51,11 @@ public class EnemyBird extends GameObject {
         time += delta;
     }
 
+    @Override
     public void collisionWith(GameObject object) {
         if (object.getId().equals(Shot.OBJECTID)) {
             die();
-        } else if (object.getId().equals(Block.OBJECTID) || (object.getId().equals(Block.DESTROYABLE_BLOCK))) {
+        } else if (object.getId().equals(Block.OBJECTID) || object.getId().equals(Block.DESTROYABLE_BLOCK)) {
             if (canMoveWest) {
                 canMoveWest = false;
             } else {
