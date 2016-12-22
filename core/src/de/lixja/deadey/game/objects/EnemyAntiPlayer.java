@@ -34,7 +34,7 @@ public class EnemyAntiPlayer extends GameObject {
 
     public EnemyAntiPlayer(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
-        speed = new Vector2(90, 100);
+        speed = new Vector2(50, 100);
     }
 
     public void update(float delta) {
