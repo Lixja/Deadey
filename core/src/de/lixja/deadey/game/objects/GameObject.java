@@ -45,6 +45,7 @@ public class GameObject {
     protected GameUpdater gu;
 
     protected boolean toDelete;
+    protected Fixture fixture;
 
 
     public GameObject(float x, float y, int width, int height, String id, BodyType type, GameUpdater gu) {
@@ -67,7 +68,7 @@ public class GameObject {
         fixtureDef.shape = shape;
         fixtureDef.density = 0f;
         fixtureDef.friction = 1f;
-        Fixture fixture = body.createFixture(fixtureDef);
+        fixture = body.createFixture(fixtureDef);
         gu.addGameObject(this);
     }
 

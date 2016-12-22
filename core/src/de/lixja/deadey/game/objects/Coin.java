@@ -30,12 +30,15 @@ public class Coin extends GameObject {
 
     public Coin(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, OBJECTID, BodyDef.BodyType.StaticBody, gu);
+        fixture.setSensor(true);
     }
 
     @Override
     public void collisionWith(GameObject object) {
-        markForDelete();
-        gu.removeCoin(this);
+        if (object.getId().equals(Player.OBJECTID)) {
+            markForDelete();
+            gu.removeCoin(this);
+        }
     }
 
 
