@@ -32,7 +32,7 @@ public class Player extends GameObject {
     private boolean left = false;
     private boolean fire = false;
     private boolean fly = false;
-    private boolean portal = false;
+    private boolean portal = true;
 
     private float time;
     private float portalreloader;

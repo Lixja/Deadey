@@ -16,7 +16,6 @@
  */
 package de.lixja.deadey.game.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.lixja.deadey.game.utils.GameUpdater;
@@ -56,7 +55,6 @@ public class Shot extends GameObject {
                 gu.getPlayer().addPoints(50);
         }
         if (!(object.getId().equals(Player.OBJECTID)) && !(object.getId().equals(Shot.OBJECTID))) {
-            Gdx.app.log("dk", "" + object.getId());
             this.markForDelete();
             gu.removeShot(this);
         }

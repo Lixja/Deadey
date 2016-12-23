@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -47,14 +48,20 @@ public class MenuScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         BitmapFont font = new BitmapFont();
+        BitmapFont headerFont = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 12;
         parameter.color = Color.WHITE;
-        font = generator.generateFont(parameter); // font size 12 pixels
+        FreeTypeFontParameter parameter1 = new FreeTypeFontParameter();
+        parameter1.size = 39;
+        parameter1.color = Color.WHITE;
+        font = generator.generateFont(parameter);
+        headerFont = generator.generateFont(parameter1);
         generator.dispose();
         skin = new Skin();
         skin.add("default", font);
+        skin.add("headerfont", headerFont);
 
         Pixmap pixmap = new Pixmap((int) Gdx.graphics.getWidth() / 4, (int) Gdx.graphics.getHeight() / 10, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
@@ -69,8 +76,16 @@ public class MenuScreen implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = skin.getFont("headerfont");
+        skin.add("default", labelStyle);
+
+        Label title = new Label("DEADEY", skin);
+        title.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 5) * 4);
+        stage.addActor(title);
+
         TextButton startGamebtn = new TextButton("START", skin); // Use the initialized skin
-        startGamebtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 3);
+        startGamebtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 5) * 3);
         startGamebtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new LevelScreen(game));
@@ -78,7 +93,7 @@ public class MenuScreen implements Screen {
         });
         stage.addActor(startGamebtn);
         TextButton creditsbtn = new TextButton("CREDITS", skin); // Use the initialized skin
-        creditsbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4) * 2);
+        creditsbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 5) * 2);
         creditsbtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new CreditScreen(game));
@@ -86,7 +101,7 @@ public class MenuScreen implements Screen {
         });
         stage.addActor(creditsbtn);
         TextButton exitbtn = new TextButton("EXIT", skin); // Use the initialized skin
-        exitbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 4));
+        exitbtn.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 5));
         exitbtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();

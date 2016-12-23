@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import de.lixja.deadey.Deadey;
@@ -55,14 +56,22 @@ public class LevelScreen implements Screen {
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        BitmapFont font = new BitmapFont();
+        BitmapFont headerFont = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 12;
         parameter.color = Color.WHITE;
-        BitmapFont font = generator.generateFont(parameter);
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter1.size = 39;
+        parameter1.color = Color.WHITE;
+        font = generator.generateFont(parameter);
+        headerFont = generator.generateFont(parameter1);
         generator.dispose();
         skin = new Skin();
         skin.add("default", font);
+        skin.add("headerfont", headerFont);
+
 
         Pixmap pixmap = new Pixmap((int) Gdx.graphics.getWidth() / 4, (int) Gdx.graphics.getHeight() / 10, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
@@ -76,6 +85,14 @@ public class LevelScreen implements Screen {
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = skin.getFont("headerfont");
+        skin.add("default", labelStyle);
+
+        Label title = new Label("WORLDS", skin);
+        title.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 5) * 4);
+        stage.addActor(title);
 
         FileHandle worlds[] = Gdx.files.internal("world").list();
         for (int i = 0; i < worlds.length; i++) {
@@ -93,14 +110,22 @@ public class LevelScreen implements Screen {
     public void showLevels(FileHandle world) {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        BitmapFont font = new BitmapFont();
+        BitmapFont headerFont = new BitmapFont();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Deadey.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 12;
         parameter.color = Color.WHITE;
-        BitmapFont font = generator.generateFont(parameter);
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter1.size = 39;
+        parameter1.color = Color.WHITE;
+        font = generator.generateFont(parameter);
+        headerFont = generator.generateFont(parameter1);
         generator.dispose();
         skin = new Skin();
         skin.add("default", font);
+        skin.add("headerfont", headerFont);
+
 
         Pixmap pixmap = new Pixmap((int) Gdx.graphics.getWidth() / 4, (int) Gdx.graphics.getHeight() / 10, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
@@ -114,6 +139,14 @@ public class LevelScreen implements Screen {
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = skin.getFont("headerfont");
+        skin.add("default", labelStyle);
+
+        Label title = new Label(world.name().toUpperCase(), skin);
+        title.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, (Gdx.graphics.getHeight() / 5) * 4);
+        stage.addActor(title);
 
         FileHandle levels[] = world.list();
         for (int i = 0; i < levels.length; i++) {
