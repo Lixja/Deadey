@@ -40,12 +40,13 @@ public class Player extends GameObject {
     private float shotreloader = 0f;
     private float shotcounter = 5;
     private float flypower = 0.75f;
+    private float maxFlyPower = 1.0f;
 
     private int points;
     public final static String OBJECTID = "player";
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
-        super(x, y, width, height, 150, 150, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
+        super(x, y, width, height, 100, 150, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
         points = 0;
     }
 
@@ -54,6 +55,10 @@ public class Player extends GameObject {
         fire = false;
         fly = false;
         width = AssetLoader.player_stands.getRegionWidth();
+
+        if (!body.isAwake()) {
+            reloadFlyPower();
+        }
 
         if (portalreloader >= 5) {
             portal = true;
@@ -66,13 +71,13 @@ public class Player extends GameObject {
 
         //Moves right;
         if (Gdx.input.isKeyPressed(Keys.D)) {
-            move(false, true, false, false, delta);
+            moveByForce(false, true, false, false, delta);
             moving = true;
             left = false;
             width = AssetLoader.player_left.getRegionWidth();
             // Moves Left;
         } else if (Gdx.input.isKeyPressed(Keys.A)) {
-            move(true, false, false, false, delta);
+            moveByForce(true, false, false, false, delta);
             moving = true;
             left = true;
             width = AssetLoader.player_left.getRegionWidth();
@@ -93,7 +98,7 @@ public class Player extends GameObject {
         //Flys
 
         if (Gdx.input.isKeyPressed(Keys.W) && flypower > 0) {
-            move(false, false, true, false, delta);
+            moveByForce(false, false, true, false, delta);
             fly = true;
             flypower -= delta;
         }
@@ -152,7 +157,10 @@ public class Player extends GameObject {
     }
 
     private void reloadFlyPower() {
-        flypower = 0.75f;
+        if (maxFlyPower > flypower) {
+            flypower += 0.008;
+        }
+        Gdx.app.log("", "" + flypower);
     }
 
     public int getPoints() {

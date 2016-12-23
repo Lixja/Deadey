@@ -40,11 +40,11 @@ public class EnemyBird extends GameObject {
     public void update(float delta) {
         if (canMoveWest) {
             left = true;
-            this.move(true, false, false, false, delta);
+            this.moveByForce(true, false, false, false, delta);
             position.x -= speed.x * delta;
         } else {
             left = false;
-            this.move(false, true, false, false, delta);
+            this.moveByForce(false, true, false, false, delta);
         }
         fightAgainstGravity();
         updateBody();

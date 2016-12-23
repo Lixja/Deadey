@@ -67,7 +67,7 @@ public class GameObject {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0f;
-        fixtureDef.friction = 1f;
+        fixtureDef.friction = 0.5f;
         fixture = body.createFixture(fixtureDef);
         gu.addGameObject(this);
     }
@@ -82,7 +82,22 @@ public class GameObject {
         position.y = (body.getPosition().y * GameUpdater.PPM) - height / 2;
     }
 
-    public void move(boolean xLeft, boolean xRight, boolean yUp, boolean yDown, float delta) {
+    public void moveByForce(boolean xLeft, boolean xRight, boolean yUp, boolean yDown, float delta) {
+        if (xLeft) {
+            body.applyForceToCenter(-speed.x * delta * GameUpdater.PPM, 0, true);
+        }
+        if (xRight) {
+            body.applyForceToCenter(speed.x * delta * GameUpdater.PPM, 0, true);
+        }
+        if (yUp) {
+            body.applyForceToCenter(0, -speed.y * delta * GameUpdater.PPM, true);
+        }
+        if (yDown) {
+
+        }
+    }
+
+    public void moveByImpulse(boolean xLeft, boolean xRight, boolean yUp, boolean yDown, float delta) {
         if (xLeft) {
             body.applyForceToCenter(-speed.x * delta * GameUpdater.PPM, 0, true);
         }

@@ -38,9 +38,9 @@ public class Shot extends GameObject {
 
     public void update(float delta) {
         if (toLeft) {
-            this.move(true, false, false, false, delta);
+            this.moveByForce(true, false, false, false, delta);
         } else {
-            this.move(false, true, false, false, delta);
+            this.moveByForce(false, true, false, false, delta);
         }
         fightAgainstGravity();
         updateBody();

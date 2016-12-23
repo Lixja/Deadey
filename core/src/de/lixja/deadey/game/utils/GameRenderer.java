@@ -84,6 +84,8 @@ public class GameRenderer {
 
         mrenderer.render(gu.getStage1());
         batcher.setProjectionMatrix(cam.combined);
+        debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
+
         batcher.begin();
         //Player
         if (!gu.getPlayer().isFly()) {
@@ -152,8 +154,7 @@ public class GameRenderer {
         batcher.end();
 
         //Box2D debug
-        //debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
-        //drenderer.render(gu.getWorld(), this.debugProjection);
+        drenderer.render(gu.getWorld(), this.debugProjection);
     }
 
     public void moveCamera(float speedX) {
