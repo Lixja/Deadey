@@ -34,16 +34,16 @@ public class EnemyAntiPlayer extends GameObject {
 
     public EnemyAntiPlayer(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
-        speed = new Vector2(50, 100);
+        speed = new Vector2(5, 10);
     }
 
     public void update(float delta) {
         if (gu.getPlayer().getPosition().x < position.x) {
-            body.applyForceToCenter(-(speed.x * delta) * GameUpdater.PPM, 0, true);
+            move(true, false, false, false, delta);
             left = true;
             width = AssetLoader.enemy_anti_player_left.getRegionWidth();
         } else {
-            body.applyForceToCenter((speed.x * delta) * GameUpdater.PPM, 0, true);
+            move(false, true, false, false, delta);
             left = false;
             width = AssetLoader.enemy_anti_player_left.getRegionWidth();
         }

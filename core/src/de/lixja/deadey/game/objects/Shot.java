@@ -32,15 +32,15 @@ public class Shot extends GameObject {
 
     public Shot(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
-        speed = new Vector2(330, 0);
+        speed = new Vector2(100, 0);
         fixture.setSensor(true);
     }
 
     public void update(float delta) {
         if (toLeft) {
-            this.moveByForce(true, false, false, false, delta);
+            this.move(true, false, false, false, delta);
         } else {
-            this.moveByForce(false, true, false, false, delta);
+            this.move(false, true, false, false, delta);
         }
         fightAgainstGravity();
         updateBody();

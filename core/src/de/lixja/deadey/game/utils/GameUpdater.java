@@ -61,7 +61,7 @@ public class GameUpdater {
         this.game = game;
         this.GameWidth = game.getGameWidth();
         this.GameHeight = game.getGameHeight();
-        world = new World(new Vector2(0, 9.8f), true);
+        world = new World(new Vector2(0, 9.8f * PPM), true);
         chandler = new CollisionHandler();
         go = new LinkedList<GameObject>();
         world.setContactListener(chandler);

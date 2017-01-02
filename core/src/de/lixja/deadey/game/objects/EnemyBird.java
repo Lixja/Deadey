@@ -34,17 +34,16 @@ public class EnemyBird extends GameObject {
 
     public EnemyBird(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
-        speed = new Vector2(350, 250);
+        speed = new Vector2(30, 100);
     }
 
     public void update(float delta) {
         if (canMoveWest) {
             left = true;
-            this.moveByForce(true, false, false, false, delta);
-            position.x -= speed.x * delta;
+            this.move(true, false, false, false, delta);
         } else {
             left = false;
-            this.moveByForce(false, true, false, false, delta);
+            this.move(false, true, false, false, delta);
         }
         fightAgainstGravity();
         updateBody();

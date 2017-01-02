@@ -47,6 +47,7 @@ public class GameObject {
     protected boolean toDelete;
     protected Fixture fixture;
 
+    private float runHelp = 0f;
 
     public GameObject(float x, float y, int width, int height, String id, BodyType type, GameUpdater gu) {
         position = new Vector2(x, y);
@@ -82,30 +83,15 @@ public class GameObject {
         position.y = (body.getPosition().y * GameUpdater.PPM) - height / 2;
     }
 
-    public void moveByForce(boolean xLeft, boolean xRight, boolean yUp, boolean yDown, float delta) {
+    public void move(boolean xLeft, boolean xRight, boolean yUp, boolean yDown, float delta) {
         if (xLeft) {
-            body.applyForceToCenter(-speed.x * delta * GameUpdater.PPM, 0, true);
+            body.applyLinearImpulse(-speed.x * delta * GameUpdater.PPM, 0, position.x, position.y, true);
         }
         if (xRight) {
-            body.applyForceToCenter(speed.x * delta * GameUpdater.PPM, 0, true);
+            body.applyLinearImpulse(speed.x * delta * GameUpdater.PPM, 0, position.x, position.y, true);
         }
         if (yUp) {
-            body.applyForceToCenter(0, -speed.y * delta * GameUpdater.PPM, true);
-        }
-        if (yDown) {
-
-        }
-    }
-
-    public void moveByImpulse(boolean xLeft, boolean xRight, boolean yUp, boolean yDown, float delta) {
-        if (xLeft) {
-            body.applyForceToCenter(-speed.x * delta * GameUpdater.PPM, 0, true);
-        }
-        if (xRight) {
-            body.applyForceToCenter(speed.x * delta * GameUpdater.PPM, 0, true);
-        }
-        if (yUp) {
-            body.applyForceToCenter(0, -speed.y * delta * GameUpdater.PPM, true);
+            body.applyLinearImpulse(0, -speed.y * delta * GameUpdater.PPM, position.x, position.y, true);
         }
         if (yDown) {
 
@@ -113,7 +99,7 @@ public class GameObject {
     }
 
     public void fightAgainstGravity() {
-        body.applyForceToCenter(0, -9.8f, true);
+        body.applyForceToCenter(0, -world.getGravity().y, true);
     }
 
     protected void markForDelete() {

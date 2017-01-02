@@ -36,9 +36,11 @@ public class Block extends GameObject {
         switch (id) {
             case 1:
                 this.id = OBJECTID;
+                fixture.setFriction(0.005f);
                 break;
             case 2:
                 this.id = DESTROYABLE_BLOCK;
+                fixture.setFriction(0.005f);
                 break;
             case 3:
                 this.id = END_BLOCK;

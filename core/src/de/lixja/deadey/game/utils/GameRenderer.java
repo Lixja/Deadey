@@ -84,7 +84,7 @@ public class GameRenderer {
 
         mrenderer.render(gu.getStage1());
         batcher.setProjectionMatrix(cam.combined);
-        debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
+        //debugProjection = batcher.getProjectionMatrix().cpy().scale(GameUpdater.PPM, GameUpdater.PPM, 0);
 
         batcher.begin();
         //Player
@@ -154,7 +154,7 @@ public class GameRenderer {
         batcher.end();
 
         //Box2D debug
-        drenderer.render(gu.getWorld(), this.debugProjection);
+        //drenderer.render(gu.getWorld(), this.debugProjection);
     }
 
     public void moveCamera(float speedX) {
