@@ -33,14 +33,13 @@ public class Block extends GameObject {
 
     public Block(float x, float y, int width, int height, int id, Map map, GameUpdater gu) {
         super(x, y, width, height, OBJECTID, BodyDef.BodyType.StaticBody, gu);
+        fixture.setFriction(0);
         switch (id) {
             case 1:
                 this.id = OBJECTID;
-                fixture.setFriction(0.005f);
                 break;
             case 2:
                 this.id = DESTROYABLE_BLOCK;
-                fixture.setFriction(0.005f);
                 break;
             case 3:
                 this.id = END_BLOCK;

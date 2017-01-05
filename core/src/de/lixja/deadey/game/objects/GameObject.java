@@ -67,8 +67,6 @@ public class GameObject {
         shape.setAsBox((width / 2) / GameUpdater.PPM, (height / 2) / GameUpdater.PPM);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0f;
-        fixtureDef.friction = 0.5f;
         fixture = body.createFixture(fixtureDef);
         gu.addGameObject(this);
     }
@@ -97,6 +95,11 @@ public class GameObject {
 
         }
     }
+
+    public void stopMoving() {
+        body.setLinearVelocity(0, body.linVelLoc.y);
+    }
+
 
     public void fightAgainstGravity() {
         body.applyForceToCenter(0, -world.getGravity().y, true);

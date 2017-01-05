@@ -47,10 +47,18 @@ public class Player extends GameObject {
 
     public Player(float x, float y, int width, int height, GameUpdater gu) {
         super(x, y, width, height, 8, 15, OBJECTID, BodyDef.BodyType.DynamicBody, gu);
+        fixture.setDensity(1);
+        fixture.setFriction(0);
         points = 0;
     }
 
     public void update(float delta) {
+        if (moving == true && left == false && !Gdx.input.isKeyPressed(Keys.D)) {
+            stopMoving();
+        }
+        if (moving == true && left == true && !Gdx.input.isKeyPressed(Keys.A)) {
+            stopMoving();
+        }
         moving = false;
         fire = false;
         fly = false;
